@@ -18,6 +18,7 @@ TEST AUTOMATION FRAMEWORK
     Manual : Right click the respective runner class and run
     
     Automated : Navigate to project folder in Command Prompt and type the below commands given in quotes
+    
          "mvn clean verify"        -> To test all the features
          
          "mvn clean verify -P API" -> To test all the API features
