@@ -43,10 +43,10 @@ Feature: Search Results
 #    |USTD_020| PublicSearch|
 #    |USTD_021| PublicSearch|
 #    |USTD_022| PublicSearch|
-    |USTD_023| PublicSearch|
-    |USTD_024| PublicSearch|
-    |USTD_025| PublicSearch|
-    |USTD_026| PublicSearch|
+#    |USTD_023| PublicSearch|
+#    |USTD_024| PublicSearch|
+#    |USTD_025| PublicSearch|
+#    |USTD_026| PublicSearch|
 #    |USTD_027| PublicSearch|
-#    |USTD_028| PublicSearch|
+    |USTD_028| PublicSearch|
 
