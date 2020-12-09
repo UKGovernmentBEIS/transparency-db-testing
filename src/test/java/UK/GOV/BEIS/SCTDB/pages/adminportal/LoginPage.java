@@ -9,7 +9,7 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import static org.junit.Assert.assertEquals;
 
-@DefaultUrl("http://transparency-admin.azurewebsites.net/")
+@DefaultUrl("https://transparency-admin.azurewebsites.net/")
 public class LoginPage extends PageObject {
 
     @FindBy(xpath = "//input[@id='email_address']")
