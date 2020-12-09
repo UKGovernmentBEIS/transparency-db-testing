@@ -1,0 +1,396 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BEIS Subsidy Control - Public Search APIs",
+    "description": "BEIS Subsidy Control - Public Search APIs for transparency database",
+    "termsOfService": "http://swagger.io/terms/",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://springdoc.org"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8581",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "getHealth",
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/awards": {
+      "get": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "getAllAwards",
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Award"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/searchResults": {
+      "post": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "getSearchResults",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/searchResultsNew": {
+      "post": {
+        "tags": [
+          "search-controller"
+        ],
+        "operationId": "getSearchResultsNew",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "default response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Award": {
+        "type": "object",
+        "properties": {
+          "awardNumber": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "beneficiary": {
+            "$ref": "#/components/schemas/Beneficiary"
+          },
+          "grantingAuthority": {
+            "$ref": "#/components/schemas/GrantingAuthority"
+          },
+          "subsidyMeasure": {
+            "$ref": "#/components/schemas/SubsidyMeasure"
+          },
+          "subsidyFullAmountRange": {
+            "type": "string"
+          },
+          "subsidyFullAmountExact": {
+            "type": "number"
+          },
+          "subsidyObjective": {
+            "type": "string"
+          },
+          "goodsServicesFilter": {
+            "type": "string"
+          },
+          "legalGrantingDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "publishedAwardDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "spendingRegion": {
+            "type": "string"
+          },
+          "subsidyInstrument": {
+            "type": "string"
+          },
+          "spendingSector": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "approvedBy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Beneficiary": {
+        "type": "object",
+        "properties": {
+          "beneficiaryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "beneficiaryName": {
+            "type": "string"
+          },
+          "beneficiaryType": {
+            "type": "string"
+          },
+          "nationalId": {
+            "type": "string"
+          },
+          "nationalIdType": {
+            "type": "string"
+          },
+          "sicCode": {
+            "type": "string"
+          },
+          "orgSize": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "approvedBy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GrantingAuthority": {
+        "type": "object",
+        "properties": {
+          "gaId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "grantingAuthorityName": {
+            "type": "string"
+          },
+          "legalBasis": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "approvedBy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SubsidyMeasure": {
+        "type": "object",
+        "properties": {
+          "scNumber": {
+            "type": "string"
+          },
+          "subsidyMeasureTitle": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer"
+          },
+          "budget": {
+            "type": "string"
+          },
+          "adhoc": {
+            "type": "boolean"
+          },
+          "gaSubsidyWeblink": {
+            "type": "string"
+          },
+          "legalBasis": {
+            "type": "string"
+          },
+          "publishedMeasureDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "approvedBy": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedTimestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "SearchInput": {
+        "type": "object",
+        "properties": {
+          "beneficiaryName": {
+            "type": "boolean"
+          },
+          "subsidyMeasureTitle": {
+            "type": "string"
+          },
+          "subsidyObjective": {
+            "type": "string"
+          },
+          "spendingRegion": {
+            "type": "string"
+          },
+          "subsidyInstrument": {
+            "type": "string"
+          },
+          "spendingSector": {
+            "type": "string"
+          },
+          "legalGrantingFromDate": {
+            "type": "string"
+          },
+          "legalGrantingToDate": {
+            "type": "string"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRecordsPerPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sortBy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SearchResults": {
+        "type": "object",
+        "properties": {
+          "totalSearchResults": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "currentPage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "awards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Award"
+            }
+          }
+        }
+      }
+    }
+  }
+}
