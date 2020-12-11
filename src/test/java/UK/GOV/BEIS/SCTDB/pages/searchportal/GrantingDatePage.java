@@ -70,8 +70,15 @@ public class GrantingDatePage extends PageObject {
         if(From.trim().equalsIgnoreCase("No") && To.trim().equalsIgnoreCase("No") ){
             rbtn_No.click();
         }
+    }
+
+    public void proceed(){
         Serenity.takeScreenshot();
         btn_ShowResults.click();
-
+    }
+    public void previous(){
+        while(findAll("//a[contains(text(),'Back')]").size()>0){
+            $("//a[contains(text(),'Back')]").click();
+        }
     }
 }

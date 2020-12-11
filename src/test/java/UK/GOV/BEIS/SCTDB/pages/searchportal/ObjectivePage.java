@@ -26,9 +26,9 @@ public class ObjectivePage extends PageObject {
     @CacheLookup
     WebElement btn_Continue;
 
-    public void SearchByPurpose(String Objective, String OtherObj){
-        if(!Objective.contentEquals("_BLANK"))
-        {    List<String> items = Arrays.asList(Objective.split("\\|"));
+    public void SearchByPurpose(String Purpose, String OtherObj){
+        if(!Purpose.contentEquals("_BLANK"))
+        {    List<String> items = Arrays.asList(Purpose.split("\\|"));
             for(String item : items){
                 $("//label[contains(text(),'"+item.trim()+"')]").
                         click();
@@ -37,10 +37,39 @@ public class ObjectivePage extends PageObject {
                 Other.sendKeys(OtherObj);
             }
         }
+
+    }
+
+    public void validateSelections(String Purpose, String OtherPurpose){
+        if(!Purpose.contentEquals("_BLANK")){
+            List<String> items = Arrays.asList(Purpose.split("\\|"));
+            boolean flag =true;
+            boolean textflag=true;
+            for(String item : items){
+                System.out.println("//input[@value='"+item.trim()+"')]");
+                if(!$("//input[@value='"+item.trim()+"']").isSelected()){
+                    flag =false;
+                }
+            }
+            if(items.contains("Other")){
+
+                String text = $("//input[@id='subsidyobjective-12']").getAttribute("value");
+                textflag = (text.contentEquals(OtherPurpose));
+            }
+
+            if(!(flag && textflag)){
+                Assert.fail("Selected/Entered value is not retained");
+            }
+
+        }
+
+    }
+
+
+
+    public void proceed(){
         Serenity.takeScreenshot();
         btn_Continue.click();
-
-
     }
 
 

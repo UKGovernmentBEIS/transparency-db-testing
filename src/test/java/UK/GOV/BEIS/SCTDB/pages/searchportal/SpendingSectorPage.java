@@ -23,6 +23,9 @@ public class SpendingSectorPage extends PageObject {
                 $("//label[contains(text(),'"+item.trim()+"')]").click();
             }
         }
+    }
+
+    public void proceed(){
         Serenity.takeScreenshot();
         btn_Continue.click();
     }

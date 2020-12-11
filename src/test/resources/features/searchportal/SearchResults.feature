@@ -22,7 +22,7 @@ Feature: Search Results
   Examples:
     |TestData| DataSheet|
 #    |USTD_001| PublicSearch|
-#    |USTD_002| PublicSearch|
+    |USTD_002| PublicSearch|
 #    |USTD_003| PublicSearch|
 #    |USTD_004| PublicSearch|
 #    |USTD_005| PublicSearch|
@@ -48,5 +48,8 @@ Feature: Search Results
 #    |USTD_025| PublicSearch|
 #    |USTD_026| PublicSearch|
 #    |USTD_027| PublicSearch|
-    |USTD_028| PublicSearch|
+#    |USTD_028| PublicSearch|
+#    |USTD_029| PublicSearch|
+#    |USTD_030| PublicSearch|
+#    |USTD_031| PublicSearch|
 

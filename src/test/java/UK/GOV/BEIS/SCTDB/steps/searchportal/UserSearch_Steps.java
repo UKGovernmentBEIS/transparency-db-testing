@@ -2,11 +2,12 @@ package UK.GOV.BEIS.SCTDB.steps.searchportal;
 
 import UK.GOV.BEIS.SCTDB.pages.searchportal.RecipientPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.GrantingDatePage;
+import UK.GOV.BEIS.SCTDB.pages.searchportal.SpendingSectorPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.TypesPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.ObjectivePage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchHomePage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchResultsPage;
-import UK.GOV.BEIS.SCTDB.pages.searchportal.SpendingSectorPage;
+
 import UK.GOV.BEIS.SCTDB.utilities.Reusable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -57,9 +58,14 @@ public class UserSearch_Steps {
 
         obj_RecipientPage.SearchByRecipient(TestData.get("Recipient"));
         Obj_ObjectivePage.SearchByPurpose(TestData.get("Purpose"), TestData.get("Other Purpose"));
+        Obj_ObjectivePage.proceed();
         Obj_SpendingSectorPage.SearchBySector(TestData.get("Sector"));
+        Obj_SpendingSectorPage.proceed();
         obj_TypesPage.SearchBySubsidyType(TestData.get("Type"), TestData.get("Other Type"));
+        obj_TypesPage.proceed();
         Obj_GrantingDatePage.SearchByDate(TestData.get("From"), TestData.get("To"));
+        Obj_GrantingDatePage.proceed();
+        Obj_SearchResultsPage.refineFilter(TestData);
     }
 
     @Then("I will be able to get the relevant search results")
