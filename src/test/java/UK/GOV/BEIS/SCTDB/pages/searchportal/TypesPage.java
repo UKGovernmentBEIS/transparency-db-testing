@@ -32,6 +32,9 @@ public class TypesPage extends PageObject {
                 Other.sendKeys(OtherInstrument);
             }
         }
+    }
+
+    public void proceed(){
         Serenity.takeScreenshot();
         btn_Continue.click();
     }

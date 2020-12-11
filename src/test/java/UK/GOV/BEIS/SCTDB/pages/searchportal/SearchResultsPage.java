@@ -7,14 +7,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
+import UK.GOV.BEIS.SCTDB.pages.searchportal.SpendingSectorPage;
+import UK.GOV.BEIS.SCTDB.pages.searchportal.TypesPage;
+import UK.GOV.BEIS.SCTDB.pages.searchportal.ObjectivePage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class SearchResultsPage extends PageObject {
+
+    ObjectivePage Obj_ObjectivePage;
+    SpendingSectorPage Obj_SpendingSectorPage;
+    TypesPage obj_TypesPage;
 
     @FindBy(xpath = "//button[contains(text(),'Try another search')]")
     @CacheLookup
@@ -24,6 +32,17 @@ public class SearchResultsPage extends PageObject {
     @CacheLookup
     WebElementFacade TotalResults;
 
+    @FindBy(xpath = "//button[contains(text(),'Objectives')]")
+    @CacheLookup
+    WebElementFacade Objectives;
+
+    @FindBy(xpath = "//button[contains(text(),'Sector')]")
+    @CacheLookup
+    WebElementFacade Sector;
+
+    @FindBy(xpath = "//button[contains(text(),'Instrument')]")
+    @CacheLookup
+    WebElementFacade Type;
 
     // To get search result column values
     public List<String> getTableValues(String ColumnIndex){
@@ -41,9 +60,9 @@ public class SearchResultsPage extends PageObject {
             }
 
         else{
-            for (WebElement e : getDriver().findElements(By.xpath("//tbody//tr/td["+ColumnIndex+"]"))) {
-                ColumnValues.add(e.getText().substring(1).split(" - ")[0].trim());
-            }
+                for (WebElement e : getDriver().findElements(By.xpath("//tbody//tr/td[" + ColumnIndex + "]"))) {
+                    ColumnValues.add(e.getText());
+                }
         }
 
             if(findAll(By.xpath("//a[contains(text(),'Next Page')]")).size()>0) {
@@ -57,50 +76,92 @@ public class SearchResultsPage extends PageObject {
 
 
     //Validate Sort
-    public void sortResults(List<String> Actual, String SortOrder){
-        List<String> tempAsc = new ArrayList<>(List.copyOf(Actual));
+    public void sortResults(String ColumnIndex, String SortOrder){
 
-        if(SortOrder.contentEquals("asc"))
-        {
-            tempAsc.sort(String.CASE_INSENSITIVE_ORDER);
-            System.out.println("Actual: " + Actual + "\nExpected: " + tempAsc);
-            if(!Actual.equals(tempAsc)){
-            Assert.fail(Actual + " is not sorted properly in Ascending order");
+        List<String> Actual = getTableValues(ColumnIndex);
+
+        if(ColumnIndex.contentEquals("3")){
+            List<Integer> Amounts= new ArrayList<>();
+            for(String s : Actual){
+                Amounts.add(Integer.parseInt(s.substring(1).split(" - ")[0]));
+            }
+            List<Integer> tempNum = new ArrayList<>(List.copyOf(Amounts));
+            Collections.sort(tempNum);
+            if (SortOrder.contentEquals("dsc")) {
+                Collections.reverse(tempNum);
+            }System.out.println("Actual: " + Amounts + "\nExpected: " + tempNum);
+            if(!Amounts.equals(tempNum)){
+                Assert.fail(Actual + " is not sorted properly");
+            }
+
+
+        } else {
+            List<String> tempString = new ArrayList<>(List.copyOf(Actual));
+            tempString.sort(String.CASE_INSENSITIVE_ORDER);
+            if (!SortOrder.contentEquals("asc")) {
+                Collections.reverse(tempString);
+            }
+            System.out.println("Actual: " + Actual + "\nExpected: " + tempString);
+            if(!Actual.equals(tempString)){
+            Assert.fail(Actual + " is not sorted properly");
              }
         }
-        else {
-            tempAsc.sort(String.CASE_INSENSITIVE_ORDER);
-            Collections.reverse(tempAsc);
-            System.out.println("Actual: " + Actual + "\nExpected: " + tempAsc);
-            if(!Actual.equals(tempAsc)) {
-                Assert.fail(Actual + " is not sorted properly in Descending order");
-            }
+    }
+public void refineFilter(HashMap<String,String> TestData){
+
+    //Validate if no results are displayed
+    if(findAll(By.xpath("//h1[contains(text(),'No results found for the search criteria')]")).size()<1) {
+
+        if (!(TestData.get("Purpose Filter").contentEquals("_BLANK")) ||
+                !(TestData.get("Sector Filter").contentEquals("_BLANK")) || !(TestData.get("Type Filter").contentEquals("_BLANK"))) {
+            $("//button[contains(text(),'Show filters')]").click();
         }
 
+        if (!TestData.get("Purpose Filter").contentEquals("_BLANK")) {
+            Objectives.click();
+            Obj_ObjectivePage.SearchByPurpose(TestData.get("Purpose Filter"), TestData.get("Other Purpose Filter"));
+        }
+        if (!TestData.get("Sector Filter").contentEquals("_BLANK")) {
+            Sector.click();
+            Obj_SpendingSectorPage.SearchBySector(TestData.get("Sector Filter"));
+        }
+        if (!TestData.get("Type Filter").contentEquals("_BLANK")) {
+            Type.click();
+            obj_TypesPage.SearchBySubsidyType(TestData.get("Type Filter"), TestData.get("Other Type Filter"));
+        }
+
+        if (findAll("//button[contains(text(),'Update results')]").size() > 0) {
+            $("//button[contains(text(),'Update results')]").click();
+        }
+    }   else if(!TestData.get("Validate").contentEquals("no result")){
+        Assert.fail("No results found for the search criteria");
+        }
     }
+
+
 
     public void validateSearchResults(String ColumnIndex, String Values){
 
-        //Validate if no results are displayed
-        if(findAll(By.xpath("//h1[contains(text(),'No results found for the search criteria')]")).size()>0){
+
+        /*if(findAll(By.xpath("//h1[contains(text(),'No results found for the search criteria')]")).size()>0){
             if(!Values.contentEquals("no result")){
                 Assert.fail("No results found for the search criteria");
             }
         }
         else
-        {
+        {*/
             //To initiate Sort Validation
             if(Values.contentEquals("asc")){
                 while(findAll(By.xpath("//th["+ColumnIndex+"]/a/img[@id='downarrow']")).size()<1) {
                     $("//tr/th[" + ColumnIndex + "]").click();
                 }
-                sortResults(getTableValues(ColumnIndex), Values);
+                sortResults(ColumnIndex, Values);
             }
             else if(Values.contentEquals("dsc")){
                 while(findAll(By.xpath("//th["+ColumnIndex+"]/a/img[@id='uparrow']")).size()<1) {
                 $("//tr/th[" + ColumnIndex + "]").click();
                 }
-                sortResults(getTableValues(ColumnIndex), Values);
+                sortResults(ColumnIndex, Values);
             }
 
 
@@ -141,8 +202,6 @@ public class SearchResultsPage extends PageObject {
                     }
                 }
             }
-        }
-
     }
 
 }
