@@ -19,4 +19,5 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/target/site/*.*'
-    goals: 'verify'
+    goals: 'clean verify'
+
