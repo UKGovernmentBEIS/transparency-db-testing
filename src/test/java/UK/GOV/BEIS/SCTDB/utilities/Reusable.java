@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
@@ -200,46 +201,88 @@ public class Reusable {
                     rowNumber++;
                     continue;
                 }
+                int cellvalue = 0;
+                if (SheetName.equalsIgnoreCase("Public User Details")) {
+                    cellvalue = 2;
+                    Double value = currentRow.getCell(cellvalue).getNumericCellValue();
+                    double tdidvaluedouble = Double.parseDouble(String.valueOf(value));
+                    long tdidlong = (long) tdidvaluedouble;
+                    String TDIDup = String.valueOf(tdidlong);
+                    if (TDIDup.equals(TDID)) {
+                        for (int cellNum = 1; cellNum < currentRow.getLastCellNum(); cellNum++) {
+                            String ColumnTitle = sheet.getRow(0).getCell(cellNum).getStringCellValue();
 
-                if (currentRow.getCell(0).getStringCellValue().equalsIgnoreCase(TDID)) {
-                    for (int cellNum =1; cellNum < currentRow.getLastCellNum(); cellNum++) {
-                        String ColumnTitle=sheet.getRow(0).getCell(cellNum).getStringCellValue();
+                            switch (currentRow.getCell(cellNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK).getCellType()) {
+                                case STRING:
+                                    //CellData.add(currentRow.getCell(cellNum).getStringCellValue());
+                                    TestData.put(ColumnTitle, currentRow.getCell(cellNum).getStringCellValue());
+                                    break;
+                                case NUMERIC:
+                                    if (DateUtil.isCellDateFormatted(currentRow.getCell(cellNum))) {
+                                        //CellData.add(currentRow.getCell(cellNum).getLocalDateTimeCellValue().toLocalDate());
+                                        TestData.put(ColumnTitle, currentRow.getCell(cellNum).getLocalDateTimeCellValue().toLocalDate().toString());
+                                        //To format -> .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                                    } else {
+                                        //CellData.add(currentRow.getCell(cellNum).getNumericCellValue());
+                                        TestData.put(ColumnTitle, Double.toString(currentRow.getCell(cellNum).getNumericCellValue()));
+                                    }
+                                    break;
+                                case BOOLEAN:
+                                    //CellData.add(currentRow.getCell(cellNum).getBooleanCellValue());
+                                    TestData.put(ColumnTitle, String.valueOf(currentRow.getCell(cellNum).getBooleanCellValue()));
+                                    break;
+                                case BLANK:
+                                    //CellData.add("_BLANK");
+                                    TestData.put(ColumnTitle, "_BLANK");
+                                    break;
+                                default:
+                                    //CellData.add("NO DATA");
+                                    TestData.put(ColumnTitle, "NO DATA");
 
-                        switch(currentRow.getCell(cellNum,Row.MissingCellPolicy.CREATE_NULL_AS_BLANK).getCellType()) {
-                            case STRING:
-                                //CellData.add(currentRow.getCell(cellNum).getStringCellValue());
-                                TestData.put(ColumnTitle,currentRow.getCell(cellNum).getStringCellValue());
-                                break;
-                            case NUMERIC:
-                                if(DateUtil.isCellDateFormatted(currentRow.getCell(cellNum))){
-                                    //CellData.add(currentRow.getCell(cellNum).getLocalDateTimeCellValue().toLocalDate());
-                                    TestData.put(ColumnTitle,currentRow.getCell(cellNum).getLocalDateTimeCellValue().toLocalDate().toString());
-                                    //To format -> .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                                }
-                                else {
-                                    //CellData.add(currentRow.getCell(cellNum).getNumericCellValue());
-                                    TestData.put(ColumnTitle,Double.toString(currentRow.getCell(cellNum).getNumericCellValue()));
-                                }
-                                break;
-                            case BOOLEAN:
-                                //CellData.add(currentRow.getCell(cellNum).getBooleanCellValue());
-                                TestData.put(ColumnTitle,String.valueOf(currentRow.getCell(cellNum).getBooleanCellValue()));
-                                break;
-                            case BLANK:
-                                //CellData.add("_BLANK");
-                                TestData.put(ColumnTitle,"_BLANK");
-                                break;
-                            default:
-                                //CellData.add("NO DATA");
-                                TestData.put(ColumnTitle,"NO DATA");
+                            }
 
                         }
-
                     }
+                } else {
+
+                    if (currentRow.getCell(cellvalue).getStringCellValue().equalsIgnoreCase(TDID)) {
+                        for (int cellNum = 1; cellNum < currentRow.getLastCellNum(); cellNum++) {
+                            String ColumnTitle = sheet.getRow(0).getCell(cellNum).getStringCellValue();
+
+                            switch (currentRow.getCell(cellNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK).getCellType()) {
+                                case STRING:
+                                    //CellData.add(currentRow.getCell(cellNum).getStringCellValue());
+                                    TestData.put(ColumnTitle, currentRow.getCell(cellNum).getStringCellValue());
+                                    break;
+                                case NUMERIC:
+                                    if (DateUtil.isCellDateFormatted(currentRow.getCell(cellNum))) {
+                                        //CellData.add(currentRow.getCell(cellNum).getLocalDateTimeCellValue().toLocalDate());
+                                        TestData.put(ColumnTitle, currentRow.getCell(cellNum).getLocalDateTimeCellValue().toLocalDate().toString());
+                                        //To format -> .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                                    } else {
+                                        //CellData.add(currentRow.getCell(cellNum).getNumericCellValue());
+                                        TestData.put(ColumnTitle, Double.toString(currentRow.getCell(cellNum).getNumericCellValue()));
+                                    }
+                                    break;
+                                case BOOLEAN:
+                                    //CellData.add(currentRow.getCell(cellNum).getBooleanCellValue());
+                                    TestData.put(ColumnTitle, String.valueOf(currentRow.getCell(cellNum).getBooleanCellValue()));
+                                    break;
+                                case BLANK:
+                                    //CellData.add("_BLANK");
+                                    TestData.put(ColumnTitle, "_BLANK");
+                                    break;
+                                default:
+                                    //CellData.add("NO DATA");
+                                    TestData.put(ColumnTitle, "NO DATA");
+
+                            }
+
+                        }
+                    }
+
                 }
-
             }
-
             workbook.close();
 
         } catch (IOException e) {
@@ -248,7 +291,5 @@ public class Reusable {
         }
 
         return TestData;
-
     }
-
 }
