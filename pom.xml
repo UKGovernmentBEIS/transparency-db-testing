@@ -42,6 +42,14 @@
             <name>bintray</name>
             <url>https://jcenter.bintray.com</url>
         </repository>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -136,6 +144,25 @@
             <version>1.0.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.simplejavamail</groupId>
+            <artifactId>simple-java-mail</artifactId>
+            <version>6.4.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.1</version>
+        </dependency>
+
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>1.6.2</version>
+            </dependency>
+
+
     </dependencies>
 
     <build>
@@ -143,11 +170,7 @@
             <plugin>
                 <groupId>net.serenity-bdd.maven.plugins</groupId>
                 <artifactId>serenity-maven-plugin</artifactId>
-                <version>${serenity.maven.version}</version>
-                <configuration>
-                    <!--<tags>${tags}</tags>-->
-                    <reports>single-page-html</reports>
-                </configuration>
+                <version>${serenity.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>net.serenity-bdd</groupId>
@@ -159,7 +182,17 @@
                         <artifactId>serenity-single-page-report</artifactId>
                         <version>${serenity.version}</version>
                     </dependency>
+                    <!-- <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-navigator-report</artifactId>
+                        <version>2.3.8</version>
+                    </dependency>-->
                 </dependencies>
+                <configuration>
+                    <!--<tags>${tags}</tags>-->
+                    <reports>single-page-html</reports>
+                </configuration>
+
                 <executions>
                     <execution>
                         <id>serenity-reports</id>
