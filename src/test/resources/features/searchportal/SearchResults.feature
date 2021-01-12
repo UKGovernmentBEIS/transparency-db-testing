@@ -5,24 +5,25 @@ Feature: Search Results
   @issues:#784
   Scenario Outline: Public User Search - Search Results Page
   # This scenario covers Search by the following fields
-  # PBI:465 - Public User Search : Search by Beneficiary
+  # PBI:465 - Public User Search: Search by Beneficiary
   # PBI:527 - Public User Search: Search by Subsidy Instrument
   # PBI:526 - Public User Search: Search by Spending Sector
-  # PBI:528 - Public User Search : Search by Subsidy Objective
-  # PBI:354 - Public User Search : Search by Legal Granting Date
+  # PBI:528 - Public User Search: Search by Subsidy Objective
+  # PBI:354 - Public User Search: Search by Legal Granting Date
   # PBI:522 - Public User Search: Multiple Field Search
-  # TODO: PBI:537 - Public Search Webpage Display Filter
-  # TODO: PBI:538 - Public Search Webpage Display Sort
+  # PBI:537 - Public Search Webpage Display Filter
+  # PBI:538 - Public Search Webpage Display Sort
   # TODO: PBI-784 - Public User Search: Search Results Page
 
     Given I have "<TestData>" from "<DataSheet>"
     Given I navigate to Search Portal
     When I enter the search criteria
-    Then I will be able to get the relevant search results
+    #Then I will be able to get the relevant search results
+    Then I will be able to validate details page
   Examples:
     |TestData| DataSheet|
-#    |USTD_001| PublicSearch|
-    |USTD_002| PublicSearch|
+    |USTD_001| PublicSearch|
+#    |USTD_002| PublicSearch|
 #    |USTD_003| PublicSearch|
 #    |USTD_004| PublicSearch|
 #    |USTD_005| PublicSearch|
@@ -52,4 +53,6 @@ Feature: Search Results
 #    |USTD_029| PublicSearch|
 #    |USTD_030| PublicSearch|
 #    |USTD_031| PublicSearch|
-
+#    |USTD_032| PublicSearch|
+#    |USTD_035| PublicSearch|
+#    |USTD_036| PublicSearch|

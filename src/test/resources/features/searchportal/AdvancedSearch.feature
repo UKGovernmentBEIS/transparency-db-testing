@@ -12,4 +12,5 @@ Feature: Advanced Search
 
   Examples:
     |TestData| DataSheet|
-    |USTD_002| PublicSearch|
+    |USTD_032| PublicSearch|
+    |USTD_033| PublicSearch|

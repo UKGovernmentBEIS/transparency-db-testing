@@ -28,8 +28,18 @@ public class BrowserStackSerenityDriver implements DriverSource {
 
         String environment = System.getProperty("environment");
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("os", "Windows");
-        capabilities.setCapability("os_version", "10");
+
+        String Platform =(String) environmentVariables.getProperty("test.platform");;
+        if(Platform.toUpperCase().contentEquals("DESKTOP")){
+                capabilities.setCapability("os", "Windows");
+                capabilities.setCapability("os_version", "10");
+        }
+        else if(Platform.toUpperCase().contentEquals("MOBILE")) {
+                capabilities.setCapability("os_version", "14");
+                capabilities.setCapability("device", "iPhone 12");
+                capabilities.setCapability("real_mobile", "true");
+                capabilities.setCapability("browserstack.local", "false");
+        }
 
         Iterator it = environmentVariables.getKeys().iterator();
         while (it.hasNext()) {

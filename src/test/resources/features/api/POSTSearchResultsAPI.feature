@@ -9,3 +9,11 @@ Feature: POST request using /searchresult API
       | Endpoint | PayloadPath | StatusCode |
       | searchResults.endpoint | ./src/test/resources/payloads/valid-search-criteria.json | 200 |
       | searchResults.endpoint | ./target/test-classes/payloads/invalid-search-criteria.json | 404 |
+
+#  Scenario Outline: Send a POST Request for an empty search
+#   Given a POST "<Endpoint>"
+#   When I send a request with Empty JSON body
+#   Then I will be getting the expected <StatusCode>
+#   Examples:
+#      | Endpoint | StatusCode |
+#      | searchResults.endpoint | 200 |
