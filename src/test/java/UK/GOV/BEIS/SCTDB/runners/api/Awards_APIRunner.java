@@ -5,8 +5,7 @@ import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
-@CucumberOptions(features = {"src/test/resources/features/api/GETAwardsAPI.feature"}
+@CucumberOptions(features = {"src/test/resources/features/api/GETAwardsAPIupdated.feature"}
         ,glue= "UK/GOV/BEIS/SCTDB/steps/api")
 public class Awards_APIRunner {
 }
-
