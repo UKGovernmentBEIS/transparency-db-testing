@@ -1,1162 +1,147 @@
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
+Request method:	GET
+Request URI:	http://integ-transparency-db-access-management-service.azurewebsites.net/accessmanagement/gaencoder
 Proxy:			<none>
 Request params:	<none>
 Query params:	<none>
 Form params:	<none>
 Path params:	<none>
-Headers:		Accept=*/*
+Headers:		userPrinciple={"password":"password123","role":"Granting Authority Encoder","grantingAuthorityGroupId":"123","userName":"SYSTEM","grantingAuthorityGroupName":"HMRC"}
+				Accept=*/*
 				Content-Type=application/json; charset=UTF-8
 Cookies:		<none>
 Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Tax measures (tax credit, or tax/duty exemption)",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "AHDB Generic Promotional Measures scheme",
-    "nationalIdType": "VAT Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Environmental protection",
-    "legalGrantingDate": "22-01-2018",
-    "subsidyControlNumber": "SC10000",
-    "nationalId": "100002389",
-    "beneficiaryName": "BEIS Test",
-    "subsidyAmountRange": "500001-1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Yorkshire and Humber",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "500000",
-    "spendingSector": "Electricity, gas, steam and air conditioning supply",
-    "grantingAuthorityName": "Welsh assembly government"
-}
+Body:			<none>
 HTTP/1.1 200 OK
 Transfer-Encoding: chunked
 Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=56600516174aa255a1631400863ca8ddc2f62e49540da2bc5240b5f7b5296bd4;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:14 GMT
+Request-Context: appId=cid-v1:135577ed-57c6-4c69-af60-0d3754437389
+Set-Cookie: ARRAffinity=4626886fa06471c0a0006f3b9b70852c5a1f20ef21a46c118d372f6d11898471;Path=/;HttpOnly;Domain=integ-transparency-db-access-management-service.azurewebsites.net
+Date: Wed, 13 Jan 2021 14:56:00 GMT
 
 {
-    "totalErrors": 0,
-    "validationErrorResult": [
-        
-    ],
-    "message": "Award saved in Database"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Loan",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "AHDB Promotional Measures scheme",
-    "nationalIdType": "Charity Number",
-    "orgSize": "Large organisation",
-    "subsidyObjective": "Other",
-    "legalGrantingDate": "22-01-2018",
-    "subsidyControlNumber": "SC10001",
-    "nationalId": "58614000",
-    "beneficiaryName": "DS SMITH PAPER LIMITED 100",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "abc",
-    "spendingRegion": "South East",
-    "subsidyInstrumentOther": "def",
-    "subsidyAmountExact": "0",
-    "spendingSector": "Water supply; sewerage, waste management and remediation activities",
-    "grantingAuthorityName": "Scottish Government"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=3610109384a59c6164c4480d1b4a816c2a31b46136677b431ed6b7e830b12123;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:19 GMT
-
-{
-    "totalErrors": 0,
-    "validationErrorResult": [
-        
-    ],
-    "message": "Award saved in Database"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Aid for economic development - Growth Deal",
-    "nationalIdType": "Charity Number",
-    "orgSize": "Large organisation",
-    "subsidyObjective": "Rescue aid",
-    "legalGrantingDate": "22-01-2018",
-    "subsidyControlNumber": "SC10002",
-    "nationalId": "58614000",
-    "beneficiaryName": "Western Ferries (Clyde) Limited 200",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Wales",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "500000",
-    "spendingSector": "Electricity, gas, steam and air conditioning supply",
-    "grantingAuthorityName": "Northern Ireland"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=56600516174aa255a1631400863ca8ddc2f62e49540da2bc5240b5f7b5296bd4;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:22 GMT
-
-{
-    "totalErrors": 0,
-    "validationErrorResult": [
-        
-    ],
-    "message": "Award saved in Database"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Tax measures (tax credit, or tax/duty exemption)",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Amendment to SA.35565 - Renewables Obligation (RO) scheme - for offshore wind in Scotland",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Training",
-    "legalGrantingDate": "10-08-2020",
-    "subsidyControlNumber": "SC10004",
-    "nationalId": "SC272727",
-    "beneficiaryName": "KPR",
-    "subsidyAmountRange": "60001-500000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "500000",
-    "spendingSector": "Financial and insurance activities",
-    "grantingAuthorityName": "HMRC"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=56600516174aa255a1631400863ca8ddc2f62e49540da2bc5240b5f7b5296bd4;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:27 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
+    "grantingAuthorityUserActionCount": null,
+    "awardUserActionCount": {
+        "totalAwaitingAward": 4,
+        "totalDraftAward": 0,
+        "totalSubsidyAward": 5,
+        "totalPublishedAward": 0,
+        "totalDeletedAward": 0
+    },
+    "subsidyMeasureUserActionCount": {
+        "totalPublishedSubsidyMeasures": 0,
+        "totalDraftSubsidyMeasures": 4,
+        "totalSubsidyMeasures": 4,
+        "totalAwaitingSubsidyMeasures": 0,
+        "totalDeletedSubsidyMeasures": 0
+    },
+    "awardResponse": [
         {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
+            "awardNumber": 119,
+            "subsidyFullAmountExact": "400,000",
+            "subsidyFullAmountRange": "£NA",
+            "subsidyObjective": "Culture/Heritage",
+            "subsidyMeasureTitle": "Aid for economic development - Growth Deal",
+            "status": "Rejected",
+            "gaName": "HMRC",
+            "lastModifiedDate": "13 January 2021",
+            "scNumber": "SC10002",
+            "subsidyInstrument": "Guarantee",
+            "beneficiaryName": "Liberty Steel Tredegar Ltd"
+        },
+        {
+            "awardNumber": 182,
+            "subsidyFullAmountExact": "200,000",
+            "subsidyFullAmountRange": "£NA",
+            "subsidyObjective": "Research and development",
+            "subsidyMeasureTitle": "Rika Biogas Grant Under Future Fuels for Flight and Freight Competition (F4C)",
+            "status": "Awaiting Approval",
+            "gaName": "HMRC",
+            "lastModifiedDate": "13 January 2021",
+            "scNumber": "SC10070",
+            "subsidyInstrument": "Equity",
+            "beneficiaryName": "JAD Developments (Redruth) Ltd"
+        },
+        {
+            "awardNumber": 230,
+            "subsidyFullAmountExact": "0",
+            "subsidyFullAmountRange": "£500,000 - £1,000,000",
+            "subsidyObjective": "abc",
+            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
+            "status": "Awaiting Approval",
+            "gaName": "HMRC",
+            "lastModifiedDate": "13 January 2021",
+            "scNumber": "SC10000",
+            "subsidyInstrument": "what",
+            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
+        },
+        {
+            "awardNumber": 231,
+            "subsidyFullAmountExact": "0",
+            "subsidyFullAmountRange": "£500,000 - £1,000,000",
+            "subsidyObjective": "abc",
+            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
+            "status": "Awaiting Approval",
+            "gaName": "HMRC",
+            "lastModifiedDate": "13 January 2021",
+            "scNumber": "SC10000",
+            "subsidyInstrument": "what",
+            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
+        },
+        {
+            "awardNumber": 232,
+            "subsidyFullAmountExact": "0",
+            "subsidyFullAmountRange": "£500,000 - £1,000,000",
+            "subsidyObjective": "abc",
+            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
+            "status": "Awaiting Approval",
+            "gaName": "HMRC",
+            "lastModifiedDate": "13 January 2021",
+            "scNumber": "SC10000",
+            "subsidyInstrument": "what",
+            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
         }
     ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Equity",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Amendment to SA.56794 (2020/N) as amended by SA.58078 (2020/N) Coronavirus Business Interruption Loan Scheme Grant (CBILS grant) under the Temporary Framework for State aid measures to support the economy in the current COVID-19 outbreak",
-    "nationalIdType": "Charity Number",
-    "orgSize": "Small Organisation",
-    "subsidyObjective": "Environmental protection",
-    "legalGrantingDate": "12-06-2020",
-    "subsidyControlNumber": "SC10005",
-    "nationalId": "2021212",
-    "beneficiaryName": "Alford And Donside Heritage Association",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "North West",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "10000",
-    "spendingSector": "Accommodation and food service activities",
-    "grantingAuthorityName": "DEFRA"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=7f5b5f3fa5bb8c2553b8ac54a8b67fd2ea93be8293574060aab3094c4bd644c3;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:34 GMT
-
-{
-    "totalErrors": 0,
-    "validationErrorResult": [
-        
-    ],
-    "message": "Award saved in Database"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Amendments to the Renewables Obligation Certificate Scheme 2011",
-    "nationalIdType": "Charity Number",
-    "orgSize": "Medium Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10006",
-    "nationalId": "10323184",
-    "beneficiaryName": "Ace Playgroup & Busy Bees",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "BEIS"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=8142d3d04dd73a008898cd4c9e42aa2f0d5eaf5c84d1550f6ef54d1061ce0017;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:37 GMT
-
-{
-    "totalErrors": 0,
-    "validationErrorResult": [
-        
-    ],
-    "message": "Award saved in Database"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Equity",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Animation Tax Relief",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Large Organisation",
-    "subsidyObjective": "Culture/Heritage",
-    "legalGrantingDate": "04-09-2017",
-    "subsidyControlNumber": "SC10007",
-    "nationalId": "CR20503",
-    "beneficiaryName": "Absolem Productions Limited",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "London",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "0",
-    "spendingSector": "Accommodation and food service activities",
-    "grantingAuthorityName": "Invest NI"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=56600516174aa255a1631400863ca8ddc2f62e49540da2bc5240b5f7b5296bd4;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:39 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
+    "subsidyMeasureResponse": [
         {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
+            "subsidyMeasureTitle": "Aid for economic development - Growth Deal",
+            "scNumber": "SC10003",
+            "startDate": "2015-04-01",
+            "endDate": "2021-03-31",
+            "duration": "6 years 1 day ",
+            "budget": "64000000",
+            "gaName": "HMRC",
+            "lastModifiedDate": "07 January 2021"
+        },
+        {
+            "subsidyMeasureTitle": "Spaceflight Grants",
+            "scNumber": "SC10077",
+            "startDate": "2019-07-14",
+            "endDate": "2022-12-31",
+            "duration": "3 years 6 months 3 days ",
+            "budget": "40000000",
+            "gaName": "HMRC",
+            "lastModifiedDate": "07 January 2021"
+        },
+        {
+            "subsidyMeasureTitle": "Spaceflight Grants",
+            "scNumber": "SC10078",
+            "startDate": "2018-07-14",
+            "endDate": "2021-03-31",
+            "duration": "2 years 9 months 1 week 2 days ",
+            "budget": "31486500",
+            "gaName": "HMRC",
+            "lastModifiedDate": "07 January 2021"
+        },
+        {
+            "subsidyMeasureTitle": "Spaceflight Grants",
+            "scNumber": "SC10079",
+            "startDate": "2018-07-14",
+            "endDate": "2021-03-31",
+            "duration": "2 years 9 months 1 week 2 days ",
+            "budget": "31486500",
+            "gaName": "HMRC",
+            "lastModifiedDate": "07 January 2021"
         }
     ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Beatrice Offshore Wind Farm",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Culture/Heritage",
-    "legalGrantingDate": "15-08-2018",
-    "subsidyControlNumber": "SC10008",
-    "nationalId": "SC272727",
-    "beneficiaryName": "KPR",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "London",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "999287",
-    "spendingSector": "Construction",
-    "grantingAuthorityName": "Tourism NI"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=3610109384a59c6164c4480d1b4a816c2a31b46136677b431ed6b7e830b12123;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:43 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Loan",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "BEIS 2018 Call for CCUS Innovation",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Infrastructure",
-    "legalGrantingDate": "10-04-2019",
-    "subsidyControlNumber": "SC10009",
-    "nationalId": "CR20503",
-    "beneficiaryName": "Absolem Productions Limited",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "North West",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "664678",
-    "spendingSector": "Professional, scientific and technical activities",
-    "grantingAuthorityName": "Blaenau Gwent County Borough Council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=7f5b5f3fa5bb8c2553b8ac54a8b67fd2ea93be8293574060aab3094c4bd644c3;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:47 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "BEIS 2018 Carbon Capture Utilisation Demonstration (CCUD) Programme",
-    "nationalIdType": "Charity Number",
-    "orgSize": "Medium Organisation",
-    "subsidyObjective": "Rescue aid",
-    "legalGrantingDate": "08-01-2018",
-    "subsidyControlNumber": "SC10010",
-    "nationalId": "1378312",
-    "beneficiaryName": "Almond Valley Heritage Trust",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "West Midlands",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "950000",
-    "spendingSector": "Transportation and storage",
-    "grantingAuthorityName": "Transport Scotland"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=8142d3d04dd73a008898cd4c9e42aa2f0d5eaf5c84d1550f6ef54d1061ce0017;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:50 GMT
-
-{
-    "totalErrors": 0,
-    "validationErrorResult": [
-        
-    ],
-    "message": "Award saved in Database"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Loan",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "BFI Film Fund: support for Development, Production and Distribution",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Large organisation",
-    "subsidyObjective": "Research and development",
-    "legalGrantingDate": "10-03-2019",
-    "subsidyControlNumber": "SC10011",
-    "nationalId": "CR20503",
-    "beneficiaryName": "Absolem Productions Limited",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "North West",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "774678",
-    "spendingSector": "Professional, scientific and technical activities",
-    "grantingAuthorityName": "Historic Environment Scotland"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=8142d3d04dd73a008898cd4c9e42aa2f0d5eaf5c84d1550f6ef54d1061ce0017;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:53 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Equity",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "BFI support measures for development of film audiences",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Culture/Heritage",
-    "legalGrantingDate": "08-05-2019",
-    "subsidyControlNumber": "SC10012",
-    "nationalId": "CR20503",
-    "beneficiaryName": "Absolem Productions Limited",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "London",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "0",
-    "spendingSector": "Accommodation and food service activities",
-    "grantingAuthorityName": "Highlands & Islands Enterprise"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=2c0a8e660d34db4b226931231e3bb7fae2329057b3b3ea1e2b584eb38ffb9799;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:44:56 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Tax measures (tax credit, or tax/duty exemption)",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Bovine tuberculosis controls and compensation payments to cattle keepers",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Culture/Heritage",
-    "legalGrantingDate": "10-06-2020",
-    "subsidyControlNumber": "SC10013",
-    "nationalId": "SC336222",
-    "beneficiaryName": "4D Pharma Research Limited",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "West Midlands",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "750000",
-    "spendingSector": "Financial and insurance activities",
-    "grantingAuthorityName": "Scottish Enterprise"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Bridging for Innovators",
-    "nationalIdType": "Charity Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Regional development",
-    "legalGrantingDate": "08-03-2018",
-    "subsidyControlNumber": "SC10014",
-    "nationalId": "2021215",
-    "beneficiaryName": "Alford And Donside Heritage Association",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "North West",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "750000",
-    "spendingSector": "Agriculture, forestry and fishing",
-    "grantingAuthorityName": "Forestry Commission Scotland"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=7f5b5f3fa5bb8c2553b8ac54a8b67fd2ea93be8293574060aab3094c4bd644c3;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:20 GMT
-
-{
-    "totalErrors": 0,
-    "validationErrorResult": [
-        
-    ],
-    "message": "Award saved in Database"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Equity",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Bristol Arena Project",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Large organisation",
-    "subsidyObjective": "Culture/Heritage",
-    "legalGrantingDate": "02-08-2016",
-    "subsidyControlNumber": "SC10015",
-    "nationalId": "CR20503",
-    "beneficiaryName": "Absolem Productions Limited",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "London",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "0",
-    "spendingSector": "Accommodation and food service activities",
-    "grantingAuthorityName": "MHCLG"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=3610109384a59c6164c4480d1b4a816c2a31b46136677b431ed6b7e830b12123;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:21 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Tax measures (tax credit, or tax/duty exemption)",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Bus Emissions Abatement Retrofitting Scheme",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small organisation",
-    "subsidyObjective": "Research and development",
-    "legalGrantingDate": "12-11-2016",
-    "subsidyControlNumber": "SC10016",
-    "nationalId": "SC336222",
-    "beneficiaryName": "4D Pharma Research Limited",
-    "subsidyAmountRange": "500000 - 1000000",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "0",
-    "spendingSector": "Professional, scientific and technical activities",
-    "grantingAuthorityName": "Gwynedd County Council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=2c0a8e660d34db4b226931231e3bb7fae2329057b3b3ea1e2b584eb38ffb9799;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:24 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Services",
-    "subsidyControlTitle": "Business Growth Capital Grant Programme",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Large organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "13-10-2020",
-    "subsidyControlNumber": "SC10017",
-    "nationalId": "CR20503",
-    "beneficiaryName": "Absolem Productions Limited",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "597336",
-    "spendingSector": "Administrative and support service activities",
-    "grantingAuthorityName": "Isle of Anglesey county council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=e811cf20bbf0448ea7576aa28673917f7fe2cdcb6274e9d4e55a1c8d01d36460;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:27 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Capital allowances: extension of enhanced capital allowances for car and goods vehicles to 2018",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Micro organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "30-09-2020",
-    "subsidyControlNumber": "SC10018",
-    "nationalId": "SC543850",
-    "beneficiaryName": "Abc Nursery Above & Beyond Childcare",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "North West",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "3500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Norfolk County Council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=e811cf20bbf0448ea7576aa28673917f7fe2cdcb6274e9d4e55a1c8d01d36460;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:30 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Carbon Reduction Committment (CRC)",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Micro Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10019",
-    "nationalId": "B13943",
-    "beneficiaryName": "A. Y. Brailsford",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Flintshire County council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=3610109384a59c6164c4480d1b4a816c2a31b46136677b431ed6b7e830b12123;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:32 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Carbon Reduction Committment (CRC)",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Micro Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10019",
-    "nationalId": "SC229641",
-    "beneficiaryName": "Abc Day Nursery",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Cumbria County Council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=8142d3d04dd73a008898cd4c9e42aa2f0d5eaf5c84d1550f6ef54d1061ce0017;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:34 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Co-Innovate Programme",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Medium Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10021",
-    "nationalId": "SC230058",
-    "beneficiaryName": "Adam Wilson & Sons LTD",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Sheffield City Council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=2c0a8e660d34db4b226931231e3bb7fae2329057b3b3ea1e2b584eb38ffb9799;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:36 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Commission Regulation (EU) No 651/2014 General Block Exemption Regulations Article 28 Innovation Aid for SMEs. Article 28.4 aid for innovation advisory and support services",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10022",
-    "nationalId": "SC460896",
-    "beneficiaryName": "Almond Park Nursery LTD",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Aberdeenshire Council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=3610109384a59c6164c4480d1b4a816c2a31b46136677b431ed6b7e830b12123;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:39 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Contract for Difference for renewables in UK",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Micro Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10023",
-    "nationalId": "SC270780",
-    "beneficiaryName": "Alphabet Village LTD",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Carmarthenshire County council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=3610109384a59c6164c4480d1b4a816c2a31b46136677b431ed6b7e830b12123;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:41 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Coronavirus Business Interruption Loan Scheme (CBILS) Guarantee",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Micro Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10024",
-    "nationalId": "SB0407",
-    "beneficiaryName": "A&C Tait",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Northern Ireland Screen"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=3610109384a59c6164c4480d1b4a816c2a31b46136677b431ed6b7e830b12123;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:43 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
-}
-Request method:	POST
-Request URI:	http://dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net/addAward
-Proxy:			<none>
-Request params:	<none>
-Query params:	<none>
-Form params:	<none>
-Path params:	<none>
-Headers:		Accept=*/*
-				Content-Type=application/json; charset=UTF-8
-Cookies:		<none>
-Multiparts:		<none>
-Body:
-{
-    "subsidyInstrument": "Direct Grant",
-    "goodsOrServices": "Goods",
-    "subsidyControlTitle": "Coventry Investment Fund",
-    "nationalIdType": "Company Registration Number",
-    "orgSize": "Small Organisation",
-    "subsidyObjective": "Energy efficiency",
-    "legalGrantingDate": "01-10-2020",
-    "subsidyControlNumber": "SC10025",
-    "nationalId": "SC231967",
-    "beneficiaryName": "Acrewood Nursery LTD",
-    "subsidyAmountRange": "NA",
-    "subsidyObjectiveOther": "",
-    "spendingRegion": "Scotland",
-    "subsidyInstrumentOther": "",
-    "subsidyAmountExact": "5500",
-    "spendingSector": "Human health and social work activities",
-    "grantingAuthorityName": "Hull City Council"
-}
-HTTP/1.1 200 OK
-Transfer-Encoding: chunked
-Content-Type: application/json
-Request-Context: appId=cid-v1:dbe03d33-476b-46c2-921a-9da882eb4781
-Set-Cookie: ARRAffinity=8142d3d04dd73a008898cd4c9e42aa2f0d5eaf5c84d1550f6ef54d1061ce0017;Path=/;HttpOnly;Domain=dev-beis-tp-db-publishing-subsidies-service.azurewebsites.net
-Date: Mon, 11 Jan 2021 10:45:45 GMT
-
-{
-    "totalErrors": 1,
-    "validationErrorResult": [
-        {
-            "column": "nationalId",
-            "message": "invalid Company Registration Number."
-        }
-    ],
-    "message": "validation error"
+    "grantingAuthorityResponse": null
 }

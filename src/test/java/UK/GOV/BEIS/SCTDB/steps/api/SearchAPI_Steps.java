@@ -99,17 +99,13 @@ public class SearchAPI_Steps extends ApiUtils {
         }
     }
 
-    @Given("Header is sent with following details")
-    public void headerIsSentWithFollowingDetails(DataTable data) throws IOException {
-        List<List<String>> headervalues = data.asLists();
-        String username = headervalues.get(0).get(0);
-        String password = headervalues.get(0).get(1);
-        String role = headervalues.get(0).get(2);
-        String grantingAuthorityGroupId = headervalues.get(0).get(3);
-        String grantingAuthorityGroupName = headervalues.get(0).get(4);
+    @Given("Header is sent with details from datasheet by passing {string} & {string}")
+    public void headerIsSentWithDetailsFromDatasheetByPassing(String TDID, String SheetName) throws IOException {
+        TestdataId = TDID;
+        DataSheetName = SheetName;
         Requestdetails body = new Requestdetails();
-       // HashMap<String, Object> payload= body.Payloadbuilderexportall("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
-       // requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).header("userPrinciple", map);;
+        HashMap<String, Object> map= body.headerbuilder("./src/test/resources/data/AccessManagementDatasheet.xlsx",SheetName,TDID);
+        requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).header("userPrinciple", map);
     }
 
     @When("I calls {string} API with {string} http request")
@@ -140,10 +136,33 @@ public class SearchAPI_Steps extends ApiUtils {
             apiresponse = requestspec.when().post(getGlobalValue(Endpoint)).
                     then().spec(requestspecone).extract().response();
         }
+        else if (Endpoint.equalsIgnoreCase("beisadmin.endpoint")) {
+            apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
+                    then().spec(requestspecone).extract().response();
+        }
+        else if (Endpoint.equalsIgnoreCase("gaadmin.endpoint")) {
+            apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
+                    then().spec(requestspecone).extract().response();
+        }
+        else if (Endpoint.equalsIgnoreCase("gaapprover.endpoint")) {
+            apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
+                    then().spec(requestspecone).extract().response();
+        }
+        else if (Endpoint.equalsIgnoreCase("gaencoder.endpoint")) {
+            apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
+                    then().spec(requestspecone).extract().response();
+        }
     }
 
     @Then("I will be getting the expected {int}")
     public void iWillBeGettingExpectedStatusCode(int StatusCode) throws IOException, ParseException {
+        apistatuscode = StatusCode;
+        responseString = apiresponse.asString();
+        assertEquals("Error in Validating Status Code:",StatusCode, apiresponse.getStatusCode());
+    }
+
+    @Then("I will be getting the expected status code {string}")
+    public void iWillBeGettingTheExpectedStatusCode(int StatusCode) {
         apistatuscode = StatusCode;
         responseString = apiresponse.asString();
         assertEquals("Error in Validating Status Code:",StatusCode, apiresponse.getStatusCode());

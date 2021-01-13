@@ -432,4 +432,51 @@ public class Requestdetails {
 
         return map;
     }
+
+    public HashMap<String, Object> headerbuilder(String filePath, String SheetName, String TDID) {
+        Reusable d = new Reusable();
+        HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName,TDID);
+        if (data.isEmpty()) {
+            Assert.fail("There is no matching TDID in the datasheet");
+        }
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        //userName
+        if ((data.get("UserName").trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("userName", "");
+        } else {
+            map.put("userName", data.get("UserName"));
+        }
+
+        //password
+        if ((data.get("Password").trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("password", "");
+        } else {
+            map.put("password", data.get("Password"));
+        }
+
+        //role
+        if ((data.get("Role").trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("role", "");
+        } else {
+            map.put("role", data.get("Role"));
+        }
+
+        //grantingAuthorityGroupId
+        if ((data.get("GrantingAuthorityGroupId").trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("grantingAuthorityGroupId", "");
+        } else {
+            double gagroupiddouble = Double.parseDouble(data.get("GrantingAuthorityGroupId"));
+            long gagroupidlong = (long) gagroupiddouble;
+            String gagroupid = String.valueOf(gagroupidlong);
+            map.put("grantingAuthorityGroupId", gagroupid);
+        }
+
+        //grantingAuthorityGroupName
+        if ((data.get("GrantingAuthorityGroupName").trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("grantingAuthorityGroupName", "");
+        } else {
+            map.put("grantingAuthorityGroupName", data.get("GrantingAuthorityGroupName"));
+        }
+        return map;
+    }
 }
