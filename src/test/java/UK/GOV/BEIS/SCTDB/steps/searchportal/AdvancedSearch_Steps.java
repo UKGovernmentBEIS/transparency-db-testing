@@ -57,9 +57,9 @@ public class AdvancedSearch_Steps {
         Obj_ObjectivePage.proceed();
         Obj_SpendingSectorPage.SearchBySector(TestData.get("Sector"));
         Obj_SpendingSectorPage.proceed();
-        //obj_TypesPage.SearchBySubsidyType(TestData.get("Type"), TestData.get("Other Type"));
+        obj_TypesPage.SearchBySubsidyType(TestData.get("Type"), TestData.get("Other Type"));
         obj_TypesPage.proceed();
-        //Obj_GrantingDatePage.SearchByDate(TestData.get("From"), TestData.get("To"));
+        Obj_GrantingDatePage.SearchByDate(TestData.get("From"), TestData.get("To"));
     }
 
     @When("I want to return to check my previous inputs")
@@ -71,5 +71,9 @@ public class AdvancedSearch_Steps {
     public void iWantToBeAbleToSeeMyPreviousEntriesSoICanKeepTrackOfWhatIHaveEntered() {
         obj_RecipientPage.validateSelections(TestData.get("Recipient"));
         Obj_ObjectivePage.validateSelections(TestData.get("Purpose"), TestData.get("Other Purpose"));
+        Obj_ObjectivePage.proceed();
+        Obj_SpendingSectorPage.validateSelections(TestData.get("Sector"));
+        Obj_SpendingSectorPage.proceed();
+        obj_TypesPage.validateSelections(TestData.get("Type"), TestData.get("Other Type"));
     }
 }

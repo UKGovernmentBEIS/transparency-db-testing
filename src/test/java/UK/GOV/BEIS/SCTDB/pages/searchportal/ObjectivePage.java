@@ -23,7 +23,6 @@ public class ObjectivePage extends PageObject {
     WebElementFacade Other;
 
     @FindBy(xpath = "//button[contains(text(),'Continue')]")
-    @CacheLookup
     WebElement btn_Continue;
 
     public void SearchByPurpose(String Purpose, String OtherObj){
@@ -46,7 +45,7 @@ public class ObjectivePage extends PageObject {
             boolean flag =true;
             boolean textflag=true;
             for(String item : items){
-                System.out.println("//input[@value='"+item.trim()+"')]");
+                System.out.println("//input[@value='"+item.trim()+"']");
                 if(!$("//input[@value='"+item.trim()+"']").isSelected()){
                     flag =false;
                 }

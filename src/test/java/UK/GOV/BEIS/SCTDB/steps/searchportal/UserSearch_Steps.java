@@ -111,7 +111,7 @@ public class UserSearch_Steps {
                 ExpectedValues = From+"|"+To;
                 break;
             case "sort":
-                ResultColumnIndex="7";
+                ResultColumnIndex="5";
                 String SortBy=TestData.get("Expected Sort").toLowerCase();
                 if(SortBy.startsWith("recipient"))
                 {
@@ -119,7 +119,7 @@ public class UserSearch_Steps {
                 }
                 else if(SortBy.startsWith("amount"))
                 {
-                ResultColumnIndex="3";
+                ResultColumnIndex="7";
                 }
                 ExpectedValues = SortBy.split("\\|")[1];
                 break;
@@ -130,6 +130,13 @@ public class UserSearch_Steps {
                 ResultColumnIndex="0";
                 ExpectedValues = "no result";
                 break;
+            case "pagination":
+                ExpectedValues = "pagination";
+                break;
+            case "none":
+                ExpectedValues = "none";
+                break;
+
             default:
                 Assert.fail("Incorrect Column to Validate");
         }
@@ -137,7 +144,13 @@ public class UserSearch_Steps {
         if(ExpectedValues.contentEquals("_blank"))
       {
           Assert.fail("Incorrect column name/values given to validate");
-      }
+      }else if(ExpectedValues.contentEquals("pagination")){
+            Obj_SearchResultsPage.validatePagination();
+        }
+        else if(ExpectedValues.contentEquals("none"))
+        {
+            Assert.assertTrue("No Validation", true);
+        }
       else
       {
           Obj_SearchResultsPage.validateSearchResults(ResultColumnIndex,ExpectedValues);
@@ -146,4 +159,43 @@ public class UserSearch_Steps {
     }
 
 
+    @Then("I will be able to validate details page")
+    public void iWillBeAbleToValidateDetailsPage() {
+        String ResultColumnIndex="", ExpectedValues="";
+        switch (TestData.get("Validate").toLowerCase()){
+            case "measure":
+                ExpectedValues = TestData.get("Expected Title");
+                ResultColumnIndex="6";
+                break;
+
+            case "awards":
+                ExpectedValues = TestData.get("Expected Recipient");
+                ResultColumnIndex="1";
+                break;
+
+            case "_blank":
+                ExpectedValues = "_blank";
+                break;
+
+            case "none":
+                ExpectedValues = "none";
+                break;
+
+            default:
+                Assert.fail("Incorrect Column to Validate");
+        }
+
+        if(ExpectedValues.contentEquals("_blank"))
+        {
+            Assert.fail("Incorrect column name/values given to validate");
+        }
+        else if(ExpectedValues.contentEquals("none"))
+        {
+            Assert.assertTrue("No Validation", true);
+        }
+        else
+        {
+            Obj_SearchResultsPage.validateDetailsPage(ResultColumnIndex,ExpectedValues);
+        }
+    }
 }

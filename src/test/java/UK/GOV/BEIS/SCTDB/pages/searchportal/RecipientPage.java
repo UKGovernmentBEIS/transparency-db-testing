@@ -44,7 +44,6 @@ public class RecipientPage extends PageObject {
         boolean flag=true;
         if(Recipient.trim().equalsIgnoreCase("No")){
             flag =  $("//input[@value='No']").isSelected();
-
         }
         else if(!Recipient.trim().equalsIgnoreCase("_BLANK"))
             {
