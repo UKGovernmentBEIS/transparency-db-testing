@@ -1,147 +1,217 @@
-Request method:	GET
-Request URI:	http://integ-transparency-db-access-management-service.azurewebsites.net/accessmanagement/gaencoder
+Request method:	POST
+Request URI:	https://integ-transparency-db-public-search-service.azurewebsites.net/searchResults
 Proxy:			<none>
 Request params:	<none>
 Query params:	<none>
 Form params:	<none>
 Path params:	<none>
-Headers:		userPrinciple={"password":"password123","role":"Granting Authority Encoder","grantingAuthorityGroupId":"123","userName":"SYSTEM","grantingAuthorityGroupName":"HMRC"}
-				Accept=*/*
+Headers:		Accept=*/*
 				Content-Type=application/json; charset=UTF-8
 Cookies:		<none>
 Multiparts:		<none>
-Body:			<none>
+Body:
+{
+    "subsidyInstrument": [
+        
+    ],
+    "legalGrantingFromDate": "",
+    "pageNumber": "1",
+    "legalGrantingToDate": "",
+    "totalRecordsPerPage": "10",
+    "beneficiaryName": "",
+    "spendingRegion": [
+        
+    ],
+    "sortBy": [
+        
+    ],
+    "subsidyMeasureTitle": "",
+    "subsidyObjective": [
+        
+    ],
+    "spendingSector": [
+        
+    ]
+}
 HTTP/1.1 200 OK
 Transfer-Encoding: chunked
 Content-Type: application/json
-Request-Context: appId=cid-v1:135577ed-57c6-4c69-af60-0d3754437389
-Set-Cookie: ARRAffinity=4626886fa06471c0a0006f3b9b70852c5a1f20ef21a46c118d372f6d11898471;Path=/;HttpOnly;Domain=integ-transparency-db-access-management-service.azurewebsites.net
-Date: Wed, 13 Jan 2021 14:56:00 GMT
+Vary: Access-Control-Request-Headers
+Request-Context: appId=cid-v1:cdfd87d0-79d3-4f93-bdcb-5e7ad83a68cf
+Date: Thu, 14 Jan 2021 23:24:51 GMT
 
 {
-    "grantingAuthorityUserActionCount": null,
-    "awardUserActionCount": {
-        "totalAwaitingAward": 4,
-        "totalDraftAward": 0,
-        "totalSubsidyAward": 5,
-        "totalPublishedAward": 0,
-        "totalDeletedAward": 0
-    },
-    "subsidyMeasureUserActionCount": {
-        "totalPublishedSubsidyMeasures": 0,
-        "totalDraftSubsidyMeasures": 4,
-        "totalSubsidyMeasures": 4,
-        "totalAwaitingSubsidyMeasures": 0,
-        "totalDeletedSubsidyMeasures": 0
-    },
-    "awardResponse": [
+    "totalSearchResults": 8,
+    "currentPage": 1,
+    "totalPages": 1,
+    "awards": [
         {
-            "awardNumber": 119,
-            "subsidyFullAmountExact": "400,000",
-            "subsidyFullAmountRange": "£NA",
+            "awardNumber": 120,
+            "beneficiary": {
+                "beneficiaryName": "Monetise International Ltd"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "Amendment to SA.35565 - Renewables Obligation (RO) scheme - for offshore wind in Scotland",
+                "scNumber": "SC10004",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Local Government in Scotland Act 2003"
+                }
+            },
+            "subsidyFullAmountRange": "£1 - £60,000",
+            "subsidyFullAmountExact": "0",
+            "subsidyObjective": "SME (Small/Medium-sized enterprise) support",
+            "subsidyInstrument": "Tax measures (tax credit, or tax/duty exemption)",
+            "spendingSector": "Transportation and storage",
+            "legalGrantingDate": "15 December 2019",
+            "spendingRegion": "West Midlands"
+        },
+        {
+            "awardNumber": 116,
+            "beneficiary": {
+                "beneficiaryName": "MR THOMAS (JUN) OBRIEN"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
+                "scNumber": "SC10000",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Planning (Listed Building & Conservation Areas)(Scotland) Act 1997, Historic Buildings and Ancient Monuments Act, 1953 Ancient Monuments & Archaeological Areas Act 1979 Historic Environment (Amendment)(Scotland) Act 2011 National Heritage (Scotland) Act"
+                }
+            },
+            "subsidyFullAmountRange": "NA",
+            "subsidyFullAmountExact": "100,000",
+            "subsidyObjective": "research and development",
+            "subsidyInstrument": "Direct Grant",
+            "spendingSector": "Agriculture, forestry and fishing",
+            "legalGrantingDate": "14 July 2019",
+            "spendingRegion": "North East"
+        },
+        {
+            "awardNumber": 233,
+            "beneficiary": {
+                "beneficiaryName": "DS SMITH PAPER LIMITED 100"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "AHDB Promotional Measures scheme",
+                "scNumber": "SC10001",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Corporation Tax Act 2009"
+                }
+            },
+            "subsidyFullAmountRange": "NA",
+            "subsidyFullAmountExact": "500,000",
+            "subsidyObjective": "abc",
+            "subsidyInstrument": "def",
+            "spendingSector": "8.Water supply; sewerage, waste management and remediation activities",
+            "legalGrantingDate": "22 January 2018",
+            "spendingRegion": "South East"
+        },
+        {
+            "awardNumber": 234,
+            "beneficiary": {
+                "beneficiaryName": "DS SMITH PAPER LIMITED 100"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "AHDB Promotional Measures scheme",
+                "scNumber": "SC10001",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Corporation Tax Act 2009"
+                }
+            },
+            "subsidyFullAmountRange": "NA",
+            "subsidyFullAmountExact": "500,000",
+            "subsidyObjective": "othersubsidypurpose",
+            "subsidyInstrument": "othersubsidytype",
+            "spendingSector": "8.Water supply; sewerage, waste management and remediation activities",
+            "legalGrantingDate": "22 January 2018",
+            "spendingRegion": "South East"
+        },
+        {
+            "awardNumber": 235,
+            "beneficiary": {
+                "beneficiaryName": "Jonathan"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "AHDB Promotional Measures scheme",
+                "scNumber": "SC10001",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Corporation Tax Act 2009"
+                }
+            },
+            "subsidyFullAmountRange": "NA",
+            "subsidyFullAmountExact": "500,000",
+            "subsidyObjective": "Energy efficiency",
+            "subsidyInstrument": "othersubsidytype",
+            "spendingSector": "8.Water supply; sewerage, waste management and remediation activities",
+            "legalGrantingDate": "22 January 2018",
+            "spendingRegion": "South East"
+        },
+        {
+            "awardNumber": 236,
+            "beneficiary": {
+                "beneficiaryName": "Peter"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "AHDB Promotional Measures scheme",
+                "scNumber": "SC10001",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Corporation Tax Act 2009"
+                }
+            },
+            "subsidyFullAmountRange": "NA",
+            "subsidyFullAmountExact": "500,000",
+            "subsidyObjective": "Employment",
+            "subsidyInstrument": "othersubsidytype",
+            "spendingSector": "8.Water supply; sewerage, waste management and remediation activities",
+            "legalGrantingDate": "22 January 2018",
+            "spendingRegion": "South East"
+        },
+        {
+            "awardNumber": 237,
+            "beneficiary": {
+                "beneficiaryName": "Daria"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "AHDB Promotional Measures scheme",
+                "scNumber": "SC10001",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Corporation Tax Act 2009"
+                }
+            },
+            "subsidyFullAmountRange": "NA",
+            "subsidyFullAmountExact": "500,000",
             "subsidyObjective": "Culture/Heritage",
-            "subsidyMeasureTitle": "Aid for economic development - Growth Deal",
-            "status": "Rejected",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10002",
-            "subsidyInstrument": "Guarantee",
-            "beneficiaryName": "Liberty Steel Tredegar Ltd"
-        },
-        {
-            "awardNumber": 182,
-            "subsidyFullAmountExact": "200,000",
-            "subsidyFullAmountRange": "£NA",
-            "subsidyObjective": "Research and development",
-            "subsidyMeasureTitle": "Rika Biogas Grant Under Future Fuels for Flight and Freight Competition (F4C)",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10070",
             "subsidyInstrument": "Equity",
-            "beneficiaryName": "JAD Developments (Redruth) Ltd"
+            "spendingSector": "8.Water supply; sewerage, waste management and remediation activities",
+            "legalGrantingDate": "22 January 2018",
+            "spendingRegion": "South East"
         },
         {
-            "awardNumber": 230,
-            "subsidyFullAmountExact": "0",
-            "subsidyFullAmountRange": "£500,000 - £1,000,000",
-            "subsidyObjective": "abc",
-            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10000",
-            "subsidyInstrument": "what",
-            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
-        },
-        {
-            "awardNumber": 231,
-            "subsidyFullAmountExact": "0",
-            "subsidyFullAmountRange": "£500,000 - £1,000,000",
-            "subsidyObjective": "abc",
-            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10000",
-            "subsidyInstrument": "what",
-            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
-        },
-        {
-            "awardNumber": 232,
-            "subsidyFullAmountExact": "0",
-            "subsidyFullAmountRange": "£500,000 - £1,000,000",
-            "subsidyObjective": "abc",
-            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10000",
-            "subsidyInstrument": "what",
-            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
+            "awardNumber": 238,
+            "beneficiary": {
+                "beneficiaryName": "Terelak"
+            },
+            "subsidyMeasure": {
+                "subsidyMeasureTitle": "AHDB Promotional Measures scheme",
+                "scNumber": "SC10001",
+                "adhoc": false,
+                "legalBasis": {
+                    "legalBasisText": "Corporation Tax Act 2009"
+                }
+            },
+            "subsidyFullAmountRange": "NA",
+            "subsidyFullAmountExact": "500,000",
+            "subsidyObjective": "Culture/Heritage",
+            "subsidyInstrument": "Loan",
+            "spendingSector": "8.Water supply; sewerage, waste management and remediation activities",
+            "legalGrantingDate": "22 January 2018",
+            "spendingRegion": "South East"
         }
-    ],
-    "subsidyMeasureResponse": [
-        {
-            "subsidyMeasureTitle": "Aid for economic development - Growth Deal",
-            "scNumber": "SC10003",
-            "startDate": "2015-04-01",
-            "endDate": "2021-03-31",
-            "duration": "6 years 1 day ",
-            "budget": "64000000",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        },
-        {
-            "subsidyMeasureTitle": "Spaceflight Grants",
-            "scNumber": "SC10077",
-            "startDate": "2019-07-14",
-            "endDate": "2022-12-31",
-            "duration": "3 years 6 months 3 days ",
-            "budget": "40000000",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        },
-        {
-            "subsidyMeasureTitle": "Spaceflight Grants",
-            "scNumber": "SC10078",
-            "startDate": "2018-07-14",
-            "endDate": "2021-03-31",
-            "duration": "2 years 9 months 1 week 2 days ",
-            "budget": "31486500",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        },
-        {
-            "subsidyMeasureTitle": "Spaceflight Grants",
-            "scNumber": "SC10079",
-            "startDate": "2018-07-14",
-            "endDate": "2021-03-31",
-            "duration": "2 years 9 months 1 week 2 days ",
-            "budget": "31486500",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        }
-    ],
-    "grantingAuthorityResponse": null
+    ]
 }

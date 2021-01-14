@@ -4,10 +4,20 @@ Feature: GET response using /searchResults/award API
     Given A award exists with award number of "<AwardID>"
     When I calls "<Endpoint>" API with "Get" http request
     Then I will be getting the expected <StatusCode>
-    Then I will be validating response against values in datasheet
+    #Then I will be validating response against values in datasheet
     Examples:
       |Endpoint | AwardID | StatusCode |
-      |awards.endpoint| AW4 | 200 |
+      |awards.endpoint| AW118 | 200 |
+
+
+  Scenario Outline: Get a invalid Response for invalid awardnumber
+    Given A award exists with award number of "<AwardID>"
+    When I calls "<Endpoint>" API with "Get" http request
+    Then I will be getting the expected <StatusCode>
+   # Then I will be validating response against values in datasheet
+    Examples:
+      |Endpoint | AwardID | StatusCode |
+      |awards.endpoint| AW1| 404 |
       |awards.endpoint| AW7 | 200 |
       |awards.endpoint| AW6 | 200 |
       |awards.endpoint| AW9 | 200 |
@@ -55,13 +65,4 @@ Feature: GET response using /searchResults/award API
       |awards.endpoint| AW14| 200 |
       |awards.endpoint| AW18| 200 |
       |awards.endpoint| AW19| 200 |
-
-  Scenario Outline: Get a invalid Response for invalid awardnumber
-    Given A award exists with award number of "<AwardID>"
-    When I calls "<Endpoint>" API with "Get" http request
-    Then I will be getting the expected <StatusCode>
-    Then I will be validating response against values in datasheet
-    Examples:
-      |Endpoint | AwardID | StatusCode |
-      |awards.endpoint| AW1| 404 |
 

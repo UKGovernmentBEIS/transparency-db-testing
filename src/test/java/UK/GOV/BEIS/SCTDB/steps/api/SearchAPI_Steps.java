@@ -55,10 +55,27 @@ public class SearchAPI_Steps extends ApiUtils {
             requestspec = SerenityRest.given().spec(requestSpecification("publicsearchbasepath.uri")).body(payload);
         }
         else if(DataSheetName.equalsIgnoreCase("AddSingleNewSubsidyAward")){
-            HashMap<String, Object> payload= body.AddSingleSubsidyPayloadbuilder("./src/test/resources/data/PublishingSubsidies.xlsx",SheetName,TDID);
+            HashMap<String, Object> payload= body.AddSingleSubsidyPayloadbuilder("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().spec(requestSpecification("publishingsubsidybasepath.uri")).body(payload);
         }
+        else if(DataSheetName.equalsIgnoreCase("ApprovalWorkflow")){
+            HashMap<String, Object> payload= body.ApprovalworkflowPayloadbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+            String awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+            requestspec = SerenityRest.given().spec(requestSpecifications(awardnumber,"accessmanagementbasepath.uri")).body(payload);
+        }
     }
+
+    @Given("Payload is created with details from datasheet by passing values {string} & {string}")
+    public void payloadIsCreatedWithDetailsFromDatasheetByPassingValues(String TDID, String SheetName) throws IOException, ParseException {
+        TestdataId = TDID;
+        DataSheetName = SheetName;
+        Requestdetails body = new Requestdetails();
+        if (DataSheetName.equalsIgnoreCase("PublicSearch")){
+            HashMap<String, Object> payload= body.PayloadbuilderTestData("./src/test/resources/data/sample.xlsx",SheetName,TDID);
+            requestspec = SerenityRest.given().spec(requestSpecification("publicsearchbasepath.uri")).body(payload);
+        }
+    }
+
     @Given("Payload is created with details from datasheet by passing {string} , {string}")
     public void payloadIsCreatedWithDetailsFromDatasheet(String TDID, String SheetName) throws IOException, ParseException {
         TestdataId = TDID;
@@ -72,7 +89,7 @@ public class SearchAPI_Steps extends ApiUtils {
     public void aAwardExistsWithAwardNumberOf(String award) throws IOException {
         awardid = award;
         awardnumber = fetchawardnumber(award);
-        requestspec = SerenityRest.given().spec(requestSpecifications(awardnumber));
+        requestspec = SerenityRest.given().spec(requestSpecifications(awardnumber,"publicsearchbasepath.uri"));
     }
 
     @Given("Payload is created with details from datasheet by passing {string} and {string}")
@@ -104,7 +121,7 @@ public class SearchAPI_Steps extends ApiUtils {
         TestdataId = TDID;
         DataSheetName = SheetName;
         Requestdetails body = new Requestdetails();
-        HashMap<String, Object> map= body.headerbuilder("./src/test/resources/data/AccessManagementDatasheet.xlsx",SheetName,TDID);
+        HashMap<String, Object> map= body.headerbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
         requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).header("userPrinciple", map);
     }
 
@@ -113,8 +130,7 @@ public class SearchAPI_Steps extends ApiUtils {
         apiEndpoint = Endpoint;
         requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
         responsespecificationone = new ResponseSpecBuilder().build();
-
-        if (Endpoint.equalsIgnoreCase("searchResults.endpoint")) {
+        if ((Endpoint.equalsIgnoreCase("searchResults.endpoint"))||(Endpoint.equalsIgnoreCase("bulkupload.endpoint"))||(Endpoint.equalsIgnoreCase("addsinglesubsidyaward.endpoint"))) {
             apiresponse = requestspec.when().post(getGlobalValue(Endpoint)).
                     then().spec(requestspecone).extract().response();
         }
@@ -124,45 +140,24 @@ public class SearchAPI_Steps extends ApiUtils {
             apiresponse = requestspec.when().get(endpointvalueupdated).
                     then().spec(requestspecone).extract().response();
         }
-        else if (Endpoint.equalsIgnoreCase("bulkupload.endpoint")) {
-            apiresponse = requestspec.when().post(getGlobalValue(Endpoint)).
-                    then().spec(requestspecone).extract().response();
-        }
         else if (Endpoint.equalsIgnoreCase("exportall.endpoint")) {
             apiresponse = requestspec.when().post(getGlobalValue(Endpoint)).
                     then().spec(responsespecificationone).extract().response();
         }
-        else if (Endpoint.equalsIgnoreCase("addsinglesubsidyaward.endpoint")) {
-            apiresponse = requestspec.when().post(getGlobalValue(Endpoint)).
-                    then().spec(requestspecone).extract().response();
-        }
-        else if (Endpoint.equalsIgnoreCase("beisadmin.endpoint")) {
+        else if ((Endpoint.equalsIgnoreCase("beisadmin.endpoint"))||(Endpoint.equalsIgnoreCase("gaadmin.endpoint"))||(Endpoint.equalsIgnoreCase("gaapprover.endpoint"))||(Endpoint.equalsIgnoreCase("gaencoder.endpoint"))){
             apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
                     then().spec(requestspecone).extract().response();
         }
-        else if (Endpoint.equalsIgnoreCase("gaadmin.endpoint")) {
-            apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
-                    then().spec(requestspecone).extract().response();
-        }
-        else if (Endpoint.equalsIgnoreCase("gaapprover.endpoint")) {
-            apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
-                    then().spec(requestspecone).extract().response();
-        }
-        else if (Endpoint.equalsIgnoreCase("gaencoder.endpoint")) {
-            apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
-                    then().spec(requestspecone).extract().response();
+        else if (Endpoint.equalsIgnoreCase("approvalworkflow.endpoint")) {
+            String endpointvalue = getGlobalValue(Endpoint);
+            String endpointvalueupdated = endpointvalue + "/{awardnumber}";
+            apiresponse = requestspec.when().put(endpointvalueupdated).
+                    then().spec(responsespecificationone).extract().response();
         }
     }
 
     @Then("I will be getting the expected {int}")
     public void iWillBeGettingExpectedStatusCode(int StatusCode) throws IOException, ParseException {
-        apistatuscode = StatusCode;
-        responseString = apiresponse.asString();
-        assertEquals("Error in Validating Status Code:",StatusCode, apiresponse.getStatusCode());
-    }
-
-    @Then("I will be getting the expected status code {string}")
-    public void iWillBeGettingTheExpectedStatusCode(int StatusCode) {
         apistatuscode = StatusCode;
         responseString = apiresponse.asString();
         assertEquals("Error in Validating Status Code:",StatusCode, apiresponse.getStatusCode());
@@ -191,6 +186,20 @@ public class SearchAPI_Steps extends ApiUtils {
             else if (apiEndpoint.equalsIgnoreCase("addsinglesubsidyaward.endpoint")) {
                 responseobject.AddSingleSubsidyAwardResponsevalidations(responseString,DataSheetName, TestdataId);
             }
+            else if ((apiEndpoint.equalsIgnoreCase("beisadmin.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaadmin.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaapprover.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaencoder.endpoint"))){
+                responseobject.DashboardResponsevalidations(responseString, DataSheetName, TestdataId, apiEndpoint);
+            }
+            else if (apiEndpoint.equalsIgnoreCase("approvalworkflow.endpoint")) {
+                responseobject.ApprovalWorkflowResponsevalidations(responseString, DataSheetName, TestdataId, apiEndpoint);
+            }
+        }
+    }
+
+    @Then("I will be validating response and write beneficiary names to datasheet")
+    public void iWillBeValidatingResponseAndWriteBeneficiaryNamesToDatasheet() throws IOException, ParseException {
+        Responsedetails responseobject = new Responsedetails();
+        if(apistatuscode.equals(200)) {
+            responseobject.ResponsevalidationsUIDatasheet(responseString,DataSheetName, TestdataId);
         }
     }
 }

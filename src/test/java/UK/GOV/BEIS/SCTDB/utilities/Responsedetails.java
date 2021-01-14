@@ -12,6 +12,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.junit.Assert;
+import org.springframework.util.StringUtils;
 
 import static io.restassured.RestAssured.given;
 
@@ -292,7 +293,7 @@ public class Responsedetails extends ApiUtils {
                 }
 
                 Reusable reUse = new Reusable();
-                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidies.xlsx", SheetName, TDID);
+                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx", SheetName, TDID);
                 if (verifydata.isEmpty()) {
                         Assert.fail("There is no matching TDID in the datasheet");
                 }
@@ -498,7 +499,7 @@ public class Responsedetails extends ApiUtils {
                 }
 
                 Reusable reUse = new Reusable();
-                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidies.xlsx", SheetName, TDID);
+                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx", SheetName, TDID);
                 if (verifydata.isEmpty()) {
                         Assert.fail("There is no matching TDID in the datasheet");
                 }
@@ -538,5 +539,51 @@ public class Responsedetails extends ApiUtils {
                 Assert.assertEquals(errorMessagelist, errormessageslist);
                 Assert.assertEquals(totalErrors, totalerrorsdatasheet);
                 //Assert.assertEquals(message, messagesdatasheet);
+        }
+        public void DashboardResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+                ApiUtils apiutilities = new ApiUtils();
+                if (apiEndpoint.equalsIgnoreCase("beisadmin.endpoint")){
+                        apiutilities.DashboardGrantingAuthorityCountvalidations(response, SheetName, TDID, apiEndpoint);
+                        apiutilities.DashboardBeisSubsidySchemeCountvalidations(response, SheetName, TDID, apiEndpoint);
+                }
+                else if ((apiEndpoint.equalsIgnoreCase("gaadmin.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaapprover.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaencoder.endpoint"))){
+                        apiutilities.DashboardGrantingAuthorityCountNullvalidations(response);
+                        apiutilities.DashboardSubsidySchemeCountvalidations(response, SheetName, TDID, apiEndpoint);
+                }
+        }
+        public void ApprovalWorkflowResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+                ApiUtils apiutilities = new ApiUtils();
+                Requestdetails body = new Requestdetails();
+                Reusable d = new Reusable();
+                HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
+                if (data.isEmpty()) {
+                        Assert.fail("There is no matching TDID in the datasheet");
+                }
+                //expected status
+                String expectedStatus = data.get("ExpectedStatus");
+                //actual status
+                String awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+                RequestSpecification requestspec = given().spec(requestSpecifications(awardnumber,"publicsearchbasepath.uri"));
+                ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                String endpointvalue = getGlobalValue("awards.endpoint");
+                String endpointvalueupdated = endpointvalue + "/{awardnumber}";
+                Response apiresponse = requestspec.when().get(endpointvalueupdated).
+                        then().spec(requestspecone).extract().response();
+                String responseString = apiresponse.asString();
+                JsonPath updatedjsonpathobject = new JsonPath(responseString);
+                String actualStatus = updatedjsonpathobject.getString("status");
+                Assert.assertEquals(expectedStatus, actualStatus);
+        }
+        public void ResponsevalidationsUIDatasheet(String response, String SheetName, String TDID) throws IOException, ParseException {
+                JsonPath jsonpathobject = new JsonPath(response);
+                int count = jsonpathobject.getInt("awards.size()");
+                ArrayList<String> beneficiarylist = new ArrayList<String>();
+                for(int i=0;i<count;i++){
+                        beneficiarylist.add(jsonpathobject.getString("awards[" + i + "].beneficiary.beneficiaryName"));
+                }
+                String beneficiarynames = StringUtils.collectionToDelimitedString(beneficiarylist, "|");
+                System.out.println(beneficiarynames);
+                ApiUtils writetoexcelobject = new ApiUtils();
+                writetoexcelobject.writeBeneficiaryNameToExcel("./src/test/resources/data/sample.xlsx",SheetName,TDID,"Expected Recipient",beneficiarynames);
         }
 }

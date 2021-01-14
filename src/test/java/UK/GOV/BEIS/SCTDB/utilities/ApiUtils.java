@@ -4,7 +4,12 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
 import java.io.*;
@@ -36,9 +41,9 @@ public class ApiUtils {
         return req;
     }
 
-    public RequestSpecification requestSpecifications(String awardnumber) throws IOException {
+    public RequestSpecification requestSpecifications(String awardnumber,String basepathuri) throws IOException {
         PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
-        req = new RequestSpecBuilder().setBaseUri(getGlobalValue("publicsearchbasepath.uri"))
+        req = new RequestSpecBuilder().setBaseUri(getGlobalValue(basepathuri))
                 .addPathParam("awardnumber",awardnumber)
                 .addFilter(RequestLoggingFilter.logRequestTo(log))
                 .addFilter(ResponseLoggingFilter.logResponseTo(log))
@@ -73,6 +78,14 @@ public class ApiUtils {
         String strDate = formatter.format(date1);
         return strDate;
     }
+
+    public String floattostring(String floatvalue)  {
+        double doublevalue = Double.parseDouble(floatvalue);
+        long longvalue = (long) doublevalue;
+        String formattedvalue = String.valueOf(longvalue);
+        return formattedvalue;
+    }
+
 
     public List<String> SubsidyMeaValidate(String SheetName, String TDID) {
         Reusable ds = new Reusable();
@@ -251,5 +264,122 @@ public class ApiUtils {
         //AwardsapiBeneficiarylist.add(awardsapiBeneficiary.get("GrantingAuthorityName"));
         //System.out.println(AwardsapiBeneficiarylist);
         return AwardsapiBeneficiarylist;
+    }
+    public void DashboardGrantingAuthorityCountvalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+        JsonPath js = new JsonPath(response);
+        String totalGrantingAuthority = js.getString("grantingAuthorityUserActionCount.totalGrantingAuthority");
+        String totalActiveGA = js.getString("grantingAuthorityUserActionCount.totalActiveGA");
+        String totalInactiveGA = js.getString("grantingAuthorityUserActionCount.totalDeactiveGA");
+        Reusable d = new Reusable();
+        ApiUtils apiutilities = new ApiUtils();
+        HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName,TDID);
+        if (data.isEmpty()) {
+            Assert.fail("There is no matching TDID in the datasheet");
+        }
+        String totalgafloat = data.get("TotalGrantingAuthority");
+        String totalactivegafloat = data.get("TotalActiveGA");
+        String totalinactivegafloat = data.get("TotalDeactiveGA");
+        String totalgasheet = apiutilities.floattostring(totalgafloat);
+        String totalactivegasheet = apiutilities.floattostring(totalactivegafloat);
+        String totalinactivegasheet = apiutilities.floattostring(totalinactivegafloat);
+        Assert.assertEquals(totalGrantingAuthority, totalgasheet);
+        Assert.assertEquals(totalActiveGA, totalactivegasheet);
+        Assert.assertEquals(totalInactiveGA, totalinactivegasheet);
+    }
+    public void DashboardGrantingAuthorityCountNullvalidations(String response) throws IOException, ParseException {
+        JsonPath js = new JsonPath(response);
+        String grantingAuthorityUserActionCount = js.getString("grantingAuthorityUserActionCount");
+        String gacountnull =  grantingAuthorityUserActionCount + "value";
+        Assert.assertEquals(gacountnull, "nullvalue");
+    }
+    public void DashboardBeisSubsidySchemeCountvalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+        JsonPath js = new JsonPath(response);
+        String totalPublishedSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalPublishedSubsidyMeasures");
+        String totalDraftSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalDraftSubsidyMeasures");
+        String totalSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalSubsidyMeasures");
+        String totalAwaitingSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalAwaitingSubsidyMeasures");
+        String totalDeletedSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalDeletedSubsidyMeasures");
+        Reusable d = new Reusable();
+        ApiUtils apiutilities = new ApiUtils();
+        HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName,TDID);
+        if (data.isEmpty()) {
+            Assert.fail("There is no matching TDID in the datasheet");
+        }
+        String beisTotalPublishedSubsidyMeasuresfloat = data.get("BeisTotalPublishedSubsidyMeasures");
+        String beisTotalDraftSubsidyMeasuresfloat = data.get("BeisTotalDraftSubsidyMeasures");
+        String beisTotalSubsidyMeasuresfloat = data.get("BeisTotalSubsidyMeasures");
+        String beisTotalAwaitingSubsidyMeasuresfloat = data.get("BeisTotalAwaitingSubsidyMeasures");
+        String beisTotalDeletedSubsidyMeasuresfloat = data.get("BeisTotalDeletedSubsidyMeasures");
+        String beisTotalPublishedSubsidyMeasuressheet = apiutilities.floattostring(beisTotalPublishedSubsidyMeasuresfloat);
+        String beisTotalDraftSubsidyMeasuressheet = apiutilities.floattostring(beisTotalDraftSubsidyMeasuresfloat);
+        String beisTotalSubsidyMeasuressheet = apiutilities.floattostring(beisTotalSubsidyMeasuresfloat);
+        String beisTotalAwaitingSubsidyMeasuressheet = apiutilities.floattostring(beisTotalAwaitingSubsidyMeasuresfloat);
+        String beisTotalDeletedSubsidyMeasuressheet = apiutilities.floattostring(beisTotalDeletedSubsidyMeasuresfloat);
+        Assert.assertEquals(totalPublishedSubsidyMeasures, beisTotalPublishedSubsidyMeasuressheet);
+        Assert.assertEquals(totalDraftSubsidyMeasures, beisTotalDraftSubsidyMeasuressheet);
+        Assert.assertEquals(totalSubsidyMeasures, beisTotalSubsidyMeasuressheet);
+        Assert.assertEquals(totalAwaitingSubsidyMeasures, beisTotalAwaitingSubsidyMeasuressheet);
+        Assert.assertEquals(totalDeletedSubsidyMeasures, beisTotalDeletedSubsidyMeasuressheet);
+    }
+    public void DashboardSubsidySchemeCountvalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+        JsonPath js = new JsonPath(response);
+        String totalPublishedSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalPublishedSubsidyMeasures");
+        String totalDraftSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalDraftSubsidyMeasures");
+        String totalSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalSubsidyMeasures");
+        String totalAwaitingSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalAwaitingSubsidyMeasures");
+        String totalDeletedSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalDeletedSubsidyMeasures");
+        Reusable d = new Reusable();
+        ApiUtils apiutilities = new ApiUtils();
+        HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName,TDID);
+        if (data.isEmpty()) {
+            Assert.fail("There is no matching TDID in the datasheet");
+        }
+        String TotalPublishedSubsidyMeasuresfloat = data.get("TotalPublishedSubsidyMeasures");
+        String TotalDraftSubsidyMeasuresfloat = data.get("TotalDraftSubsidyMeasures");
+        String TotalSubsidyMeasuresfloat = data.get("TotalSubsidyMeasures");
+        String TotalAwaitingSubsidyMeasuresfloat = data.get("TotalAwaitingSubsidyMeasures");
+        String TotalDeletedSubsidyMeasuresfloat = data.get("TotalDeletedSubsidyMeasures");
+        String TotalPublishedSubsidyMeasuressheet = apiutilities.floattostring(TotalPublishedSubsidyMeasuresfloat);
+        String TotalDraftSubsidyMeasuressheet = apiutilities.floattostring(TotalDraftSubsidyMeasuresfloat);
+        String TotalSubsidyMeasuressheet = apiutilities.floattostring(TotalSubsidyMeasuresfloat);
+        String TotalAwaitingSubsidyMeasuressheet = apiutilities.floattostring(TotalAwaitingSubsidyMeasuresfloat);
+        String TotalDeletedSubsidyMeasuressheet = apiutilities.floattostring(TotalDeletedSubsidyMeasuresfloat);
+        Assert.assertEquals(totalPublishedSubsidyMeasures, TotalPublishedSubsidyMeasuressheet);
+        Assert.assertEquals(totalDraftSubsidyMeasures, TotalDraftSubsidyMeasuressheet);
+        Assert.assertEquals(totalSubsidyMeasures, TotalSubsidyMeasuressheet);
+        Assert.assertEquals(totalAwaitingSubsidyMeasures, TotalAwaitingSubsidyMeasuressheet);
+        Assert.assertEquals(totalDeletedSubsidyMeasures, TotalDeletedSubsidyMeasuressheet);
+    }
+    public void writeBeneficiaryNameToExcel(String filePath, String SheetName, String TDID,String ColumnTitletobewritten, String Columnvalues ) {
+        try {
+            FileInputStream excelFile = new FileInputStream(new File(filePath));
+            Workbook workbook = new XSSFWorkbook(excelFile);
+
+            Sheet sheet = workbook.getSheet(SheetName);
+            Iterator<Row> rows = sheet.iterator();
+            int rowNumber = 0;
+            while (rows.hasNext()) {
+                Row currentRow = rows.next();
+                // skip header
+                if (rowNumber == 0) {
+                    rowNumber++;
+                    continue;
+                }
+                if (currentRow.getCell(0).getStringCellValue().equalsIgnoreCase(TDID)) {
+                    for (int cellNum = 1; cellNum < currentRow.getLastCellNum(); cellNum++) {
+                        String ColumnTitle = sheet.getRow(0).getCell(cellNum).getStringCellValue();
+                        if(ColumnTitle.equalsIgnoreCase(ColumnTitletobewritten)) {
+                            currentRow.createCell(cellNum).setCellValue(Columnvalues);
+                        }
+                    }
+                }
+            }
+            FileOutputStream writeexcelFile = new FileOutputStream(filePath);
+            workbook.write(writeexcelFile);
+            workbook.close();
+        } catch (IOException e) {
+            Assert.fail("Exception in reading Test Data from Excel file");
+            throw new RuntimeException("FAIL! -> message = " + e.getMessage());
+        }
     }
 }
