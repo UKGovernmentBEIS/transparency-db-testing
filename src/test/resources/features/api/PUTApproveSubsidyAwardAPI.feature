@@ -7,7 +7,7 @@ Feature: PUT request using /accessmanagement API
     Then I will be validating response against values in datasheet
     Examples:
       |Endpoint | TestData | DataSheet | StatusCode |
-      |approvalworkflow.endpoint| TD_001| ApprovalWorkflow| 200 |
-      |approvalworkflow.endpoint| TD_002| ApprovalWorkflow| 200 |
-      |approvalworkflow.endpoint| TD_003| ApprovalWorkflow| 200 |
-      #|approvalworkflow.endpoint| TD_002| ApprovalWorkflow| 200 |
+      |approvalworkflow.endpoint|TD_001|ApprovalWorkflow|200|
+      |approvalworkflow.endpoint|TD_002|ApprovalWorkflow|200|
+      |approvalworkflow.endpoint|TD_003|ApprovalWorkflow|200|
+      |approvalworkflow.endpoint|TD_004|ApprovalWorkflow|200|

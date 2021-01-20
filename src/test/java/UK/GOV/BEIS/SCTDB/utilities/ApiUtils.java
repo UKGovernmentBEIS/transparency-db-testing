@@ -122,8 +122,23 @@ public class ApiUtils {
             AwardLis.add(Responsedat.get("SubsidyFullAmountRange"));
         }
         AwardLis.add(dtoint);
-        AwardLis.add(Responsedat.get("SubsidyObjective"));
-        AwardLis.add(Responsedat.get("SubsidyInstrument"));
+        if (Responsedat.get("SubsidyObjective").trim().equalsIgnoreCase("Other")) {
+            String purpose = Responsedat.get("SubsidyObjectiveother");
+            String purposeupdated = "Other" + " " +"-" + " " + purpose;
+            AwardLis.add(purposeupdated);
+        }
+        else{
+            AwardLis.add(Responsedat.get("SubsidyObjective"));
+        }
+
+        if (Responsedat.get("SubsidyInstrument").trim().equalsIgnoreCase("Other")) {
+            String type = Responsedat.get("SubsidyInstrumentother");
+            String typeupdated = "Other" + " " +"-" + " " + type;
+            AwardLis.add(typeupdated);
+        }
+        else{
+            AwardLis.add(Responsedat.get("SubsidyInstrument"));
+        }
         AwardLis.add(Responsedat.get("SpendingSector"));
         AwardLis.add(strDate);
         AwardLis.add(Responsedat.get("BeneficiaryName"));
@@ -179,7 +194,7 @@ public class ApiUtils {
         awardsApiList.add(AwardsapiSubsidydata.get("PublishedMeasureDate"));
         awardsApiList.add(AwardsapiSubsidydata.get("CreatedBy"));
         awardsApiList.add(AwardsapiSubsidydata.get("ApprovedBy"));
-        awardsApiList.add(AwardsapiSubsidydata.get("Status"));
+        //awardsApiList.add(AwardsapiSubsidydata.get("Status"));
         //System.out.println(awardsApiList);
         return awardsApiList;
     }

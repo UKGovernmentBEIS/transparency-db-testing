@@ -34,7 +34,7 @@ public class SearchAPI_Steps extends ApiUtils {
     ResponseSpecification responsespecificationone;
     Response apiresponse;
     String responseString;
-    public String awardnumber;
+    String awardnumber;
     String TestdataId;
     String DataSheetName;
     String apiEndpoint;
@@ -60,7 +60,7 @@ public class SearchAPI_Steps extends ApiUtils {
         }
         else if(DataSheetName.equalsIgnoreCase("ApprovalWorkflow")){
             HashMap<String, Object> payload= body.ApprovalworkflowPayloadbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
-            String awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+            awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().spec(requestSpecifications(awardnumber,"accessmanagementbasepath.uri")).body(payload);
         }
     }
@@ -125,6 +125,15 @@ public class SearchAPI_Steps extends ApiUtils {
         requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).header("userPrinciple", map);
     }
 
+    @Given("Valid search is done with details from datasheet by passing {string} & {string}")
+    public void validSearchIsDoneWithDetailsFromDatasheetByPassing(String TDID, String SheetName) throws IOException, ParseException {
+        TestdataId = TDID;
+        DataSheetName = SheetName;
+        Requestdetails body = new Requestdetails();
+        HashMap<String, Object> map= body.queryparameterbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+        requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map);
+    }
+
     @When("I calls {string} API with {string} http request")
     public void ICallsEndpointAPIWithHttpRequest(String Endpoint, String httpRequestmethod) throws IOException {
         apiEndpoint = Endpoint;
@@ -144,7 +153,10 @@ public class SearchAPI_Steps extends ApiUtils {
             apiresponse = requestspec.when().post(getGlobalValue(Endpoint)).
                     then().spec(responsespecificationone).extract().response();
         }
-        else if ((Endpoint.equalsIgnoreCase("beisadmin.endpoint"))||(Endpoint.equalsIgnoreCase("gaadmin.endpoint"))||(Endpoint.equalsIgnoreCase("gaapprover.endpoint"))||(Endpoint.equalsIgnoreCase("gaencoder.endpoint"))){
+        else if ((Endpoint.equalsIgnoreCase("beisadmin.endpoint"))||(Endpoint.equalsIgnoreCase
+                ("gaadmin.endpoint"))||(Endpoint.equalsIgnoreCase("gaapprover.endpoint"))||
+                (Endpoint.equalsIgnoreCase("gaencoder.endpoint"))||
+                (Endpoint.equalsIgnoreCase("accessmanagementsearchResults.endpoint"))){
             apiresponse = requestspec.when().get(getGlobalValue(Endpoint)).
                     then().spec(requestspecone).extract().response();
         }
@@ -180,8 +192,8 @@ public class SearchAPI_Steps extends ApiUtils {
                 byte[] bytesup = apiresponse.getBody().asByteArray();
                 File exportallfile = new File("./src/test/resources/data/apiexportall.xlsx");
                 Files.write(exportallfile.toPath(),bytesup);
-                //String responseString = apiresponse.asString();
-                //responseobject.ExportAllResponsevalidation(exportallsheetname,DataSheetName,TestdataId);
+                String responseString = apiresponse.asString();
+                responseobject.ExportAllResponsevalidation(exportallsheetname,DataSheetName,TestdataId);
             }
             else if (apiEndpoint.equalsIgnoreCase("addsinglesubsidyaward.endpoint")) {
                 responseobject.AddSingleSubsidyAwardResponsevalidations(responseString,DataSheetName, TestdataId);
@@ -191,6 +203,9 @@ public class SearchAPI_Steps extends ApiUtils {
             }
             else if (apiEndpoint.equalsIgnoreCase("approvalworkflow.endpoint")) {
                 responseobject.ApprovalWorkflowResponsevalidations(responseString, DataSheetName, TestdataId, apiEndpoint);
+            }
+            else if (apiEndpoint.equalsIgnoreCase("accessmanagementsearchResults.endpoint")) {
+                responseobject.searchResultsResponsevalidations(responseString, DataSheetName, TestdataId, apiEndpoint);
             }
         }
     }

@@ -158,23 +158,33 @@ public class Responsedetails extends ApiUtils {
                         String testcaseid = TDID;
                         int updatedcounttotal;
                         JsonPath jsonpathobject = new JsonPath(responsestringglobal);
-                        Integer totalSearchResultspagination = jsonpathobject.getInt("totalSearchResults");
-                        Integer currentPagenumpagination = jsonpathobject.getInt("currentPage");
-                        Integer totalPagespagination = jsonpathobject.getInt("totalPages");
                         int countpagination = jsonpathobject.getInt("awards.size()");
                         int updatedcount = 0;
                         int totalcount = 0;
+                        int defaultpage = 1;
+                        Requestdetails requestdeailsobject = new Requestdetails();
+                        HashMap<String, Object> updatedpayload = requestdeailsobject.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx", testdatasheetname, TDID, defaultpage);
+                        RequestSpecification requestspec = given().spec(requestSpecification("publicsearchbasepath.uri")).body(updatedpayload);
+                        ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                        Response apiresponse = requestspec.when().post(getGlobalValue("searchResults.endpoint")).
+                                then().spec(requestspecone).extract().response();
+                        String updatedresponseString = apiresponse.asString();
+                        JsonPath updatedjsonpathobject = new JsonPath(updatedresponseString);
+                        count = updatedjsonpathobject.getInt("awards.size()");
+                        Integer totalSearchResultspagination = updatedjsonpathobject.getInt("totalSearchResults");
+                        Integer currentPagenumpagination = updatedjsonpathobject.getInt("currentPage");
+                        Integer totalPagespagination = updatedjsonpathobject.getInt("totalPages");
                         ArrayList<Integer> arraylisttotalcount = new ArrayList<Integer>();
-                        for (int currentpage = 2; currentpage <= totalPages; currentpage++) {
-                                Requestdetails requestdeailsobject = new Requestdetails();
-                                HashMap<String, Object> updatedpayload = requestdeailsobject.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx", testdatasheetname, TDID, currentpage);
-                                RequestSpecification requestspec = given().spec(requestSpecification("publicsearchbasepath.uri")).body(updatedpayload);
-                                ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
-                                Response apiresponse = requestspec.when().post(getGlobalValue("searchResults.endpoint")).
-                                        then().spec(requestspecone).extract().response();
-                                String updatedresponseString = apiresponse.asString();
-                                JsonPath updatedjsonpathobject = new JsonPath(updatedresponseString);
-                                updatedcount = updatedjsonpathobject.getInt("awards.size()");
+                        for (int currentpage = 2; currentpage <= totalPagespagination; currentpage++) {
+                                Requestdetails requestdeailsobjectupdated = new Requestdetails();
+                                HashMap<String, Object> updatedpayloadupdated = requestdeailsobjectupdated.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx", testdatasheetname, TDID, currentpage);
+                                RequestSpecification requestspecupdated = given().spec(requestSpecification("publicsearchbasepath.uri")).body(updatedpayloadupdated);
+                                ResponseSpecification requestspeconeupdated = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                                Response apiresponseupdated = requestspecupdated.when().post(getGlobalValue("searchResults.endpoint")).
+                                        then().spec(requestspeconeupdated).extract().response();
+                                String updatedresponseStringvalue = apiresponseupdated.asString();
+                                JsonPath updatedjsonpathobjectvalue = new JsonPath(updatedresponseStringvalue);
+                                updatedcount = updatedjsonpathobjectvalue.getInt("awards.size()");
                                 arraylisttotalcount.add(updatedcount);
                         }
                         int sum = 0;
@@ -232,7 +242,7 @@ public class Responsedetails extends ApiUtils {
                 awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.publishedMeasureDate"));
                 awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.createdBy"));
                 awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.approvedBy"));
-                awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.status"));
+                //awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.status"));
                 String ScNumber = jsonpathobject.getString("subsidyMeasure.scNumber");
 
                 //Beneficiary details validation
@@ -585,5 +595,113 @@ public class Responsedetails extends ApiUtils {
                 System.out.println(beneficiarynames);
                 ApiUtils writetoexcelobject = new ApiUtils();
                 writetoexcelobject.writeBeneficiaryNameToExcel("./src/test/resources/data/sample.xlsx",SheetName,TDID,"Expected Recipient",beneficiarynames);
+        }
+        public void searchResultsResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+                ApiUtils apiutilities = new ApiUtils();
+                Requestdetails body = new Requestdetails();
+                Reusable d = new Reusable();
+                HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
+                if (data.isEmpty()) {
+                        Assert.fail("There is no matching TDID in the datasheet");
+                }
+                String statusSheet = null;
+                String validationTypeSheet = null;
+                String searchNameSheet = null;
+
+                //expected details
+                if ((data.get("Status").trim().equalsIgnoreCase("_BLANK"))) {
+                        statusSheet = "";
+                } else {
+                        statusSheet =  data.get("Status");
+                }
+                if ((data.get("Validationtype").trim().equalsIgnoreCase("_BLANK"))) {
+                        validationTypeSheet = "";
+                } else {
+                        validationTypeSheet =  data.get("Validationtype");
+                }
+                if ((data.get("SearchName").trim().equalsIgnoreCase("_BLANK"))) {
+                        searchNameSheet = "";
+                } else {
+                        searchNameSheet =  data.get("SearchName");
+                }
+                //actual details
+                JsonPath jsonpathobject = new JsonPath(response);
+                Integer totalSearchResults = jsonpathobject.getInt("totalSearchResults");
+                Integer currentPagenumpagination = jsonpathobject.getInt("currentPage");
+                Integer totalPages = jsonpathobject.getInt("totalPages");
+                int count = jsonpathobject.getInt("awards.size()");
+                //fetches status details in arraylist
+                ArrayList<String> statuslist = new ArrayList<String>();
+                for(int i=0;i<count;i++){
+                        statuslist.add(jsonpathobject.getString("awards[" + i + "].status"));
+                }
+                //fetches subsidyMeasureTitle details in arraylist
+                ArrayList<String> subsidyMeasureTitlelist = new ArrayList<String>();
+                for(int j=0;j<count;j++) {
+                        subsidyMeasureTitlelist.add(jsonpathobject.getString("awards[" + j + "].subsidyMeasureTitle"));
+                }
+                //fetches gaName details in arraylist
+                ArrayList<String> gaNamelist = new ArrayList<String>();
+                for(int k=0;k<count;k++) {
+                        gaNamelist.add(jsonpathobject.getString("awards[" + k + "].gaName"));
+                }
+                //fetches scNumber details in arraylist
+                ArrayList<String> scNumberlist = new ArrayList<String>();
+                for(int l=0;l<count;l++) {
+                        scNumberlist.add(jsonpathobject.getString("awards[" + l + "].scNumber"));
+                }
+                //Comparison between expected & actual results
+                if (!(statusSheet.equalsIgnoreCase(""))) {
+                        for (int m = 0; m < count; m++) {
+                                String statusactual = statuslist.get(m);
+                                Assert.assertEquals(statusSheet, statusactual);
+                        }
+                }
+                if (!(searchNameSheet.equalsIgnoreCase(""))) {
+                        if (validationTypeSheet.equalsIgnoreCase("SubsidyMeasureTitle")) {
+                                for (int n = 0; n < count; n++) {
+                                        String subsidyMeasureTitleactual = subsidyMeasureTitlelist.get(n);
+                                        Assert.assertEquals(searchNameSheet, subsidyMeasureTitleactual);
+                                }
+                        }
+                        if (validationTypeSheet.equalsIgnoreCase("GrantingAuthority")) {
+                                for (int o = 0; o < count; o++) {
+                                        String gaNameactual = gaNamelist.get(o);
+                                        Assert.assertEquals(searchNameSheet, gaNameactual);
+                                }
+                        }
+                        if (validationTypeSheet.equalsIgnoreCase("SubsidyControlNumber")) {
+                                for (int p = 0; p < count; p++) {
+                                        String scNumberactual = scNumberlist.get(p);
+                                        Assert.assertEquals(searchNameSheet, scNumberactual);
+                                }
+                        }
+                }
+                if (validationTypeSheet.equalsIgnoreCase("Pagination")) {
+                        String testdatasheetname = SheetName;
+                        String testcaseid = TDID;
+                        int updatedcounttotal;
+                        int updatedcount = 0;
+                        int totalcount = 0;
+                        ArrayList<Integer> arraylisttotalcount = new ArrayList<Integer>();
+                        for (int currentpage = 2; currentpage <= totalPages; currentpage++) {
+                                Requestdetails requestdeailsobject = new Requestdetails();
+                                HashMap<String, Object> updatedqueryparameters = requestdeailsobject.queryparameterbuilderpagination("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", testdatasheetname, TDID, currentpage);
+                                RequestSpecification requestspec = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(updatedqueryparameters);
+                                ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                                Response apiresponse = requestspec.when().get(getGlobalValue("accessmanagementsearchResults.endpoint")).
+                                        then().spec(requestspecone).extract().response();
+                                String updatedresponseString = apiresponse.asString();
+                                JsonPath updatedjsonpathobject = new JsonPath(updatedresponseString);
+                                updatedcount = updatedjsonpathobject.getInt("awards.size()");
+                                arraylisttotalcount.add(updatedcount);
+                        }
+                        int sum = 0;
+                        for(int i=0;i<arraylisttotalcount.size();i++){
+                                sum+=   arraylisttotalcount.get(i);
+                        }
+                        int totalcountvalues = sum + count;
+                        Assert.assertSame(totalcountvalues,totalSearchResults);
+                }
         }
 }
