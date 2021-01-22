@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(features = {"src/test/resources/features/api/POSTUploadBulkAwardsAPI.feature"}
-        ,glue= {"UK/GOV/BEIS/SCTDB/steps/api"},tags="@valid")
+        ,glue= "UK/GOV/BEIS/SCTDB/steps/api")
 
 public class UploadBulkAwards_APIRunner {
 }

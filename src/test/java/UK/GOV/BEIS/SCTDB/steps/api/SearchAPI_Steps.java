@@ -65,6 +65,16 @@ public class SearchAPI_Steps extends ApiUtils {
         }
     }
 
+    @Given("A award exists with award number from datasheet by passing {string} & {string}")
+    public void aAwardExistsWithAwardNumberFromDatasheetByPassing(String TDID, String SheetName) throws IOException, ParseException {
+        TestdataId = TDID;
+        DataSheetName = SheetName;
+        Requestdetails body = new Requestdetails();
+        awardnumber = body.Fetchawardnumber("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
+        awardid = fetchawardnumber(awardnumber);
+        requestspec = SerenityRest.given().spec(requestSpecifications(awardid,"publicsearchbasepath.uri"));
+    }
+
     @Given("Payload is created with details from datasheet by passing values {string} & {string}")
     public void payloadIsCreatedWithDetailsFromDatasheetByPassingValues(String TDID, String SheetName) throws IOException, ParseException {
         TestdataId = TDID;
@@ -83,13 +93,6 @@ public class SearchAPI_Steps extends ApiUtils {
         Requestdetails body = new Requestdetails();
         HashMap<String, Object> payload= body.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID,pagenumber);
         requestspec = SerenityRest.given().spec(requestSpecification("publicsearchbasepath.uri")).body(payload);
-    }
-
-    @Given("A award exists with award number of {string}")
-    public void aAwardExistsWithAwardNumberOf(String award) throws IOException {
-        awardid = award;
-        awardnumber = fetchawardnumber(award);
-        requestspec = SerenityRest.given().spec(requestSpecifications(awardnumber,"publicsearchbasepath.uri"));
     }
 
     @Given("Payload is created with details from datasheet by passing {string} and {string}")

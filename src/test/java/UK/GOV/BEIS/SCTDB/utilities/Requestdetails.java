@@ -203,7 +203,6 @@ public class Requestdetails {
         double TotalRecordsperpagedouble = Double.parseDouble(data.get("TotalRecordsperpage"));
         int TotalRecordsperpageint = (int) TotalRecordsperpagedouble;
         String totalRecordsPerPage = String.valueOf(TotalRecordsperpageint);
-        //String totalRecordsPerPage = data.get("TotalRecordsperpage");
         map.put("totalRecordsPerPage", totalRecordsPerPage);
 
         //"sortBy"
@@ -514,9 +513,14 @@ public class Requestdetails {
         } else {
             map.put("status", data.get("ExpectedStatus"));
         }
+
+        if ((data.get("ExpectedStatus").trim().equalsIgnoreCase("Reject"))) {
+            map.put("reason", data.get("Rejection Reason"));
+        }
         return map;
     }
     public String Fetchawardnumber(String filePath, String SheetName, String TDID) throws IOException, ParseException {
+        String awardnumber;
         Reusable d = new Reusable();
         ApiUtils apiutilities = new ApiUtils();
         HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName, TDID);
@@ -525,7 +529,12 @@ public class Requestdetails {
         }
         //awardnumber
         String awardnumberfloat = data.get("AwardNumber");
-        String awardnumber = apiutilities.floattostring(awardnumberfloat);
+        if (awardnumberfloat.contains("AW")){
+            awardnumber = awardnumberfloat;
+        }
+        else {
+            awardnumber = apiutilities.floattostring(awardnumberfloat);
+        }
         return awardnumber;
     }
     public HashMap<String, Object> PayloadbuilderTestData(String filePath, String SheetName, String TDID) throws IOException, ParseException {
