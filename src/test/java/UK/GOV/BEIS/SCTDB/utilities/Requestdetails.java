@@ -7,7 +7,6 @@ import java.io.IOException;
 import org.junit.Assert;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
 
@@ -536,6 +535,19 @@ public class Requestdetails {
             awardnumber = apiutilities.floattostring(awardnumberfloat);
         }
         return awardnumber;
+    }
+    public Integer FetchStatusCode(String filePath, String SheetName, String TDID) throws IOException, ParseException {
+        Integer statuscode;
+        Reusable d = new Reusable();
+        ApiUtils apiutilities = new ApiUtils();
+        HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName, TDID);
+        if (data.isEmpty()) {
+            Assert.fail("There is no matching TDID in the datasheet");
+        }
+        //statuscode
+        String statuscodefloat = data.get("StatusCode");
+        statuscode = apiutilities.floattoint(statuscodefloat);
+        return statuscode;
     }
     public HashMap<String, Object> PayloadbuilderTestData(String filePath, String SheetName, String TDID) throws IOException, ParseException {
         Reusable d = new Reusable();

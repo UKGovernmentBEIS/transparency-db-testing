@@ -52,15 +52,18 @@ public class SearchAPI_Steps extends ApiUtils {
         Requestdetails body = new Requestdetails();
         if (DataSheetName.equalsIgnoreCase("PublicSearch")){
             HashMap<String, Object> payload= body.Payloadbuilder("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
+            apistatuscode = body.FetchStatusCode("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().spec(requestSpecification("publicsearchbasepath.uri")).body(payload);
         }
         else if(DataSheetName.equalsIgnoreCase("AddSingleNewSubsidyAward")){
             HashMap<String, Object> payload= body.AddSingleSubsidyPayloadbuilder("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx",SheetName,TDID);
+            apistatuscode = body.FetchStatusCode("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().spec(requestSpecification("publishingsubsidybasepath.uri")).body(payload);
         }
         else if(DataSheetName.equalsIgnoreCase("ApprovalWorkflow")){
             HashMap<String, Object> payload= body.ApprovalworkflowPayloadbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
             awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+            apistatuscode = body.FetchStatusCode("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().spec(requestSpecifications(awardnumber,"accessmanagementbasepath.uri")).body(payload);
         }
     }
@@ -70,6 +73,7 @@ public class SearchAPI_Steps extends ApiUtils {
         TestdataId = TDID;
         DataSheetName = SheetName;
         Requestdetails body = new Requestdetails();
+        apistatuscode = body.FetchStatusCode("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
         awardnumber = body.Fetchawardnumber("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
         awardid = fetchawardnumber(awardnumber);
         requestspec = SerenityRest.given().spec(requestSpecifications(awardid,"publicsearchbasepath.uri"));
@@ -82,17 +86,9 @@ public class SearchAPI_Steps extends ApiUtils {
         Requestdetails body = new Requestdetails();
         if (DataSheetName.equalsIgnoreCase("PublicSearch")){
             HashMap<String, Object> payload= body.PayloadbuilderTestData("./src/test/resources/data/sample.xlsx",SheetName,TDID);
+            apistatuscode = body.FetchStatusCode("./src/test/resources/data/sample.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().spec(requestSpecification("publicsearchbasepath.uri")).body(payload);
         }
-    }
-
-    @Given("Payload is created with details from datasheet by passing {string} , {string}")
-    public void payloadIsCreatedWithDetailsFromDatasheet(String TDID, String SheetName) throws IOException, ParseException {
-        TestdataId = TDID;
-        DataSheetName = SheetName;
-        Requestdetails body = new Requestdetails();
-        HashMap<String, Object> payload= body.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID,pagenumber);
-        requestspec = SerenityRest.given().spec(requestSpecification("publicsearchbasepath.uri")).body(payload);
     }
 
     @Given("Payload is created with details from datasheet by passing {string} and {string}")
@@ -105,26 +101,30 @@ public class SearchAPI_Steps extends ApiUtils {
     }
 
     @Given("Bulkupload sheet {string} & {string} is updated with {string} subsidy award details")
-    public void bulkuploadSheetIsUpdatedWithSubsidyAwardDetails(String TDID, String SheetName, String Scenariotype) throws IOException {
+    public void bulkuploadSheetIsUpdatedWithSubsidyAwardDetails(String TDID, String SheetName, String Scenariotype) throws IOException, ParseException {
         TestdataId = TDID;
         DataSheetName = SheetName;
         Scenariocategory = Scenariotype;
+        Requestdetails body = new Requestdetails();
         if (Scenariocategory.equalsIgnoreCase("valid")) {
             File file = new File("./src/test/resources/data/BulkUpload_API_Valid.xlsx");
+            apistatuscode = body.FetchStatusCode("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().multiPart("file",file,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
         else if (Scenariocategory.equalsIgnoreCase("invalid")) {
             File file = new File("./src/test/resources/data/BulkUpload_API_Invalid.xlsx");
+            apistatuscode = body.FetchStatusCode("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().multiPart("file",file,"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
     }
 
     @Given("Header is sent with details from datasheet by passing {string} & {string}")
-    public void headerIsSentWithDetailsFromDatasheetByPassing(String TDID, String SheetName) throws IOException {
+    public void headerIsSentWithDetailsFromDatasheetByPassing(String TDID, String SheetName) throws IOException, ParseException {
         TestdataId = TDID;
         DataSheetName = SheetName;
         Requestdetails body = new Requestdetails();
         HashMap<String, Object> map= body.headerbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+        apistatuscode = body.FetchStatusCode("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
         requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).header("userPrinciple", map);
     }
 
@@ -134,6 +134,7 @@ public class SearchAPI_Steps extends ApiUtils {
         DataSheetName = SheetName;
         Requestdetails body = new Requestdetails();
         HashMap<String, Object> map= body.queryparameterbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+        apistatuscode = body.FetchStatusCode("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
         requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map);
     }
 
@@ -171,11 +172,11 @@ public class SearchAPI_Steps extends ApiUtils {
         }
     }
 
-    @Then("I will be getting the expected {int}")
-    public void iWillBeGettingExpectedStatusCode(int StatusCode) throws IOException, ParseException {
-        apistatuscode = StatusCode;
+    @Then("I will be getting the expected StatusCode")
+    public void iWillBeGettingExpectedStatusCode() throws IOException, ParseException {
         responseString = apiresponse.asString();
-        assertEquals("Error in Validating Status Code:",StatusCode, apiresponse.getStatusCode());
+        Integer apiStatuscodeActual = apiresponse.getStatusCode();
+        assertEquals("Error in Validating Status Code:", apistatuscode, apiStatuscodeActual);
     }
 
     @Then("I will be validating response against values in datasheet")

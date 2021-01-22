@@ -106,13 +106,13 @@ public class Responsedetails extends ApiUtils {
                         assertEquals("Error in Validating Spendingsector details:",spendingSectorlist,spendingSectorcopylist);
                 }
                 String validationData = verifydata.get("Validation");
-                if (validationData.equalsIgnoreCase("SubsidyMeasureDetails")) {
+                if (validationData.equalsIgnoreCase("SubsidySchemeDetails")) {
 
                         //SubsidyMeasure validation
                         for (int r = 0; r < count; r++) {
                                 String subsidyMeas = String.join(", ", ScNumber[r]);
                                 ApiUtils respObj = new ApiUtils();
-                                List<String> subsidyMeaList = respObj.SubsidyMeaValidate("SubsidyMeasureDetails", subsidyMeas);
+                                List<String> subsidyMeaList = respObj.SubsidyMeaValidate("SubsidySchemeDetails", subsidyMeas);
                                 Collections.sort(subsidyMeasurelist[r]);
                                 Collections.sort(subsidyMeaList);
                                 assertEquals("Error in Validating Subsidy Measure details:",subsidyMeasurelist[r], subsidyMeaList);
@@ -224,7 +224,7 @@ public class Responsedetails extends ApiUtils {
                 //SubsidyMeasure validation
                 String subsidyMeas = String.join(", ", ScNumber);
                 ApiUtils respObj = new ApiUtils();
-                List<String> subsidyMeaList = respObj.AwardsapiSubsidyMeaValidate("SubsidyMeasureDetails", subsidyMeas);
+                List<String> subsidyMeaList = respObj.AwardsapiSubsidyMeaValidate("SubsidySchemeDetails", subsidyMeas);
                 Collections.sort(awardsapisubsidylist);
                 Collections.sort(subsidyMeaList);
                 assertEquals("Error in Validating Subsidy Measures details:",awardsapisubsidylist, subsidyMeaList);

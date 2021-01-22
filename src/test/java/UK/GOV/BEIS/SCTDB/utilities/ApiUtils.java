@@ -1,15 +1,11 @@
 package UK.GOV.BEIS.SCTDB.utilities;
 
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
-import net.serenitybdd.rest.SerenityRest;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -93,6 +89,11 @@ public class ApiUtils {
         return formattedvalue;
     }
 
+    public int floattoint(String floatvalue)  {
+        double doublevalue = Double.parseDouble(floatvalue);
+        int longvalue = (int) doublevalue;
+        return longvalue;
+    }
 
     public List<String> SubsidyMeaValidate(String SheetName, String TDID) {
         Reusable ds = new Reusable();
