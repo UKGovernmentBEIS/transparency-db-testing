@@ -27,3 +27,4 @@ TEST AUTOMATION FRAMEWORK
          
          "mvn clean verify -P -Dit.test=Runner_File"  -> To test individual feature
          
+         
