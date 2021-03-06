@@ -39,9 +39,9 @@ public class SearchByBeneficiary_Steps {
         }
 
         obj_RecipientPage.SearchByRecipient(TestData.get(0).toString());
-        Obj_ObjectivePage.SearchByPurpose(TestData.get(1).toString(), TestData.get(2).toString());
-        Obj_SpendingSectorPage.SearchBySector(TestData.get(3).toString());
-        obj_TypesPage.SearchBySubsidyType(TestData.get(4).toString(), TestData.get(5).toString());
+        Obj_ObjectivePage.SearchByPurpose(TestData.get(1).toString(), TestData.get(2).toString(),"");
+        Obj_SpendingSectorPage.SearchBySector(TestData.get(3).toString(),"");
+        obj_TypesPage.SearchBySubsidyType(TestData.get(4).toString(), TestData.get(5).toString(),"");
         Obj_GrantingDatePage.SearchByDate(TestData.get(6).toString(), TestData.get(7).toString());
     }
 

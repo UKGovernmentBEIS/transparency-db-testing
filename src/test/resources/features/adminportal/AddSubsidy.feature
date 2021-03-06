@@ -1,3 +1,4 @@
+@Ignore
 Feature: Add Subsidy Values
   Scenario Outline: Successfully Add Subsidy Values from Test Data sheet
     Given I enter a valid emailID and password "<Credentials>" from "<DataSheet1>"

@@ -1,4 +1,3 @@
-
 Feature: POST request using /searchresult API
 
   Scenario Outline: Send a valid POST Request for valid search

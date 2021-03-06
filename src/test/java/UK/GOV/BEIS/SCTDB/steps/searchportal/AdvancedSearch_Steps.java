@@ -7,7 +7,10 @@ import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchHomePage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchResultsPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SpendingSectorPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.TypesPage;
+import UK.GOV.BEIS.SCTDB.utilities.BrowserStackSerenityDriver;
 import UK.GOV.BEIS.SCTDB.utilities.Reusable;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -26,6 +29,16 @@ public class AdvancedSearch_Steps {
     TypesPage obj_TypesPage;
     GrantingDatePage Obj_GrantingDatePage;
     HashMap<String,String> TestData;
+    String ScenarioData;
+
+
+   /* @After
+    public void update(Scenario scenario){
+        String DriverType = new Reusable().getProperty("webdriver.driver");
+        if(DriverType.contentEquals("provided")){
+        new BrowserStackSerenityDriver().updateBS(Obj_SearchHomePage.getBSID(),scenario.getStatus().toString(), ScenarioData);}
+
+    }*/
 
     @Given("I am on the Public User Search Portal")
     public void iNavigateToSearchPortal() {
@@ -36,7 +49,7 @@ public class AdvancedSearch_Steps {
 
     @Given("I have test data {string} from {string}")
     public void iHaveFrom(String TDID, String SheetName) {
-
+        ScenarioData=TDID;
         TestData = new Reusable().readExcelDataNew("./src/test/resources/data/sample.xlsx",SheetName,TDID);
         if(TestData.isEmpty()){
             Assert.fail("There is no matching TDID in the datasheet");
@@ -53,11 +66,11 @@ public class AdvancedSearch_Steps {
     @When("I have completed my entries into the search fields")
     public void iEnterTheSearchCriteria() {
         obj_RecipientPage.SearchByRecipient(TestData.get("Recipient"));
-        Obj_ObjectivePage.SearchByPurpose(TestData.get("Purpose"), TestData.get("Other Purpose"));
+        Obj_ObjectivePage.SearchByPurpose(TestData.get("Purpose"), TestData.get("Other Purpose"),"");
         Obj_ObjectivePage.proceed();
-        Obj_SpendingSectorPage.SearchBySector(TestData.get("Sector"));
+        Obj_SpendingSectorPage.SearchBySector(TestData.get("Sector"),"");
         Obj_SpendingSectorPage.proceed();
-        obj_TypesPage.SearchBySubsidyType(TestData.get("Type"), TestData.get("Other Type"));
+        obj_TypesPage.SearchBySubsidyType(TestData.get("Type"), TestData.get("Other Type"),"");
         obj_TypesPage.proceed();
         Obj_GrantingDatePage.SearchByDate(TestData.get("From"), TestData.get("To"));
     }
@@ -65,6 +78,9 @@ public class AdvancedSearch_Steps {
     @When("I want to return to check my previous inputs")
     public void iWantToReturnToCheckMyPreviousInputs() {
         Obj_GrantingDatePage.previous();
+        obj_TypesPage.previous();
+        Obj_SpendingSectorPage.previous();
+        Obj_ObjectivePage.previous();
     }
 
     @Then("I want to be able to see my previous entries so I can keep track of what I have entered.")

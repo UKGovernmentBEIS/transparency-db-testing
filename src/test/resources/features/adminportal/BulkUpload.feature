@@ -1,4 +1,4 @@
-
+@Ignore
 Feature: Bulk Upload Subsidy Awards
   Scenario Outline: Successfully Bulk Upload Subsidy Awards
     Given I enter a valid emailID and password "<Credentials>" from "<DataSheet1>"

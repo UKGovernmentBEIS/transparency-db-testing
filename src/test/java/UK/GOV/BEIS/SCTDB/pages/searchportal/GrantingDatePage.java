@@ -2,10 +2,12 @@ package UK.GOV.BEIS.SCTDB.pages.searchportal;
 
 import net.serenitybdd.core.Serenity;
 import net.thucydides.core.pages.PageObject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 public class GrantingDatePage extends PageObject {
@@ -47,7 +49,9 @@ public class GrantingDatePage extends PageObject {
     WebElement btn_ShowResults;
 
     public void SearchByDate(String From, String To){
-        
+
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1[contains(text(),'specific period?')]"));
+
 
        if(!From.trim().equalsIgnoreCase("_BLANK") && !From.trim().equalsIgnoreCase("No"))
         {
@@ -73,12 +77,18 @@ public class GrantingDatePage extends PageObject {
     }
 
     public void proceed(){
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1[contains(text(),'specific period?')]"));
         Serenity.takeScreenshot();
         btn_ShowResults.click();
+
     }
     public void previous(){
-        while(findAll("//a[contains(text(),'Back')]").size()>0){
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1[contains(text(),'specific period?')]"));
+
+        if(findAll("//a[contains(text(),'Back')]").size()>0){
             $("//a[contains(text(),'Back')]").click();
         }
+
+
     }
 }

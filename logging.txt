@@ -1,12 +1,11 @@
 Request method:	GET
-Request URI:	http://integ-transparency-db-access-management-service.azurewebsites.net/accessmanagement/gaencoder
+Request URI:	https://integ-transparency-db-public-search-service.azurewebsites.net/searchResults/award/2701
 Proxy:			<none>
 Request params:	<none>
 Query params:	<none>
 Form params:	<none>
-Path params:	<none>
-Headers:		userPrinciple={"password":"password123","role":"Granting Authority Encoder","grantingAuthorityGroupId":"123","userName":"SYSTEM","grantingAuthorityGroupName":"HMRC"}
-				Accept=*/*
+Path params:	awardnumber=2701
+Headers:		Accept=*/*
 				Content-Type=application/json; charset=UTF-8
 Cookies:		<none>
 Multiparts:		<none>
@@ -14,134 +13,49 @@ Body:			<none>
 HTTP/1.1 200 OK
 Transfer-Encoding: chunked
 Content-Type: application/json
-Request-Context: appId=cid-v1:135577ed-57c6-4c69-af60-0d3754437389
-Set-Cookie: ARRAffinity=4626886fa06471c0a0006f3b9b70852c5a1f20ef21a46c118d372f6d11898471;Path=/;HttpOnly;Domain=integ-transparency-db-access-management-service.azurewebsites.net
-Date: Wed, 13 Jan 2021 14:56:00 GMT
+Request-Context: appId=cid-v1:cdfd87d0-79d3-4f93-bdcb-5e7ad83a68cf
+Date: Fri, 22 Jan 2021 16:09:10 GMT
 
 {
-    "grantingAuthorityUserActionCount": null,
-    "awardUserActionCount": {
-        "totalAwaitingAward": 4,
-        "totalDraftAward": 0,
-        "totalSubsidyAward": 5,
-        "totalPublishedAward": 0,
-        "totalDeletedAward": 0
+    "awardNumber": 2701,
+    "beneficiary": {
+        "beneficiaryName": "Automation 001",
+        "nationalId": "25899862",
+        "nationalIdType": "Company Registration Number",
+        "orgSize": "Micro organisation"
     },
-    "subsidyMeasureUserActionCount": {
-        "totalPublishedSubsidyMeasures": 0,
-        "totalDraftSubsidyMeasures": 4,
-        "totalSubsidyMeasures": 4,
-        "totalAwaitingSubsidyMeasures": 0,
-        "totalDeletedSubsidyMeasures": 0
+    "subsidyMeasure": {
+        "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
+        "scNumber": "SC10000",
+        "startDate": "01 April 2015",
+        "endDate": "31 March 2021",
+        "duration": 2191,
+        "budget": "120000000",
+        "adhoc": false,
+        "gaSubsidyWebLink": "https://ec.europa.eu/competition/state_aid/cases/257436/257436_1633216_44_2.pdf",
+        "legalBasis": {
+            "legalBasisText": "Culture/Heritage"
+        },
+        "publishedMeasureDate": "2015-03-24",
+        "createdBy": "SYSTEM",
+        "approvedBy": "SYSTEM"
     },
-    "awardResponse": [
-        {
-            "awardNumber": 119,
-            "subsidyFullAmountExact": "400,000",
-            "subsidyFullAmountRange": "£NA",
-            "subsidyObjective": "Culture/Heritage",
-            "subsidyMeasureTitle": "Aid for economic development - Growth Deal",
-            "status": "Rejected",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10002",
-            "subsidyInstrument": "Guarantee",
-            "beneficiaryName": "Liberty Steel Tredegar Ltd"
-        },
-        {
-            "awardNumber": 182,
-            "subsidyFullAmountExact": "200,000",
-            "subsidyFullAmountRange": "£NA",
-            "subsidyObjective": "Research and development",
-            "subsidyMeasureTitle": "Rika Biogas Grant Under Future Fuels for Flight and Freight Competition (F4C)",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10070",
-            "subsidyInstrument": "Equity",
-            "beneficiaryName": "JAD Developments (Redruth) Ltd"
-        },
-        {
-            "awardNumber": 230,
-            "subsidyFullAmountExact": "0",
-            "subsidyFullAmountRange": "£500,000 - £1,000,000",
-            "subsidyObjective": "abc",
-            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10000",
-            "subsidyInstrument": "what",
-            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
-        },
-        {
-            "awardNumber": 231,
-            "subsidyFullAmountExact": "0",
-            "subsidyFullAmountRange": "£500,000 - £1,000,000",
-            "subsidyObjective": "abc",
-            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10000",
-            "subsidyInstrument": "what",
-            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
-        },
-        {
-            "awardNumber": 232,
-            "subsidyFullAmountExact": "0",
-            "subsidyFullAmountRange": "£500,000 - £1,000,000",
-            "subsidyObjective": "abc",
-            "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
-            "status": "Awaiting Approval",
-            "gaName": "HMRC",
-            "lastModifiedDate": "13 January 2021",
-            "scNumber": "SC10000",
-            "subsidyInstrument": "what",
-            "beneficiaryName": "DS SMITH PAPER LIMITED 100"
-        }
-    ],
-    "subsidyMeasureResponse": [
-        {
-            "subsidyMeasureTitle": "Aid for economic development - Growth Deal",
-            "scNumber": "SC10003",
-            "startDate": "2015-04-01",
-            "endDate": "2021-03-31",
-            "duration": "6 years 1 day ",
-            "budget": "64000000",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        },
-        {
-            "subsidyMeasureTitle": "Spaceflight Grants",
-            "scNumber": "SC10077",
-            "startDate": "2019-07-14",
-            "endDate": "2022-12-31",
-            "duration": "3 years 6 months 3 days ",
-            "budget": "40000000",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        },
-        {
-            "subsidyMeasureTitle": "Spaceflight Grants",
-            "scNumber": "SC10078",
-            "startDate": "2018-07-14",
-            "endDate": "2021-03-31",
-            "duration": "2 years 9 months 1 week 2 days ",
-            "budget": "31486500",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        },
-        {
-            "subsidyMeasureTitle": "Spaceflight Grants",
-            "scNumber": "SC10079",
-            "startDate": "2018-07-14",
-            "endDate": "2021-03-31",
-            "duration": "2 years 9 months 1 week 2 days ",
-            "budget": "31486500",
-            "gaName": "HMRC",
-            "lastModifiedDate": "07 January 2021"
-        }
-    ],
-    "grantingAuthorityResponse": null
+    "grantingAuthorityResponse": {
+        "grantingAuthorityName": "Welsh assembly government"
+    },
+    "subsidyFullAmountRange": "NA",
+    "subsidyFullAmountExact": "100,000",
+    "subsidyObjective": "Research and development",
+    "subsidyInstrument": "Direct Grant",
+    "spendingSector": "Agriculture, forestry and fishing",
+    "goodsServicesFilter": "Goods",
+    "legalGrantingDate": "14 July 2019",
+    "createdBy": "SYSTEM",
+    "approvedBy": "SYSTEM",
+    "status": "Published",
+    "rejectReason": "GDS standards",
+    "spendingRegion": "North East",
+    "createdTimestamp": "2021-01-19",
+    "lastModifiedTimestamp": "2021-01-22",
+    "publishedAwardDate": "2019-07-14"
 }

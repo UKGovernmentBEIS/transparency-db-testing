@@ -9,6 +9,9 @@ import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchHomePage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchResultsPage;
 
 import UK.GOV.BEIS.SCTDB.utilities.Reusable;
+import UK.GOV.BEIS.SCTDB.utilities.BrowserStackSerenityDriver;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -17,6 +20,8 @@ import org.junit.Assert;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver;
 
 public class UserSearch_Steps {
 
@@ -28,18 +33,26 @@ public class UserSearch_Steps {
     GrantingDatePage Obj_GrantingDatePage;
     SearchResultsPage Obj_SearchResultsPage;
     HashMap<String,String> TestData;
+    String ScenarioData;
 
+    /*@After
+    public void update(Scenario scenario){
+        String DriverType = new Reusable().getProperty("webdriver.driver");
+        if(DriverType.contentEquals("provided")){
+            new BrowserStackSerenityDriver().updateBS(Obj_SearchHomePage.getBSID(),scenario.getStatus().toString(), ScenarioData);}
+    }*/
 
     @Given("I navigate to Search Portal")
     public void iNavigateToSearchPortal() {
         Serenity.initializeTestSession();
+        getDriver().manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         Obj_SearchHomePage.open();
         Obj_SearchHomePage.Start();
     }
 
     @Given("I have {string} from {string}")
     public void iHaveFrom(String TDID, String SheetName) {
-
+        ScenarioData =TDID;
         TestData = new Reusable().readExcelDataNew("./src/test/resources/data/sample.xlsx",SheetName,TDID);
         if(TestData.isEmpty()){
             Assert.fail("There is no matching TDID in the datasheet");
@@ -57,15 +70,19 @@ public class UserSearch_Steps {
     public void iEnterTheSearchCriteria() {
 
         obj_RecipientPage.SearchByRecipient(TestData.get("Recipient"));
-        Obj_ObjectivePage.SearchByPurpose(TestData.get("Purpose"), TestData.get("Other Purpose"));
+        Obj_ObjectivePage.SearchByPurpose(TestData.get("Purpose"), TestData.get("Other Purpose"),"");
         Obj_ObjectivePage.proceed();
-        Obj_SpendingSectorPage.SearchBySector(TestData.get("Sector"));
+        Obj_SpendingSectorPage.SearchBySector(TestData.get("Sector"),"");
         Obj_SpendingSectorPage.proceed();
-        obj_TypesPage.SearchBySubsidyType(TestData.get("Type"), TestData.get("Other Type"));
+        obj_TypesPage.SearchBySubsidyType(TestData.get("Type"), TestData.get("Other Type"),"");
         obj_TypesPage.proceed();
         Obj_GrantingDatePage.SearchByDate(TestData.get("From"), TestData.get("To"));
         Obj_GrantingDatePage.proceed();
-        Obj_SearchResultsPage.refineFilter(TestData);
+        if (!(TestData.get("Purpose Filter").contentEquals("_BLANK")) ||
+                !(TestData.get("Sector Filter").contentEquals("_BLANK")) || !(TestData.get("Type Filter").contentEquals("_BLANK"))) {
+            Obj_SearchResultsPage.refineFilter(TestData);
+        }
+
     }
 
     @Then("I will be able to get the relevant search results")
@@ -80,26 +97,26 @@ public class UserSearch_Steps {
                 break;
             case "title":
                 ExpectedValues = TestData.get("Expected Title");
-                ResultColumnIndex="2";
+                ResultColumnIndex="6";
                 break;
             case "amount":
                 ExpectedValues = TestData.get("Expected Amount");
-                ResultColumnIndex="3";
+                ResultColumnIndex="7";
                 break;
             case "purpose":
                 ExpectedValues = TestData.get("Expected Purpose");
-                ResultColumnIndex="4";
+                ResultColumnIndex="2";
                 break;
             case "type":
                 ExpectedValues = TestData.get("Expected Type");
-                ResultColumnIndex="5";
+                ResultColumnIndex="4";
                 break;
             case "sector":
                 ExpectedValues = TestData.get("Expected Sector");
-                ResultColumnIndex="6";
+                ResultColumnIndex="3";
                 break;
             case "date":
-                ResultColumnIndex="7";
+                ResultColumnIndex="5";
                 String From= TestData.get("Expected From").toLowerCase();
                 String To= TestData.get("Expected To").toLowerCase();
                 if(From.contentEquals("_blank")){
@@ -163,7 +180,7 @@ public class UserSearch_Steps {
     public void iWillBeAbleToValidateDetailsPage() {
         String ResultColumnIndex="", ExpectedValues="";
         switch (TestData.get("Validate").toLowerCase()){
-            case "measure":
+            case "scheme":
                 ExpectedValues = TestData.get("Expected Title");
                 ResultColumnIndex="6";
                 break;

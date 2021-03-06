@@ -1,3 +1,4 @@
+@Ignore
 Feature: User provides details for a successful login
   Scenario Outline: Valid user credentials provided
      Given I enter a valid emailID and password "<TestData>" from "<DataSheet>"

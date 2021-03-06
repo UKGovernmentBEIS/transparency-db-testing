@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,19 +19,26 @@ import java.util.List;
 public class ObjectivePage extends PageObject {
 
 
-    @FindBy(xpath = "//input[@id='subsidyobjective-12']")
+    @FindBy(xpath = "//label/following-sibling::input[@type='subsidyobjective']")
     @CacheLookup
     WebElementFacade Other;
 
     @FindBy(xpath = "//button[contains(text(),'Continue')]")
     WebElement btn_Continue;
 
-    public void SearchByPurpose(String Purpose, String OtherObj){
+    public void SearchByPurpose(String Purpose, String OtherObj, String Page){
+        if(Page.contentEquals("refine")){
+         withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1[contains(text(),'Search results')]"));
+        }
+        else
+        {
+         withTimeoutOf(Duration.ofSeconds(10)).find(By.xpath("//h1[contains(text(),'Which subsidy purposes')]"));
+        }
+
         if(!Purpose.contentEquals("_BLANK"))
         {    List<String> items = Arrays.asList(Purpose.split("\\|"));
             for(String item : items){
-                $("//label[contains(text(),'"+item.trim()+"')]").
-                        click();
+                $("//label[contains(@for,'subsidyobjective')][contains(text(),'"+item.trim()+"')]").click();
             }
             if(items.contains("Other")){
                 Other.sendKeys(OtherObj);
@@ -40,13 +48,14 @@ public class ObjectivePage extends PageObject {
     }
 
     public void validateSelections(String Purpose, String OtherPurpose){
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1[contains(text(),'Which subsidy purposes')]"));
         if(!Purpose.contentEquals("_BLANK")){
             List<String> items = Arrays.asList(Purpose.split("\\|"));
             boolean flag =true;
             boolean textflag=true;
             for(String item : items){
                 System.out.println("//input[@value='"+item.trim()+"']");
-                if(!$("//input[@value='"+item.trim()+"']").isSelected()){
+                if(!($("//input[@value='"+item.trim()+"']").isSelected())){
                     flag =false;
                 }
             }
@@ -67,8 +76,18 @@ public class ObjectivePage extends PageObject {
 
 
     public void proceed(){
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1[contains(text(),'Which subsidy purposes')]"));
         Serenity.takeScreenshot();
         btn_Continue.click();
+    }
+
+    public void previous(){
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1[contains(text(),'Which subsidy purposes')]"));
+
+        if(findAll("//a[contains(text(),'Back')]").size()>0){
+            $("//a[contains(text(),'Back')]").click();
+        }
+
     }
 
 

@@ -279,6 +279,8 @@ public class Reusable {
                             }
 
                         }
+
+                        break; //exit loop once TDID is identified
                     }
 
                 }

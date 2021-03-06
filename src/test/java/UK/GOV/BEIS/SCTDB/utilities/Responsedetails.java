@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.*;
 import java.util.Collections;
 import java.io.IOException;
-
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -12,11 +11,9 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.junit.Assert;
-
+import org.springframework.util.StringUtils;
 import static io.restassured.RestAssured.given;
-
 import java.util.HashMap;
-
 import static org.junit.Assert.*;
 
 public class Responsedetails extends ApiUtils {
@@ -35,9 +32,7 @@ public class Responsedetails extends ApiUtils {
                 for (int l = 0; l < count; l++) {
                         awardslist[l] = new ArrayList<>();
                         awardslist[l].add(String.valueOf(js.getInt("awards[" + l + "].awardNumber")));
-                        if (js.getString("awards[" + l + "].subsidyInstrument").equalsIgnoreCase("Tax measures (tax credit, or tax/duty exemption)")) {
-                                awardslist[l].add(js.getString("awards[" + l + "].subsidyFullAmountRange"));
-                        }
+                        awardslist[l].add(js.getString("awards[" + l + "].subsidyFullAmountRange"));
                         awardslist[l].add(js.getString("awards[" + l + "].subsidyFullAmountExact"));
                         awardslist[l].add(js.getString("awards[" + l + "].subsidyObjective"));
                         awardslist[l].add(js.getString("awards[" + l + "].subsidyInstrument"));
@@ -96,7 +91,7 @@ public class Responsedetails extends ApiUtils {
                         if (sortbyvalidation.contains("desc")) {
                                 Collections.reverse(beneficiarynamescopylist);
                         }
-                        Assert.assertEquals(beneficiarynameslist,beneficiarynamescopylist);
+                        assertEquals("Error in Validating BeneficiaryNames details:",beneficiarynameslist,beneficiarynamescopylist);
                 }
                 if ((sortbyvalidation.equalsIgnoreCase("spendingSector,asc")) || (sortbyvalidation.equalsIgnoreCase("spendingSector,desc"))){
                         List<String> spendingSectorlist = new ArrayList<String>();
@@ -108,33 +103,19 @@ public class Responsedetails extends ApiUtils {
                         if (sortbyvalidation.contains("desc")) {
                                 Collections.reverse(spendingSectorcopylist);
                         }
-                        Assert.assertEquals(spendingSectorlist,spendingSectorcopylist);
+                        assertEquals("Error in Validating Spendingsector details:",spendingSectorlist,spendingSectorcopylist);
                 }
-                /*
-                if ((sortbyvalidation.equalsIgnoreCase("subsidyFullAmountExact,asc")) || (sortbyvalidation.equalsIgnoreCase("subsidyFullAmountExact,desc"))){
-                        List<String> subsidyFullAmountExactlist = new ArrayList<String>();
-                        for (int f = 0; f < count; f++) {
-                                subsidyFullAmountExactlist.add(js.getString("awards[" + f + "].subsidyFullAmountExact"));
-                        }
-                        List<String> subsidyFullAmountExactcopylist = new ArrayList<>(List.copyOf(subsidyFullAmountExactlist));
-                        Collections.sort(subsidyFullAmountExactcopylist);
-                        if (sortbyvalidation.contains("desc")) {
-                                Collections.reverse(subsidyFullAmountExactcopylist);
-                        }
-                        Assert.assertEquals(subsidyFullAmountExactlist,subsidyFullAmountExactcopylist);
-                }
-                */
                 String validationData = verifydata.get("Validation");
-                if (validationData.equalsIgnoreCase("SubsidyMeasureDetails")) {
+                if (validationData.equalsIgnoreCase("SubsidySchemeDetails")) {
 
                         //SubsidyMeasure validation
                         for (int r = 0; r < count; r++) {
                                 String subsidyMeas = String.join(", ", ScNumber[r]);
                                 ApiUtils respObj = new ApiUtils();
-                                List<String> subsidyMeaList = respObj.SubsidyMeaValidate("SubsidyMeasureDetails", subsidyMeas);
+                                List<String> subsidyMeaList = respObj.SubsidyMeaValidate("SubsidySchemeDetails", subsidyMeas);
                                 Collections.sort(subsidyMeasurelist[r]);
                                 Collections.sort(subsidyMeaList);
-                                Assert.assertEquals(subsidyMeasurelist[r], subsidyMeaList);
+                                assertEquals("Error in Validating Subsidy Measure details:",subsidyMeasurelist[r], subsidyMeaList);
                         }
                 }
                 if (validationData.equalsIgnoreCase("AwardsDetails")) {
@@ -146,9 +127,9 @@ public class Responsedetails extends ApiUtils {
                                 List<String> awardLists = awardObject.AwardsValidate("AwardsDetails", awardSlno);
                                 Collections.sort(awardslist[s]);
                                 Collections.sort(awardLists);
-                                Assert.assertEquals(awardslist[s].size(), awardLists.size());
+                                assertEquals("Error in Validating Subsidy Award list count:",awardslist[s].size(), awardLists.size());
                                 for (int y = 0; y < awardslist[s].size(); y++) {
-                                        assertEquals(awardslist[s].get(y).trim(), awardLists.get(y).trim());
+                                        assertEquals("Error in Validating Subsidy Award details:",awardslist[s].get(y).trim(), awardLists.get(y).trim());
                                 }
                         }
                 }
@@ -157,23 +138,33 @@ public class Responsedetails extends ApiUtils {
                         String testcaseid = TDID;
                         int updatedcounttotal;
                         JsonPath jsonpathobject = new JsonPath(responsestringglobal);
-                        Integer totalSearchResultspagination = jsonpathobject.getInt("totalSearchResults");
-                        Integer currentPagenumpagination = jsonpathobject.getInt("currentPage");
-                        Integer totalPagespagination = jsonpathobject.getInt("totalPages");
                         int countpagination = jsonpathobject.getInt("awards.size()");
                         int updatedcount = 0;
                         int totalcount = 0;
+                        int defaultpage = 1;
+                        Requestdetails requestdeailsobject = new Requestdetails();
+                        HashMap<String, Object> updatedpayload = requestdeailsobject.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx", testdatasheetname, TDID, defaultpage);
+                        RequestSpecification requestspec = given().spec(requestSpecification("publicsearchbasepath.uri")).body(updatedpayload);
+                        ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                        Response apiresponse = requestspec.when().post(getGlobalValue("searchResults.endpoint")).
+                                then().spec(requestspecone).extract().response();
+                        String updatedresponseString = apiresponse.asString();
+                        JsonPath updatedjsonpathobject = new JsonPath(updatedresponseString);
+                        count = updatedjsonpathobject.getInt("awards.size()");
+                        Integer totalSearchResultspagination = updatedjsonpathobject.getInt("totalSearchResults");
+                        Integer currentPagenumpagination = updatedjsonpathobject.getInt("currentPage");
+                        Integer totalPagespagination = updatedjsonpathobject.getInt("totalPages");
                         ArrayList<Integer> arraylisttotalcount = new ArrayList<Integer>();
-                        for (int currentpage = 2; currentpage <= totalPages; currentpage++) {
-                                Requestdetails requestdeailsobject = new Requestdetails();
-                                HashMap<String, Object> updatedpayload = requestdeailsobject.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx", testdatasheetname, TDID, currentpage);
-                                RequestSpecification requestspec = given().spec(requestSpecification("publicsearchbasepath.uri")).body(updatedpayload);
-                                ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
-                                Response apiresponse = requestspec.when().post(getGlobalValue("searchResults.endpoint")).
-                                        then().spec(requestspecone).extract().response();
-                                String updatedresponseString = apiresponse.asString();
-                                JsonPath updatedjsonpathobject = new JsonPath(updatedresponseString);
-                                updatedcount = updatedjsonpathobject.getInt("awards.size()");
+                        for (int currentpage = 2; currentpage <= totalPagespagination; currentpage++) {
+                                Requestdetails requestdeailsobjectupdated = new Requestdetails();
+                                HashMap<String, Object> updatedpayloadupdated = requestdeailsobjectupdated.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx", testdatasheetname, TDID, currentpage);
+                                RequestSpecification requestspecupdated = given().spec(requestSpecification("publicsearchbasepath.uri")).body(updatedpayloadupdated);
+                                ResponseSpecification requestspeconeupdated = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                                Response apiresponseupdated = requestspecupdated.when().post(getGlobalValue("searchResults.endpoint")).
+                                        then().spec(requestspeconeupdated).extract().response();
+                                String updatedresponseStringvalue = apiresponseupdated.asString();
+                                JsonPath updatedjsonpathobjectvalue = new JsonPath(updatedresponseStringvalue);
+                                updatedcount = updatedjsonpathobjectvalue.getInt("awards.size()");
                                 arraylisttotalcount.add(updatedcount);
                         }
                         int sum = 0;
@@ -181,7 +172,7 @@ public class Responsedetails extends ApiUtils {
                                 sum+=   arraylisttotalcount.get(i);
                         }
                         int totalcountvalues = sum + count;
-                        Assert.assertSame(totalcountvalues,totalSearchResults);
+                        Assert.assertSame("Error in Validating total pages count in pagination:",totalcountvalues,totalSearchResults);
                 }
         }
         public void AwardsapiResponsevalidations(String response, String TDID) throws IOException, ParseException {
@@ -198,12 +189,6 @@ public class Responsedetails extends ApiUtils {
                 awardsapiawardslist.add(jsonpathobject.getString("spendingSector"));
                 awardsapiawardslist.add(jsonpathobject.getString("goodsServicesFilter"));
                 awardsapiawardslist.add(jsonpathobject.getString("legalGrantingDate"));
-                awardsapiawardslist.add(jsonpathobject.getString("createdBy"));
-                awardsapiawardslist.add(jsonpathobject.getString("approvedBy"));
-                awardsapiawardslist.add(jsonpathobject.getString("status"));
-                awardsapiawardslist.add(jsonpathobject.getString("createdTimestamp"));
-                awardsapiawardslist.add(jsonpathobject.getString("lastModifiedTimestamp"));
-                awardsapiawardslist.add(jsonpathobject.getString("publishedAwardDate"));
                 awardsapiawardslist.add(jsonpathobject.getString("grantingAuthorityResponse.grantingAuthorityName"));
                 String awardsNumber = String.valueOf(jsonpathobject.getInt("awardNumber"));
 
@@ -213,8 +198,6 @@ public class Responsedetails extends ApiUtils {
                 awardsapibeneficiarylist.add(jsonpathobject.getString("beneficiary.nationalId"));
                 awardsapibeneficiarylist.add(jsonpathobject.getString("beneficiary.nationalIdType"));
                 awardsapibeneficiarylist.add(jsonpathobject.getString("beneficiary.orgSize"));
-                //awardsapibeneficiarylist.add(jsonpathobject.getString("beneficiary.region"));
-                //awardsapibeneficiarylist.add(jsonpathobject.getString("grantingAuthorityResponse.grantingAuthorityName"));
                 String beneficiaryName = jsonpathobject.getString("beneficiary.beneficiaryName");
 
                 //fetches subsidy measure details in arraylist
@@ -228,10 +211,6 @@ public class Responsedetails extends ApiUtils {
                 awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.adhoc"));
                 awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.gaSubsidyWebLink"));
                 awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.legalBasis.legalBasisText"));
-                awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.publishedMeasureDate"));
-                awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.createdBy"));
-                awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.approvedBy"));
-                awardsapisubsidylist.add(jsonpathobject.getString("subsidyMeasure.status"));
                 String ScNumber = jsonpathobject.getString("subsidyMeasure.scNumber");
 
                 //Beneficiary details validation
@@ -240,15 +219,15 @@ public class Responsedetails extends ApiUtils {
                 List<String> awardsapibenList = beneficiaryvalidations.AwardsapiBeneficiarydetails("BeneficiaryDetails", awardsapibenificiaryname);
                 Collections.sort(awardsapibenList);
                 Collections.sort(awardsapibeneficiarylist);
-                Assert.assertEquals(awardsapibeneficiarylist, awardsapibenList);
+                assertEquals("Error in Validating Beneficiary names details:",awardsapibeneficiarylist, awardsapibenList);
 
                 //SubsidyMeasure validation
                 String subsidyMeas = String.join(", ", ScNumber);
                 ApiUtils respObj = new ApiUtils();
-                List<String> subsidyMeaList = respObj.AwardsapiSubsidyMeaValidate("SubsidyMeasureDetails", subsidyMeas);
+                List<String> subsidyMeaList = respObj.AwardsapiSubsidyMeaValidate("SubsidySchemeDetails", subsidyMeas);
                 Collections.sort(awardsapisubsidylist);
                 Collections.sort(subsidyMeaList);
-                Assert.assertEquals(awardsapisubsidylist, subsidyMeaList);
+                assertEquals("Error in Validating Subsidy Measures details:",awardsapisubsidylist, subsidyMeaList);
 
                 //Awards validation
                 String awardNumb = String.join(", ", awardsNumber);
@@ -257,12 +236,7 @@ public class Responsedetails extends ApiUtils {
                 List<String> awardLists = awardObject.AwardsapiAwardsValidate("AwardsDetails", awardSlno);
                 Collections.sort(awardsapiawardslist);
                 Collections.sort(awardLists);
-                Assert.assertEquals(awardsapiawardslist, awardLists);
-                //if(awardslist[s].equals(subsrt)){
-                //  System.out.println("True");
-                //}
-                //Assert.assertSame(awardslist[s],subsrt);
-                //Assert.assertEquals(awardslist[s].size(), awardLists.size());
+                assertEquals("Error in Validating Subsidy Award details:",awardsapiawardslist, awardLists);
         }
         public void BulkUploadResponsevalidations(String response, String SheetName, String TDID) throws IOException, ParseException {
                 JsonPath js = new JsonPath(response);
@@ -272,7 +246,6 @@ public class Responsedetails extends ApiUtils {
 
                 //fetches row error details in arraylist
                 int count = js.getInt("validationErrorResult.size()");
-                //System.out.println(count);
 
                 List<String> rowlist = new ArrayList<String>();
                 for (int l = 0; l < count; l++) {
@@ -292,7 +265,7 @@ public class Responsedetails extends ApiUtils {
                 }
 
                 Reusable reUse = new Reusable();
-                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidies.xlsx", SheetName, TDID);
+                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx", SheetName, TDID);
                 if (verifydata.isEmpty()) {
                         Assert.fail("There is no matching TDID in the datasheet");
                 }
@@ -337,12 +310,12 @@ public class Responsedetails extends ApiUtils {
                 columnerrorlist.sort(String.CASE_INSENSITIVE_ORDER);
                 errorMessagelist.sort(String.CASE_INSENSITIVE_ORDER);
                 errormessageslist.sort(String.CASE_INSENSITIVE_ORDER);
-                Assert.assertEquals(rowlist, rowerrorlist);
-                Assert.assertEquals(coulumnslist, columnerrorlist);
-                Assert.assertEquals(errorMessagelist, errormessageslist);
-                Assert.assertEquals(totalRows, totalrowsdatasheet);
-                Assert.assertEquals(errorRows, errorRowsdatasheet);
-                Assert.assertEquals(message, messagesdatasheet);
+                assertEquals("Error in Validating Row details in validation error message:",rowlist, rowerrorlist);
+                assertEquals("Error in Validating Column details in validation error message:",coulumnslist, columnerrorlist);
+                assertEquals("Error in Validating Error messages in validation error message:",errorMessagelist, errormessageslist);
+                assertEquals("Error in Validating TotalRows count:",totalRows, totalrowsdatasheet);
+                assertEquals("Error in Validating Total Error Rows:",errorRows, errorRowsdatasheet);
+                assertEquals("Error in Validating Message:",message, messagesdatasheet);
         }
         public void ExportAllResponsevalidation(String exportallsheetname, String testdatasheetname, String TDID) throws ParseException {
                 String exportallvalidationsheet = "AwardsDataSheet";
@@ -359,7 +332,6 @@ public class Responsedetails extends ApiUtils {
                         awardsnumberlist[i] = new ArrayList<>();
                         awardsnumberlist[i].add(arrsplit[i]);
                 }
-
                 for (int j = 0; j < count; j++) {
                         String awardnumbervalue = String.join(", ", awardsnumberlist[j]);
                         String awardSlno = "AW" + awardnumbervalue;
@@ -367,7 +339,6 @@ public class Responsedetails extends ApiUtils {
                         if (Exportallawardsdata.isEmpty()) {
                                 Assert.fail("There is no matching TDID in the datasheet");
                         }
-
                         List<String> exportalllist = new ArrayList<String>();
                         exportalllist.add(Exportallawardsdata.get("Subsidy Control (SC) Number"));
                         exportalllist.add(Exportallawardsdata.get("Subsidy Measure Title"));
@@ -379,24 +350,16 @@ public class Responsedetails extends ApiUtils {
                         exportalllist.add(Exportallawardsdata.get("Subsidy Element Full Amount Range"));
                         exportalllist.add(Exportallawardsdata.get("Subsidy Element Full Amount"));
                         exportalllist.add(Exportallawardsdata.get("National ID Type"));
-                        if (Exportallawardsdata.get("National ID").contains("SC")){
-                                String Nationalidvalue = Exportallawardsdata.get("National ID");
-                                exportalllist.add(Nationalidvalue);
-                        }
-                        else if (Exportallawardsdata.get("National ID").contains("SB")){
-                                String Nationalidvalue = Exportallawardsdata.get("National ID");
-                                exportalllist.add(Nationalidvalue);
-                        }
-                        else if (Exportallawardsdata.get("National ID").matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$")){
-                                String Nationalidvalue = Exportallawardsdata.get("National ID");
-                                exportalllist.add(Nationalidvalue);
-                        }
-                        else if (Exportallawardsdata.get("National ID").equalsIgnoreCase("_BLANK")){
+                        if (Exportallawardsdata.get("National ID").trim().equalsIgnoreCase("_BLANK")) {
                                 String Nationalidvalue = Exportallawardsdata.get("National ID");
                                 String Nationalvalue = Nationalidvalue.replace("_BLANK","");
                                 exportalllist.add(Nationalvalue);
                         }
-                        else {
+                        else if(((Exportallawardsdata.get("National ID").trim().matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$"))) || ((Exportallawardsdata.get("National ID").trim().matches("[a-zA-Z]+"))) || ((Exportallawardsdata.get("National ID").trim().matches("^(?=.*[a-z])(?=.*[0-9])[a-z0-9]+$")))) {
+                                String Nationalidvalue = Exportallawardsdata.get("National ID");
+                                exportalllist.add(Nationalidvalue);
+                        }
+                        else{
                                 double nationaliddouble = Double.parseDouble(Exportallawardsdata.get("National ID"));
                                 long nationalidlong = (long) nationaliddouble;
                                 String Nationalidvalue = String.valueOf(nationalidlong);
@@ -411,14 +374,11 @@ public class Responsedetails extends ApiUtils {
                         exportalllist.add(Exportallawardsdata.get("Spending Sector"));
                         exportalllist.add(Exportallawardsdata.get("Published Date"));
                         System.out.println(exportalllist);
-
                         HashMap<String, String> Exportallawardsvalidation = fetchexportallvalues.readExcelDataNew("./src/test/resources/data/SearchAPIDatasheet.xlsx", exportallvalidationsheet, awardSlno);
                         if (Exportallawardsvalidation.isEmpty()) {
                                 Assert.fail("There is no matching TDID in the datasheet");
                         }
-
                         List<String> exportallvalidationlist = new ArrayList<String>();
-                        //exportallvalidationlist.add(Exportallawardsvalidation.get("Subsidy Control (SC) Number"));
                         exportallvalidationlist.add(Exportallawardsvalidation.get("AwardNumber"));
                         exportallvalidationlist.add(Exportallawardsvalidation.get("SubsidyMeasureTitle"));
                         exportallvalidationlist.add(awardnumbervalue);
@@ -441,25 +401,16 @@ public class Responsedetails extends ApiUtils {
                         String subsidyexactamountvalue = "£" + subsidyexactamount;
                         exportallvalidationlist.add(subsidyexactamountvalue);
                         exportallvalidationlist.add(Exportallawardsvalidation.get("NationalIdType"));
-
-                        if (Exportallawardsvalidation.get("NationalId").contains("SC")){
-                                String Nationalidvalue = Exportallawardsvalidation.get("NationalId");
-                                exportallvalidationlist.add(Nationalidvalue);
-                        }
-                        else if (Exportallawardsvalidation.get("NationalId").contains("SB")){
-                                String Nationalidvalue = Exportallawardsvalidation.get("NationalId");
-                                exportallvalidationlist.add(Nationalidvalue);
-                        }
-                        else if (Exportallawardsvalidation.get("NationalId").matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$")){
-                                String Nationalidvalue = Exportallawardsvalidation.get("NationalId");
-                                exportallvalidationlist.add(Nationalidvalue);
-                        }
-                        else if (Exportallawardsvalidation.get("NationalId").equalsIgnoreCase("_BLANK")){
+                        if (Exportallawardsvalidation.get("NationalId").trim().equalsIgnoreCase("_BLANK")) {
                                 String Nationalidvalue = Exportallawardsvalidation.get("NationalId");
                                 String Nationalvalue = Nationalidvalue.replace("_BLANK","");
                                 exportallvalidationlist.add(Nationalvalue);
                         }
-                        else {
+                        else if(((Exportallawardsvalidation.get("NationalId").trim().matches("^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9]+$"))) || ((Exportallawardsvalidation.get("NationalId").trim().matches("[a-zA-Z]+"))) || ((Exportallawardsvalidation.get("NationalId").trim().matches("^(?=.*[a-z])(?=.*[0-9])[a-z0-9]+$")))) {
+                                String Nationalidvalue = Exportallawardsvalidation.get("NationalId");
+                                exportallvalidationlist.add(Nationalidvalue);
+                        }
+                        else{
                                 double nationaliddouble = Double.parseDouble(Exportallawardsvalidation.get("NationalId"));
                                 long nationalidlong = (long) nationaliddouble;
                                 String Nationalidvalue = String.valueOf(nationalidlong);
@@ -473,7 +424,7 @@ public class Responsedetails extends ApiUtils {
                         exportallvalidationlist.add(Exportallawardsvalidation.get("SpendingRegion"));
                         exportallvalidationlist.add(Exportallawardsvalidation.get("SpendingSector"));
                         exportallvalidationlist.add(Exportallawardsvalidation.get("PublishedAwardDate"));
-                        Assert.assertEquals(exportalllist, exportallvalidationlist);
+                        assertEquals("Error in Validating Exported values:",exportalllist, exportallvalidationlist);
                         System.out.println(exportallvalidationlist);
                 }
         }
@@ -484,7 +435,6 @@ public class Responsedetails extends ApiUtils {
 
                 //fetches column error details in arraylist
                 int count = js.getInt("validationErrorResult.size()");
-                //System.out.println(count);
 
                 List<String> columnlist = new ArrayList<String>();
                 for (int l = 0; l < count; l++) {
@@ -498,7 +448,7 @@ public class Responsedetails extends ApiUtils {
                 }
 
                 Reusable reUse = new Reusable();
-                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidies.xlsx", SheetName, TDID);
+                HashMap<String, String> verifydata = reUse.readExcelDataNew("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx", SheetName, TDID);
                 if (verifydata.isEmpty()) {
                         Assert.fail("There is no matching TDID in the datasheet");
                 }
@@ -511,8 +461,6 @@ public class Responsedetails extends ApiUtils {
                 if (messagesdatasheet.contains("null")){
                         messagesdata = messagesdatasheet.replaceAll("^\"+|\"+$", "");
                 }
-                //String messagesdatasheetvalue = String.join(", ", messagesdatasheet);
-                //String messagesdatasheetvalues = messagesdatasheet.replace("\"","");
                 List<String> columnerrorlist = new ArrayList<String>();
                 String columnerrorids = verifydata.get("Columns");
                 if(!(columnerrorids.equals("_BLANK"))) {
@@ -531,12 +479,209 @@ public class Responsedetails extends ApiUtils {
                         }
                 }
                 columnlist.sort(String.CASE_INSENSITIVE_ORDER);
-                columnlist.sort(String.CASE_INSENSITIVE_ORDER);
-                columnlist.sort(String.CASE_INSENSITIVE_ORDER);
-                columnlist.sort(String.CASE_INSENSITIVE_ORDER);
-                Assert.assertEquals(columnlist, columnerrorlist);
-                Assert.assertEquals(errorMessagelist, errormessageslist);
-                Assert.assertEquals(totalErrors, totalerrorsdatasheet);
-                //Assert.assertEquals(message, messagesdatasheet);
+                columnerrorlist.sort(String.CASE_INSENSITIVE_ORDER);
+                errorMessagelist.sort(String.CASE_INSENSITIVE_ORDER);
+                errormessageslist.sort(String.CASE_INSENSITIVE_ORDER);
+                assertEquals("Error in Validating Columns list:",columnlist, columnerrorlist);
+                assertEquals("Error in Validating Error Messages:",errorMessagelist, errormessageslist);
+                assertEquals("Error in Validating Total errors count:",totalErrors, totalerrorsdatasheet);
+                assertEquals("Error in Validating Message:",message, messagesdatasheet);
+        }
+        public void DashboardResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+                ApiUtils apiutilities = new ApiUtils();
+                if (apiEndpoint.equalsIgnoreCase("beisadmin.endpoint")){
+                        apiutilities.DashboardGrantingAuthorityCountvalidations(response, SheetName, TDID, apiEndpoint);
+                        apiutilities.DashboardBeisSubsidySchemeCountvalidations(response, SheetName, TDID, apiEndpoint);
+                        apiutilities.DashboardBeisSubsidyAwardCountValidations(response, SheetName, TDID, apiEndpoint);
+                }
+                else if ((apiEndpoint.equalsIgnoreCase("gaadmin.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaapprover.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaencoder.endpoint"))){
+                        apiutilities.DashboardGrantingAuthorityCountNullvalidations(response);
+                        apiutilities.DashboardSubsidySchemeCountvalidations(response, SheetName, TDID, apiEndpoint);
+                        apiutilities.DashboardSubsidyAwardCountValidations(response, SheetName, TDID, apiEndpoint);
+                }
+        }
+        public void ApprovalWorkflowResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+                String expectedReason = "blank";
+                ApiUtils apiutilities = new ApiUtils();
+                Requestdetails body = new Requestdetails();
+                Reusable d = new Reusable();
+                HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
+                if (data.isEmpty()) {
+                        Assert.fail("There is no matching TDID in the datasheet");
+                }
+                //expected status
+                String expectedStatus = data.get("ExpectedStatus");
+                if (expectedStatus.equalsIgnoreCase("Reject")){
+                        expectedReason = data.get("Rejection Reason");
+                }
+                //actual status
+                String awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+                RequestSpecification requestspec = given().spec(requestSpecifications(awardnumber,"publicsearchbasepath.uri"));
+                ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                String endpointvalue = getGlobalValue("awards.endpoint");
+                String endpointvalueupdated = endpointvalue + "/{awardnumber}";
+                Response apiresponse = requestspec.when().get(endpointvalueupdated).
+                        then().spec(requestspecone).extract().response();
+                String responseString = apiresponse.asString();
+                JsonPath updatedjsonpathobject = new JsonPath(responseString);
+                String actualStatus = updatedjsonpathobject.getString("status");
+                if (expectedStatus.equalsIgnoreCase("Reject")){
+                        String actualReason = updatedjsonpathobject.getString("rejectReason");
+                        assertEquals("Error in Validating Reject reason:",expectedReason, actualReason);
+                }
+                assertEquals("Error in Validating Status:",expectedStatus, actualStatus);
+        }
+        public void ResponsevalidationsUIDatasheet(String response, String SheetName, String TDID) throws IOException, ParseException {
+                JsonPath jsonpathobject = new JsonPath(response);
+                int count = jsonpathobject.getInt("awards.size()");
+                ArrayList<String> beneficiarylist = new ArrayList<String>();
+                for(int i=0;i<count;i++){
+                        beneficiarylist.add(jsonpathobject.getString("awards[" + i + "].beneficiary.beneficiaryName"));
+                }
+                String beneficiarynames = StringUtils.collectionToDelimitedString(beneficiarylist, "|");
+                System.out.println(beneficiarynames);
+                ApiUtils writetoexcelobject = new ApiUtils();
+                writetoexcelobject.writeBeneficiaryNameToExcel("./src/test/resources/data/sample.xlsx",SheetName,TDID,"Expected Recipient",beneficiarynames);
+        }
+        public void searchResultsResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
+                ApiUtils apiutilities = new ApiUtils();
+                Requestdetails body = new Requestdetails();
+                Reusable d = new Reusable();
+                HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
+                if (data.isEmpty()) {
+                        Assert.fail("There is no matching TDID in the datasheet");
+                }
+                String statusSheet = null;
+                String validationTypeSheet = null;
+                String searchNameSheet = null;
+
+                //expected details
+                if ((data.get("Status").trim().equalsIgnoreCase("_BLANK"))) {
+                        statusSheet = "";
+                } else {
+                        statusSheet =  data.get("Status");
+                }
+                if ((data.get("Validationtype").trim().equalsIgnoreCase("_BLANK"))) {
+                        validationTypeSheet = "";
+                } else {
+                        validationTypeSheet =  data.get("Validationtype");
+                }
+                if ((data.get("SearchName").trim().equalsIgnoreCase("_BLANK"))) {
+                        searchNameSheet = "";
+                } else {
+                        searchNameSheet =  data.get("SearchName");
+                }
+                //actual details
+                JsonPath jsonpathobject = new JsonPath(response);
+                Integer totalSearchResults = jsonpathobject.getInt("totalSearchResults");
+                Integer currentPagenumpagination = jsonpathobject.getInt("currentPage");
+                Integer totalPages = jsonpathobject.getInt("totalPages");
+                int count = jsonpathobject.getInt("awards.size()");
+                //fetches status details in arraylist
+                ArrayList<String> statuslist = new ArrayList<String>();
+                for(int i=0;i<count;i++){
+                        statuslist.add(jsonpathobject.getString("awards[" + i + "].status"));
+                }
+                //fetches subsidyMeasureTitle details in arraylist
+                ArrayList<String> subsidyMeasureTitlelist = new ArrayList<String>();
+                for(int j=0;j<count;j++) {
+                        subsidyMeasureTitlelist.add(jsonpathobject.getString("awards[" + j + "].subsidyMeasureTitle"));
+                }
+                //fetches gaName details in arraylist
+                ArrayList<String> gaNamelist = new ArrayList<String>();
+                for(int k=0;k<count;k++) {
+                        gaNamelist.add(jsonpathobject.getString("awards[" + k + "].gaName"));
+                }
+                //fetches scNumber details in arraylist
+                ArrayList<String> scNumberlist = new ArrayList<String>();
+                for(int l=0;l<count;l++) {
+                        scNumberlist.add(jsonpathobject.getString("awards[" + l + "].scNumber"));
+                }
+                //Comparison between expected & actual results
+                if (!(statusSheet.equalsIgnoreCase(""))) {
+                        for (int m = 0; m < count; m++) {
+                                String statusactual = statuslist.get(m);
+                                assertEquals("Error in Validating Status:",statusSheet, statusactual);
+                        }
+                }
+                if (!(searchNameSheet.equalsIgnoreCase(""))) {
+                        if (validationTypeSheet.equalsIgnoreCase("SubsidyMeasureTitle")) {
+                                for (int n = 0; n < count; n++) {
+                                        String subsidyMeasureTitleactual = subsidyMeasureTitlelist.get(n);
+                                        assertEquals("Error in Validating Subsidy Measure Title:",searchNameSheet, subsidyMeasureTitleactual);
+                                }
+                        }
+                        if (validationTypeSheet.equalsIgnoreCase("GrantingAuthority")) {
+                                for (int o = 0; o < count; o++) {
+                                        String gaNameactual = gaNamelist.get(o);
+                                        assertEquals("Error in Validating GA Name:",searchNameSheet, gaNameactual);
+                                }
+                        }
+                        if (validationTypeSheet.equalsIgnoreCase("SubsidyControlNumber")) {
+                                for (int p = 0; p < count; p++) {
+                                        String scNumberactual = scNumberlist.get(p);
+                                        assertEquals("Error in Validating Subsidy Control Number:",searchNameSheet, scNumberactual);
+                                }
+                        }
+                }
+                if (validationTypeSheet.equalsIgnoreCase("Pagination")) {
+                        String testdatasheetname = SheetName;
+                        String testcaseid = TDID;
+                        int updatedcounttotal;
+                        int countpagination = jsonpathobject.getInt("awards.size()");
+                        int updatedcount = 0;
+                        int totalcount = 0;
+                        int defaultpage = 1;
+                        Requestdetails requestdeailsobject = new Requestdetails();
+                        HashMap<String, Object> map = requestdeailsobject.queryparameterbuilderpagination("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", testdatasheetname, TDID, defaultpage);
+                        RequestSpecification requestspec = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map);
+                        ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                        Response apiresponse = requestspec.when().get(getGlobalValue("accessmanagementsearchResults.endpoint")).
+                                then().spec(requestspecone).extract().response();
+                        String responseString = apiresponse.asString();
+                        JsonPath newjsonpathobject = new JsonPath(responseString);
+                        count = newjsonpathobject.getInt("awards.size()");
+                        Integer totalPagespagination = newjsonpathobject.getInt("totalPages");
+                        ArrayList<Integer> arraylisttotalcount = new ArrayList<Integer>();
+                        for (int currentpage = 2; currentpage <= totalPagespagination; currentpage++) {
+                                Requestdetails requestdeailsobjectupdated = new Requestdetails();
+                                HashMap<String, Object> updatedqueryparameters = requestdeailsobjectupdated.queryparameterbuilderpagination("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", testdatasheetname, TDID, currentpage);
+                                RequestSpecification requestspecupdated = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(updatedqueryparameters);
+                                ResponseSpecification requestspeconeupdated = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                                Response apiresponseupdated = requestspecupdated.when().get(getGlobalValue("accessmanagementsearchResults.endpoint")).
+                                        then().spec(requestspeconeupdated).extract().response();
+                                String updatedresponseString = apiresponseupdated.asString();
+                                JsonPath updatedjsonpathobject = new JsonPath(updatedresponseString);
+                                updatedcount = updatedjsonpathobject.getInt("awards.size()");
+                                arraylisttotalcount.add(updatedcount);
+                        }
+                        int sum = 0;
+                        for(int i=0;i<arraylisttotalcount.size();i++){
+                                sum+=   arraylisttotalcount.get(i);
+                        }
+                        int totalcountvalues = sum + count;
+                        Assert.assertSame("Error in Validating total count in pagination:",totalcountvalues,totalSearchResults);
+                }
+        }
+        public int fetchAwardCountDetailsFromSearchResultsResponse(String SheetName, String TDID) throws IOException, ParseException {
+                int count;
+                Reusable d = new Reusable();
+                ApiUtils apiutilities = new ApiUtils();
+                Requestdetails body = new Requestdetails();
+                HashMap<String, Object> map = body.queryparameterbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
+                RequestSpecification requestspec = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map);
+                ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
+                Response apiresponse = requestspec.when().get(getGlobalValue("accessmanagementsearchResults.endpoint")).
+                        then().spec(requestspecone).extract().response();
+                String responseString = apiresponse.asString();
+                JsonPath jsonpathobject = new JsonPath(responseString);
+                String statusCode = String.valueOf(apiresponse.getStatusCode());
+                if (statusCode.equalsIgnoreCase("404")){
+                        count = 0;
+                }
+                else {
+                        count = jsonpathobject.getInt("totalSearchResults");
+                }
+                return count;
         }
 }
