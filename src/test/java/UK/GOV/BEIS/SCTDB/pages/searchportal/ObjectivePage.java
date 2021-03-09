@@ -19,7 +19,7 @@ import java.util.List;
 public class ObjectivePage extends PageObject {
 
 
-    @FindBy(xpath = "//label/following-sibling::input[@type='subsidyobjective']")
+    @FindBy(xpath = "//label/following-sibling::input[@id='subsidyobjective-12']")
     @CacheLookup
     WebElementFacade Other;
 

@@ -27,7 +27,7 @@ public class RecipientPage extends PageObject {
 
 
     //@FindBy(id = "Beneficiary_name_text")
-    @FindBy(xpath = "//input[@type='beneficiaryname']")
+    @FindBy(xpath = "//input[@id='Beneficiary_name_text']")
     @CacheLookup
     WebElementFacade txt_BeneficiaryName;
 
@@ -61,7 +61,7 @@ public class RecipientPage extends PageObject {
         }
         else if(!Recipient.trim().equalsIgnoreCase("_BLANK"))
             {
-            String text = $("//input[@type='beneficiaryname']").getAttribute("value");
+            String text = $("//input[@id='Beneficiary_name_text']").getAttribute("value");
             flag = ($("//input[@value='Yes']").isSelected() && text.contentEquals(Recipient));
         }
         if(!flag){

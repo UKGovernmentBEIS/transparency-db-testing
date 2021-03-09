@@ -16,7 +16,7 @@ import java.util.List;
 public class TypesPage extends PageObject {
 
 
-    @FindBy(xpath = "//label/following-sibling::input[@type='subsidyinstrument']")
+    @FindBy(xpath = "//label/following-sibling::input[@name='subsidyinstrument9']")
     @CacheLookup
     WebElementFacade Other;
 
@@ -60,7 +60,7 @@ public class TypesPage extends PageObject {
                 }
             }
             if(items.contains("Other")){
-                String text = $("//input[@id='subsidyinstrument-8']").getAttribute("value");
+                String text = $("//input[@id='subsidyinstrument-71']").getAttribute("value");
                 textflag = (text.contentEquals(OtherType));
             }
 

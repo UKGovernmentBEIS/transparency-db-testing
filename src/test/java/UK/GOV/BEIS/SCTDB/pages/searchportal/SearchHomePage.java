@@ -14,7 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 
-@DefaultUrl("https://integ-transparency-db-publicsearch-portal.azurewebsites.net/")
+//@DefaultUrl("https://integ-transparency-db-publicsearch-portal.azurewebsites.net/")
+@DefaultUrl("page:search.url")
 public class SearchHomePage extends PageObject {
 
     @FindBy(xpath = "//button[contains(text(),'Start now')]")

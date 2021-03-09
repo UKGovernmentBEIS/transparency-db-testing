@@ -1,4 +1,4 @@
-package UK.GOV.BEIS.SCTDB.runners.api;
+package UK.GOV.BEIS.SCTDB.runners.api.search;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;

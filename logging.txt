@@ -1,61 +1,33 @@
 Request method:	GET
-Request URI:	https://integ-transparency-db-public-search-service.azurewebsites.net/searchResults/award/2701
+Request URI:	https://integ-transparency-db-public-search-service.azurewebsites.net/searchResults/award/2
 Proxy:			<none>
 Request params:	<none>
 Query params:	<none>
 Form params:	<none>
-Path params:	awardnumber=2701
+Path params:	awardnumber=2
 Headers:		Accept=*/*
 				Content-Type=application/json; charset=UTF-8
 Cookies:		<none>
 Multiparts:		<none>
 Body:			<none>
-HTTP/1.1 200 OK
+HTTP/1.1 404 Not Found
+Cache-Control: no-store, must-revalidate, no-cache, max-age=0
+Pragma: no-cache
 Transfer-Encoding: chunked
 Content-Type: application/json
+Expires: 0
+Vary: Access-Control-Request-Headers
+Server: Kestrel
 Request-Context: appId=cid-v1:cdfd87d0-79d3-4f93-bdcb-5e7ad83a68cf
-Date: Fri, 22 Jan 2021 16:09:10 GMT
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: DENY
+Date: Mon, 08 Mar 2021 13:43:08 GMT
 
 {
-    "awardNumber": 2701,
-    "beneficiary": {
-        "beneficiaryName": "Automation 001",
-        "nationalId": "25899862",
-        "nationalIdType": "Company Registration Number",
-        "orgSize": "Micro organisation"
-    },
-    "subsidyMeasure": {
-        "subsidyMeasureTitle": "AHDB Generic Promotional Measures scheme",
-        "scNumber": "SC10000",
-        "startDate": "01 April 2015",
-        "endDate": "31 March 2021",
-        "duration": 2191,
-        "budget": "120000000",
-        "adhoc": false,
-        "gaSubsidyWebLink": "https://ec.europa.eu/competition/state_aid/cases/257436/257436_1633216_44_2.pdf",
-        "legalBasis": {
-            "legalBasisText": "Culture/Heritage"
-        },
-        "publishedMeasureDate": "2015-03-24",
-        "createdBy": "SYSTEM",
-        "approvedBy": "SYSTEM"
-    },
-    "grantingAuthorityResponse": {
-        "grantingAuthorityName": "Welsh assembly government"
-    },
-    "subsidyFullAmountRange": "NA",
-    "subsidyFullAmountExact": "100,000",
-    "subsidyObjective": "Research and development",
-    "subsidyInstrument": "Direct Grant",
-    "spendingSector": "Agriculture, forestry and fishing",
-    "goodsServicesFilter": "Goods",
-    "legalGrantingDate": "14 July 2019",
-    "createdBy": "SYSTEM",
-    "approvedBy": "SYSTEM",
-    "status": "Published",
-    "rejectReason": "GDS standards",
-    "spendingRegion": "North East",
-    "createdTimestamp": "2021-01-19",
-    "lastModifiedTimestamp": "2021-01-22",
-    "publishedAwardDate": "2019-07-14"
+    "timestamp": "2021-03-08",
+    "status": 404,
+    "error": "Not Found",
+    "message": "",
+    "path": "/searchResults/award/2"
 }

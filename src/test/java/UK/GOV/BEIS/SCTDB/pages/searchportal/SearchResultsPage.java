@@ -61,7 +61,7 @@ public class SearchResultsPage extends PageObject {
         List<String> ColumnValues = new ArrayList<>();
         boolean todo = true;
         int expectedResultCount = Integer.parseInt($("//label/b").getText());
-        int resultsPerPage = Integer.parseInt($("//select/option[@selected]").getText());
+        int resultsPerPage = Integer.parseInt($("//a[contains(@aria-label,'records per page')][contains(@class,'active')]").getText());
         int expectedPages=(expectedResultCount+(resultsPerPage-1))/resultsPerPage;
         int page =1;
 
@@ -200,7 +200,7 @@ public void refineFilter(HashMap<String,String> TestData){
        /* waitFor(ExpectedConditions.urlMatches("\\/*results"));
         withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//h1"));*/
 
-        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//form/div/button"));
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//form/button"));
 
         if(findAll(By.xpath("//h1[contains(text(),'No results found for the search criteria')]")).size()>0){
             if(!Values.contentEquals("no result")){
@@ -340,7 +340,7 @@ public void refineFilter(HashMap<String,String> TestData){
     public void validateSearchResults(String ColumnIndex, String Values) {
 
         //waitFor(ExpectedConditions.urlMatches("\\/*results"));
-        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//form/div/button"));
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//form/button"));
         Serenity.takeScreenshot();
 
         if(findAll(By.xpath("//h1[contains(text(),'No results found for the search criteria')]")).size()>0){
@@ -362,12 +362,12 @@ public void refineFilter(HashMap<String,String> TestData){
             }
             }*/
 
-            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'not sorted')]")).size() > 0) ||
-                    (findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Descending order')]")).size() > 0)){
+            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'not sorted')]")).size() > 0) ||
+                    (findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Descending order')]")).size() > 0)){
 
                 $("//tr/th[" + ColumnIndex + "]/a/img").click();
             }
-            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Ascending order')]")));
+            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Ascending order')]")));
             sortResults(ColumnIndex, Values);
 
         } else if (Values.contentEquals("dsc")) {
@@ -379,15 +379,15 @@ public void refineFilter(HashMap<String,String> TestData){
                     break;
                 }
             }*/
-            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'not sorted')]")).size() > 0)){
+            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'not sorted')]")).size() > 0)){
                 $("//tr/th[" + ColumnIndex + "]/a/img").click();
-                waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Ascending order')]")));
+                waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Ascending order')]")));
             }
 
-            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Ascending order')]")).size() > 0)){
+            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Ascending order')]")).size() > 0)){
                 $("//tr/th[" + ColumnIndex + "]/a/img").click();
             }
-            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Descending order')]")));
+            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Descending order')]")));
             sortResults(ColumnIndex, Values);
         } else {
             List<String> Expected = new ArrayList<>(Arrays.asList(Values.split("\\|")));
