@@ -9,9 +9,6 @@ import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchHomePage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchResultsPage;
 
 import UK.GOV.BEIS.SCTDB.utilities.Reusable;
-import UK.GOV.BEIS.SCTDB.utilities.BrowserStackSerenityDriver;
-import io.cucumber.java.After;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;

@@ -4,20 +4,15 @@ import UK.GOV.BEIS.SCTDB.pages.searchportal.GrantingDatePage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.ObjectivePage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.RecipientPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchHomePage;
-import UK.GOV.BEIS.SCTDB.pages.searchportal.SearchResultsPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.SpendingSectorPage;
 import UK.GOV.BEIS.SCTDB.pages.searchportal.TypesPage;
-import UK.GOV.BEIS.SCTDB.utilities.BrowserStackSerenityDriver;
 import UK.GOV.BEIS.SCTDB.utilities.Reusable;
-import io.cucumber.java.After;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.core.Serenity;
 import org.junit.Assert;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 
 public class AdvancedSearch_Steps {
