@@ -67,7 +67,7 @@ public class SearchResultsPage extends PageObject {
 
         while(todo)
         {
-            if(ColumnIndex.equals("7")){
+            if(ColumnIndex.equals("5")){
                 DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd MMMM uuuu");
                 for (WebElement e : getDriver().findElements(By.xpath("//tbody//tr/td["+ColumnIndex+"]"))) {
                 ColumnValues.add(LocalDate.parse(e.getText(),DateFormat).toString());
@@ -76,16 +76,16 @@ public class SearchResultsPage extends PageObject {
 
         else{
 
-                new WebDriverWait(getDriver(), 10).until((ExpectedCondition<Boolean>) wd ->
+               /*  new WebDriverWait(getDriver(), 10).until((ExpectedCondition<Boolean>) wd ->
                         ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
 
-              /*  for (WebElement e : getDriver().findElements(By.xpath("//tbody//tr/td[" + ColumnIndex + "]"))) {
+               for (WebElement e : getDriver().findElements(By.xpath("//tbody//tr/td[" + ColumnIndex + "]"))) {
                     ColumnValues.add(e.getText());
                 }*/
                     int totalRecords = findAll(By.xpath("//tbody//tr/td[" + ColumnIndex + "]")).size();
-                    System.out.println("totalRecords: "+totalRecords);
+                    //System.out.println("totalRecords: "+totalRecords);
                     for (int rowNum=1;rowNum<=totalRecords;rowNum++){
-                        System.out.println("Current Row: "+rowNum);
+                        //System.out.println("Current Row: "+rowNum);
                         ColumnValues.add(withTimeoutOf(Duration.ofSeconds(5))
                                 .find(By.xpath("//tbody//tr["+rowNum+"]/td[" + ColumnIndex + "]"))
                                 .getText());
@@ -96,10 +96,7 @@ public class SearchResultsPage extends PageObject {
             if(findAll(By.xpath("//a[contains(text(),'Next Page')]")).size()>0) {
                 $("//a[contains(text(),'Next Page')]").click();
                 page++;
-                //waitFor(ExpectedConditions.urlMatches("\\/\\?*page\\="));
                 waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@id='paginationlink"+page+"'][contains(@class,'active')]")));
-
-                //waitFor(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(By.xpath("//p[@class='pagination-label']/span[1]"))));
             }
             else{
                 todo = false;
@@ -130,9 +127,9 @@ public class SearchResultsPage extends PageObject {
         }
         else if(ColumnIndex.contentEquals("5")){
             List<LocalDate> Dates= new ArrayList<>();
-            DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd MMMM uuuu");
+            //DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd MMMM uuuu");
             for(String s: Actual){
-                Dates.add(LocalDate.parse(s,DateFormat));
+                Dates.add(LocalDate.parse(s));
             }
 
             List<LocalDate> tempDates = new ArrayList<>(List.copyOf(Dates));
@@ -163,8 +160,8 @@ public void refineFilter(HashMap<String,String> TestData){
 
     //Validate if no results are displayed
     if(findAll(By.xpath("//h1[contains(text(),'No results found for the search criteria')]")).size()<1) {
-        $("//a[contains(text(),'Show filters')]").click();
-        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//a[contains(text(),'Hide filters')]"));
+        //$("//a[contains(text(),'Show filters')]").click();
+        withTimeoutOf(Duration.ofSeconds(5)).find(By.xpath("//button[@name='showfiter']"));
         Open.click();
 
         if (!TestData.get("Purpose Filter").contentEquals("_BLANK")) {
@@ -278,16 +275,16 @@ public void refineFilter(HashMap<String,String> TestData){
         }
                 Serenity.takeScreenshot();
 
-            Expected.add(TestData.get("SC Number"));
-            Expected.add(TestData.get("Region"));
-            Expected.add(TestData.get("Purpose"));
-            Expected.add(TestData.get("Sector"));
-            Expected.add(TestData.get("Legal Basis"));
-            Expected.add(TestData.get("GA Websubsidy Link"));
-            Expected.add(TestData.get("Type"));
-            Expected.add(TestData.get("Case Type"));
-            Expected.add(TestData.get("Duration"));
-            Expected.add(TestData.get("Date"));
+            Expected.add(TestData.get("SC Number").trim());
+            Expected.add(TestData.get("Region").trim());
+            Expected.add(TestData.get("Purpose").trim());
+            Expected.add(TestData.get("Sector").trim());
+            Expected.add(TestData.get("Legal Basis").trim());
+            Expected.add(TestData.get("GA Websubsidy Link").trim());
+            Expected.add(TestData.get("Type").trim());
+            Expected.add(TestData.get("Case Type").trim());
+            Expected.add(TestData.get("Duration").trim());
+            Expected.add(TestData.get("Date").trim());
 
         {
             waitFor(ExpectedConditions.visibilityOf($("//h1[contains(text(),'Subsidy scheme details')]")));
@@ -298,21 +295,10 @@ public void refineFilter(HashMap<String,String> TestData){
             }
 
             System.out.println("Actual: " + MeasureDetails + "\nExpected: " + Expected);
-            //List<String> tempEx = List.copyOf(Expected);
 
             if (!MeasureDetails.equals(Expected)){
                 Assert.fail("Values are not matching" + MeasureDetails);
-
             }
-           /* Expected.removeAll(MeasureDetails);
-            MeasureDetails.removeAll(tempEx);
-
-            if (!Expected.isEmpty()) {
-                Assert.fail(Expected + " is not present in the Details");
-            }
-            if (!MeasureDetails.isEmpty()) {
-                Assert.fail(MeasureDetails + " is present additionally in the Details");
-            }*/
 
         }
 
@@ -354,40 +340,26 @@ public void refineFilter(HashMap<String,String> TestData){
             int counter =1;
         //To initiate Sort Validation
         if (Values.contentEquals("asc")) {
-           /* while (findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@id,'_uparrow')]")).size() < 1) {
-                $("//tr/th[" + ColumnIndex + "]/a/img").click();
-                counter++;
-                if(counter>2){
-                    break;
-            }
-            }*/
 
-            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'not sorted')]")).size() > 0) ||
-                    (findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Descending order')]")).size() > 0)){
+            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'not sorted')]")).size() > 0) ||
+                    (findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Descending order')]")).size() > 0)){
 
                 $("//tr/th[" + ColumnIndex + "]/a/img").click();
             }
-            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Ascending order')]")));
+            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Ascending order')]")));
             sortResults(ColumnIndex, Values);
 
         } else if (Values.contentEquals("dsc")) {
-            /*while (findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@id,'_downarrow')]")).size() < 1) {
+
+            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'not sorted')]")).size() > 0)){
                 $("//tr/th[" + ColumnIndex + "]/a/img").click();
-                waitFor(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(By.xpath("//tr/th[" + ColumnIndex + "]/a/img"))));
-                counter++;
-                if(counter>2){
-                    break;
-                }
-            }*/
-            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'not sorted')]")).size() > 0)){
-                $("//tr/th[" + ColumnIndex + "]/a/img").click();
-                waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Ascending order')]")));
+                waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Ascending order')]")));
             }
 
-            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Ascending order')]")).size() > 0)){
+            if ((findAll(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Ascending order')]")).size() > 0)){
                 $("//tr/th[" + ColumnIndex + "]/a/img").click();
             }
-            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@aria-hidden,'Descending order')]")));
+            waitFor(ExpectedConditions.presenceOfElementLocated(By.xpath("//th[" + ColumnIndex + "]/a/img[contains(@alt,'Descending order')]")));
             sortResults(ColumnIndex, Values);
         } else {
             List<String> Expected = new ArrayList<>(Arrays.asList(Values.split("\\|")));
@@ -399,14 +371,16 @@ public void refineFilter(HashMap<String,String> TestData){
 
             //To Check if the result dates are present within the expected date range
             if (ColumnIndex.equals("5")) {
-                DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd MMMM uuuu");
+                //DateTimeFormatter DateFormat = DateTimeFormatter.ofPattern("dd MMMM uuuu");
                 LocalDate ExpectedFrom = LocalDate.parse(Expected.get(0));
                 LocalDate ExpectedTo = LocalDate.parse(Expected.get(1));
+
+                System.out.println("Actual: " + Actual + "\nExpected: " + Expected);
 
                 LocalDate ResultDate;
                 for (String Date : Actual) {
                     System.out.println(Date);
-                    ResultDate = LocalDate.parse(Date, DateFormat);
+                    ResultDate = LocalDate.parse(Date);
                     if (ResultDate.isBefore(ExpectedFrom) || ResultDate.isAfter(ExpectedTo)) {
                         Assert.fail(ResultDate + " is not present in the expected date range (" + ExpectedFrom + " - " + ExpectedTo + ")");
                     }

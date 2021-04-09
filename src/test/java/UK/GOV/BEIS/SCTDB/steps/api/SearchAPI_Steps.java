@@ -138,7 +138,7 @@ public class SearchAPI_Steps extends ApiUtils {
         requestspec = SerenityRest.given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map);
     }
 
-    @When("I calls {string} API with {string} http request")
+    @When("I call {string} API with {string} http request")
     public void ICallsEndpointAPIWithHttpRequest(String Endpoint, String httpRequestmethod) throws IOException {
         apiEndpoint = Endpoint;
         requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();

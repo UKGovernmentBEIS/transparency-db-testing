@@ -2,7 +2,7 @@ Feature: GET response using /searchResults/award API
 
   Scenario Outline: Get a valid Response for valid awardnumber
     Given A award exists with award number from datasheet by passing "<TestData>" & "<DataSheet>"
-    When I calls "<Endpoint>" API with "Get" http request
+    When I call "<Endpoint>" API with "Get" http request
     Then I will be getting the expected StatusCode
     Then I will be validating response against values in datasheet
     Examples:
@@ -25,7 +25,7 @@ Feature: GET response using /searchResults/award API
 
   Scenario Outline: Get a invalid Response for invalid awardnumber
     Given A award exists with award number from datasheet by passing "<TestData>" & "<DataSheet>"
-    When I calls "<Endpoint>" API with "Get" http request
+    When I call "<Endpoint>" API with "Get" http request
     Then I will be getting the expected StatusCode
     Then I will be validating response against values in datasheet
     Examples:
