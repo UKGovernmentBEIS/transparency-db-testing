@@ -22,7 +22,7 @@ import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 
 public class ApiUtils {
-    public static RequestSpecification req;
+    public static RequestSpecification req=null;
     String awardvalue;
 
     public String fetchawardnumber(String awardnumber) {
@@ -32,24 +32,26 @@ public class ApiUtils {
 
     public RequestSpecification requestSpecification(String basepathuri) throws IOException {
 
-        if (req==null)
-        {
+//        if (req==null)
+//        {
             PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
         req = new RequestSpecBuilder().setBaseUri(getGlobalValue(basepathuri))
-                .addFilter(RequestLoggingFilter.logRequestTo(log))
-                .addFilter(ResponseLoggingFilter.logResponseTo(log))
+                .setUrlEncodingEnabled(false)
+                //.addFilter(RequestLoggingFilter.logRequestTo(log))
+                //.addFilter(ResponseLoggingFilter.logResponseTo(log))
                         .setContentType(ContentType.JSON).build();
         return req;
-        }
-        return req;
+//        }
+//        return req;
     }
 
     public RequestSpecification requestSpecifications(String awardnumber,String basepathuri) throws IOException {
         PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
         req = new RequestSpecBuilder().setBaseUri(getGlobalValue(basepathuri))
+                .setUrlEncodingEnabled(false)
                 .addPathParam("awardnumber",awardnumber)
-                .addFilter(RequestLoggingFilter.logRequestTo(log))
-                .addFilter(ResponseLoggingFilter.logResponseTo(log))
+                //.addFilter(RequestLoggingFilter.logRequestTo(log))
+                //.addFilter(ResponseLoggingFilter.logResponseTo(log))
                 .setContentType(ContentType.JSON).build();
         return req;
     }
@@ -63,7 +65,7 @@ public class ApiUtils {
 
     public String datelongformatter(String date) throws ParseException {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM YYYY");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
         String strDate = formatter.format(date1);
         return strDate;
     }

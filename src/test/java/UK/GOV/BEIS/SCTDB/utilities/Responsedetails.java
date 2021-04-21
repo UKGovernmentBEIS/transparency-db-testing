@@ -27,14 +27,14 @@ public class Responsedetails extends ApiUtils {
 
                 //fetches award details in arraylist
                 int count = js.getInt("awards.size()");
-                System.out.println(count);
+                //System.out.println(count);
                 List<String> awardslist[] = new ArrayList[count];
                 for (int l = 0; l < count; l++) {
                         awardslist[l] = new ArrayList<>();
                         awardslist[l].add(String.valueOf(js.getInt("awards[" + l + "].awardNumber")));
                         awardslist[l].add(js.getString("awards[" + l + "].subsidyFullAmountRange"));
                         awardslist[l].add(js.getString("awards[" + l + "].subsidyFullAmountExact"));
-                        awardslist[l].add(js.getString("awards[" + l + "].subsidyObjective"));
+                        awardslist[l].add(js.getString("awards[" + l + "].subsidyObjective").replaceAll("[\\p{Cf}]", ""));
                         awardslist[l].add(js.getString("awards[" + l + "].subsidyInstrument"));
                         awardslist[l].add(js.getString("awards[" + l + "].spendingSector"));
                         awardslist[l].add(js.getString("awards[" + l + "].legalGrantingDate"));
@@ -44,7 +44,7 @@ public class Responsedetails extends ApiUtils {
                 for (int m = 0; m < awardslist.length; m++) {
                         awardsNumber[m] = new ArrayList<>();
                         awardsNumber[m].add(String.valueOf(js.getInt("awards[" + m + "].awardNumber")));
-                        System.out.println(awardslist[m]);
+                        //System.out.println(awardslist[m]);
                 }
 
                 //fetches beneficiary name details in arraylist
@@ -54,9 +54,9 @@ public class Responsedetails extends ApiUtils {
                         beneficiaryName[n].add(js.getString("awards[" + n + "].beneficiary.beneficiaryName"));
                 }
 
-                for (int o = 0; o < beneficiaryName.length; o++) {
+                /*for (int o = 0; o < beneficiaryName.length; o++) {
                         System.out.println(beneficiaryName[o]);
-                }
+                }*/
 
                 //fetches subsidy measure details in arraylist
                 List<String> subsidyMeasurelist[] = new ArrayList[count];
@@ -72,7 +72,7 @@ public class Responsedetails extends ApiUtils {
                 for (int q = 0; q < subsidyMeasurelist.length; q++) {
                         ScNumber[q] = new ArrayList<>();
                         ScNumber[q].add(js.getString("awards[" + q + "].subsidyMeasure.scNumber"));
-                        System.out.println(subsidyMeasurelist[q]);
+                        //System.out.println(subsidyMeasurelist[q]);
                 }
 
                 Reusable reUse = new Reusable();
@@ -115,7 +115,7 @@ public class Responsedetails extends ApiUtils {
                                 List<String> subsidyMeaList = respObj.SubsidyMeaValidate("SubsidySchemeDetails", subsidyMeas);
                                 Collections.sort(subsidyMeasurelist[r]);
                                 Collections.sort(subsidyMeaList);
-                                assertEquals("Error in Validating Subsidy Measure details:",subsidyMeasurelist[r], subsidyMeaList);
+                                assertEquals("Error in Validating Subsidy Measure details:", subsidyMeaList,subsidyMeasurelist[r]);
                         }
                 }
                 if (validationData.equalsIgnoreCase("AwardsDetails")) {
@@ -127,9 +127,10 @@ public class Responsedetails extends ApiUtils {
                                 List<String> awardLists = awardObject.AwardsValidate("AwardsDetails", awardSlno);
                                 Collections.sort(awardslist[s]);
                                 Collections.sort(awardLists);
+                                //System.out.println("Actual: "+awardslist[s]+ '\n'+"Expected: "+awardLists);
                                 assertEquals("Error in Validating Subsidy Award list count:",awardslist[s].size(), awardLists.size());
                                 for (int y = 0; y < awardslist[s].size(); y++) {
-                                        assertEquals("Error in Validating Subsidy Award details:",awardslist[s].get(y).trim(), awardLists.get(y).trim());
+                                        assertEquals("Error in Validating Subsidy Award details:",awardLists.get(y).trim(),awardslist[s].get(y).trim());
                                 }
                         }
                 }
@@ -225,6 +226,7 @@ public class Responsedetails extends ApiUtils {
                 String subsidyMeas = String.join(", ", ScNumber);
                 ApiUtils respObj = new ApiUtils();
                 List<String> subsidyMeaList = respObj.AwardsapiSubsidyMeaValidate("SubsidySchemeDetails", subsidyMeas);
+                //System.out.println("From excel"+ subsidyMeaList);
                 Collections.sort(awardsapisubsidylist);
                 Collections.sort(subsidyMeaList);
                 assertEquals("Error in Validating Subsidy Measures details:",awardsapisubsidylist, subsidyMeaList);
@@ -373,7 +375,7 @@ public class Responsedetails extends ApiUtils {
                         exportalllist.add(Exportallawardsdata.get("Spending Region"));
                         exportalllist.add(Exportallawardsdata.get("Spending Sector"));
                         exportalllist.add(Exportallawardsdata.get("Published Date"));
-                        System.out.println(exportalllist);
+                        //System.out.println(exportalllist);
                         HashMap<String, String> Exportallawardsvalidation = fetchexportallvalues.readExcelDataNew("./src/test/resources/data/SearchAPIDatasheet.xlsx", exportallvalidationsheet, awardSlno);
                         if (Exportallawardsvalidation.isEmpty()) {
                                 Assert.fail("There is no matching TDID in the datasheet");
@@ -425,7 +427,7 @@ public class Responsedetails extends ApiUtils {
                         exportallvalidationlist.add(Exportallawardsvalidation.get("SpendingSector"));
                         exportallvalidationlist.add(Exportallawardsvalidation.get("PublishedAwardDate"));
                         assertEquals("Error in Validating Exported values:",exportalllist, exportallvalidationlist);
-                        System.out.println(exportallvalidationlist);
+                        //System.out.println(exportallvalidationlist);
                 }
         }
         public void AddSingleSubsidyAwardResponsevalidations(String response, String SheetName, String TDID) throws IOException, ParseException {
@@ -539,7 +541,7 @@ public class Responsedetails extends ApiUtils {
                         beneficiarylist.add(jsonpathobject.getString("awards[" + i + "].beneficiary.beneficiaryName"));
                 }
                 String beneficiarynames = StringUtils.collectionToDelimitedString(beneficiarylist, "|");
-                System.out.println(beneficiarynames);
+                //System.out.println(beneficiarynames);
                 ApiUtils writetoexcelobject = new ApiUtils();
                 writetoexcelobject.writeBeneficiaryNameToExcel("./src/test/resources/data/sample.xlsx",SheetName,TDID,"Expected Recipient",beneficiarynames);
         }

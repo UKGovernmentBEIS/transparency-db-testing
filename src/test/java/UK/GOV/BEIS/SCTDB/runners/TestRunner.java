@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class TestRunner {
 
 //   @Test
@@ -72,7 +74,7 @@ public class TestRunner {
     }
 
 
-    @Test
+    //@Test
     public void test3()
         {
             //String filePath = "ExcelWorkbook.xls";
@@ -124,6 +126,11 @@ public class TestRunner {
                     (WorkbookEvaluatorProvider)workbook.getCreationHelper().createFormulaEvaluator();
             DataValidationEvaluator dataValidationEvaluator = new DataValidationEvaluator(workbook, workbookEvaluatorProvider);
          return dataValidationEvaluator.getValidationForCell(new CellReference(cell));
+        }
+
+        @Test
+        public void test4(){
+            assertEquals("Error in Validating Subsidy Award details:","SME (Small/Medium-sized enterprise) support","SME (Small/Medium-sized enterprise) support");
         }
 
     }

@@ -1,8 +1,6 @@
-@Sprint4
-@issues:#714
 Feature: Advanced Search
 
-  @issues:#724
+
   Scenario Outline: Public User Search: Record of Selections
     Given I have test data "<TestData>" from "<DataSheet>"
     Given I am on the Public User Search Portal

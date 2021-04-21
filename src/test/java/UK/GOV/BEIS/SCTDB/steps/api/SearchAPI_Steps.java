@@ -2,6 +2,7 @@ package UK.GOV.BEIS.SCTDB.steps.api;
 
 import UK.GOV.BEIS.SCTDB.utilities.*;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -52,8 +53,10 @@ public class SearchAPI_Steps extends ApiUtils {
         Requestdetails body = new Requestdetails();
         if (DataSheetName.equalsIgnoreCase("PublicSearch")){
             HashMap<String, Object> payload= body.Payloadbuilder("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
+            //System.out.println(payload);
             apistatuscode = body.FetchStatusCode("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
             requestspec = SerenityRest.given().spec(requestSpecification("publicsearchbasepath.uri")).body(payload);
+            //.log().all()
         }
         else if(DataSheetName.equalsIgnoreCase("AddSingleNewSubsidyAward")){
             HashMap<String, Object> payload= body.AddSingleSubsidyPayloadbuilder("./src/test/resources/data/PublishingSubsidiesAPIDatasheet.xlsx",SheetName,TDID);
@@ -77,6 +80,7 @@ public class SearchAPI_Steps extends ApiUtils {
         awardnumber = body.Fetchawardnumber("./src/test/resources/data/SearchAPIDatasheet.xlsx",SheetName,TDID);
         awardid = fetchawardnumber(awardnumber);
         requestspec = SerenityRest.given().spec(requestSpecifications(awardid,"publicsearchbasepath.uri"));
+        //.log().all()
     }
 
     @Given("Payload is created with details from datasheet by passing values {string} & {string}")
@@ -221,4 +225,9 @@ public class SearchAPI_Steps extends ApiUtils {
             responseobject.ResponsevalidationsUIDatasheet(responseString,DataSheetName, TestdataId);
         }
     }
+    @After
+    public void afterscenario(){
+        requestspec=null;
+    }
+
 }

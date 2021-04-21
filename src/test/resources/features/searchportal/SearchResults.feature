@@ -1,8 +1,5 @@
-@Sprint3
-@issues:#783
 Feature: Search Results
 
-  @issues:#784
   Scenario Outline: Public User Search - Search Results Page
   # This scenario covers Search by the following fields
   # PBI:465 - Public User Search: Search by Beneficiary
@@ -13,7 +10,7 @@ Feature: Search Results
   # PBI:522 - Public User Search: Multiple Field Search
   # PBI:537 - Public Search Webpage Display Filter
   # PBI:538 - Public Search Webpage Display Sort
-  # TODO: PBI-784 - Public User Search: Search Results Page
+  # PBI-784 - Public User Search: Search Results Page
 
     Given I have "<TestData>" from "<DataSheet>"
     Given I navigate to Search Portal

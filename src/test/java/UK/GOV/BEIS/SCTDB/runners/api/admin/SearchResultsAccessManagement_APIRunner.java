@@ -1,12 +1,12 @@
-package UK.GOV.BEIS.SCTDB.runners.api;
+package UK.GOV.BEIS.SCTDB.runners.api.admin;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
-@CucumberOptions(features = {"src/test/resources/features/api/POSTSearchResults_TestdataSheetUpdateAPI.feature"}
+@CucumberOptions(features = {"src/test/resources/features/api/GETSearchResultsAPI.feature"}
         ,glue= "UK/GOV/BEIS/SCTDB/steps/api")
 
-public class SearchResultsTestdataSheet_APIRunner {
+public class SearchResultsAccessManagement_APIRunner {
 }

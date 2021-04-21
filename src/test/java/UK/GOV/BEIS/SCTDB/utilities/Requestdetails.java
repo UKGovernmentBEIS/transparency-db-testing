@@ -1,5 +1,6 @@
 package UK.GOV.BEIS.SCTDB.utilities;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.*;
 
 import java.io.IOException;
@@ -91,7 +92,7 @@ public class Requestdetails {
         //"legalGrantingFromDate"
         String From = data.get("From").toString();
         if ((From.trim().equalsIgnoreCase("_BLANK")) || (From.trim().equalsIgnoreCase("No"))) {
-            map.put("legalGrantingFromDate", "");
+            map.put("legalGrantingFromDate", "1960-01-01");
         } else {
             map.put("legalGrantingFromDate", From);
         }
@@ -99,7 +100,7 @@ public class Requestdetails {
         //"legalGrantingToDate"
         String To = data.get("To").toString();
         if ((To.trim().equalsIgnoreCase("_BLANK")) || (To.trim().equalsIgnoreCase("No"))) {
-            map.put("legalGrantingToDate", "");
+            map.put("legalGrantingToDate", LocalDate.now().toString());
         } else {
             map.put("legalGrantingToDate", To);
         }
@@ -182,7 +183,7 @@ public class Requestdetails {
         //"legalGrantingFromDate"
         String From = data.get("From").toString();
         if ((From.trim().equalsIgnoreCase("_BLANK")) || (From.trim().equalsIgnoreCase("No"))) {
-            map.put("legalGrantingFromDate", "");
+            map.put("legalGrantingFromDate", "1960-01-01");
         } else {
             map.put("legalGrantingFromDate", From);
         }
@@ -190,7 +191,7 @@ public class Requestdetails {
         //"legalGrantingToDate"
         String To = data.get("To").toString();
         if ((To.trim().equalsIgnoreCase("_BLANK")) || (To.trim().equalsIgnoreCase("No"))) {
-            map.put("legalGrantingToDate", "");
+            map.put("legalGrantingToDate", LocalDate.now().toString());
         } else {
             map.put("legalGrantingToDate", To);
         }

@@ -1,12 +1,12 @@
-package UK.GOV.BEIS.SCTDB.runners.api;
+package UK.GOV.BEIS.SCTDB.runners.api.admin;
 
 import io.cucumber.junit.CucumberOptions;
 import net.serenitybdd.cucumber.CucumberWithSerenity;
 import org.junit.runner.RunWith;
 
 @RunWith(CucumberWithSerenity.class)
-@CucumberOptions(features = {"src/test/resources/features/api/GETHealthAPI.feature"}
+@CucumberOptions(features = {"src/test/resources/features/api/GETGrantingAuthorityApproverAPI.feature"}
         ,glue= "UK/GOV/BEIS/SCTDB/steps/api")
-public class Health_APIRunner {
-}
 
+public class GrantingAuthorityApprover_APIRunner {
+}
