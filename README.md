@@ -2,7 +2,7 @@ TEST AUTOMATION FRAMEWORK
 
 1. Technologies Used:
 
-    Programing Launguage : JAVA
+    Programing Language : JAVA
     
     Build Tool           : MAVEN
     
@@ -24,6 +24,12 @@ TEST AUTOMATION FRAMEWORK
          "mvn clean verify -P API" -> To test all the API features
          
          "mvn clean verify -P UI"  -> To test all the UI features
+      
+         "mvn clean verify -P SEARCH" -> To test all the SEARCH portal UI features
+
+         "mvn clean verify -P SEARCHAPI" -> To test all the SEARCH portal API features
+      
+         "mvn clean verify -P ADMINAPI" -> To test all the ADMIN portal API features
          
          "mvn clean verify -P -Dit.test=Runner_File"  -> To test individual feature
          

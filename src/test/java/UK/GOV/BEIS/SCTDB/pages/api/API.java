@@ -1,14 +1,9 @@
 package UK.GOV.BEIS.SCTDB.pages.api;
 
 import UK.GOV.BEIS.SCTDB.utilities.Reusable;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import net.serenitybdd.rest.SerenityRest;
-import org.openapi4j.schema.validator.v3.SchemaValidator;
-
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.junit.Assert.assertEquals;
 
 public class API {

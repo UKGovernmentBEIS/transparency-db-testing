@@ -2,7 +2,7 @@ Feature: GET request using /accessmanagement/searchresults API
 
   Scenario Outline: Send a valid GET Request for valid search
     Given Valid search is done with details from datasheet by passing "<TestData>" & "<DataSheet>"
-    When I calls "<Endpoint>" API with "Get" http request
+    When I call "<Endpoint>" API with "Get" http request
     Then I will be getting the expected StatusCode
     Then I will be validating response against values in datasheet
     Examples:
@@ -26,4 +26,3 @@ Feature: GET request using /accessmanagement/searchresults API
       |accessmanagementsearchResults.endpoint| TD_017| SearchResults|
       |accessmanagementsearchResults.endpoint| TD_018| SearchResults|
       |accessmanagementsearchResults.endpoint| TD_019| SearchResults|
-      |accessmanagementsearchResults.endpoint| TD_020| SearchResults|

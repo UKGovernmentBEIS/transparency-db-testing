@@ -30,7 +30,7 @@ public class LoginPage extends PageObject {
 
     public void setCredentials(String TDID,String SheetName){
 
-        Object arr[] = new Reusable().readExcelData("./src/test/resources/data/sample.xlsx",SheetName,TDID).toArray();
+        Object arr[] = new Reusable().readExcelData("./src/test/resources/data/SearchUIDatasheet.xlsx",SheetName,TDID).toArray();
        emailID.sendKeys(arr[0].toString());
         password.sendKeys(arr[1].toString());
     }

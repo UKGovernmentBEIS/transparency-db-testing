@@ -3,7 +3,7 @@ Feature: POST request using /addAward API
   @valid
   Scenario Outline: Send a valid POST Request for adding Single subsidy award
     Given Payload is created with details from datasheet by passing "<TestData>" & "<DataSheet>"
-    When I calls "<Endpoint>" API with "Post" http request
+    When I call "<Endpoint>" API with "Post" http request
     Then I will be getting the expected StatusCode
     Then I will be validating response against values in datasheet
 
@@ -38,7 +38,7 @@ Feature: POST request using /addAward API
   @Invalid
   Scenario Outline: Send an invalid POST Request for adding Single subsidy award
     Given Payload is created with details from datasheet by passing "<TestData>" & "<DataSheet>"
-    When I calls "<Endpoint>" API with "Post" http request
+    When I call "<Endpoint>" API with "Post" http request
     Then I will be getting the expected StatusCode
     Then I will be validating response against values in datasheet
 

@@ -36,7 +36,7 @@ public class ApiUtils {
 //        {
             PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
         req = new RequestSpecBuilder().setBaseUri(getGlobalValue(basepathuri))
-                .setUrlEncodingEnabled(false)
+                //.setUrlEncodingEnabled(false)
                 //.addFilter(RequestLoggingFilter.logRequestTo(log))
                 //.addFilter(ResponseLoggingFilter.logResponseTo(log))
                         .setContentType(ContentType.JSON).build();
@@ -48,7 +48,7 @@ public class ApiUtils {
     public RequestSpecification requestSpecifications(String awardnumber,String basepathuri) throws IOException {
         PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
         req = new RequestSpecBuilder().setBaseUri(getGlobalValue(basepathuri))
-                .setUrlEncodingEnabled(false)
+                //.setUrlEncodingEnabled(false)
                 .addPathParam("awardnumber",awardnumber)
                 //.addFilter(RequestLoggingFilter.logRequestTo(log))
                 //.addFilter(ResponseLoggingFilter.logResponseTo(log))
@@ -289,7 +289,7 @@ public class ApiUtils {
         }
         String totalgafloat = data.get("TotalGrantingAuthority");
         String totalactivegafloat = data.get("TotalActiveGA");
-        String totalinactivegafloat = data.get("TotalDeactiveGA");
+        String totalinactivegafloat = data.get("TotalInactiveGA");
         String totalgasheet = apiutilities.floattostring(totalgafloat);
         String totalactivegasheet = apiutilities.floattostring(totalactivegafloat);
         String totalinactivegasheet = apiutilities.floattostring(totalinactivegafloat);
@@ -307,30 +307,30 @@ public class ApiUtils {
         JsonPath js = new JsonPath(response);
         String totalPublishedSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalPublishedSubsidyMeasures");
         String totalDraftSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalDraftSubsidyMeasures");
-        String totalSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalSubsidyMeasures");
-        String totalAwaitingSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalAwaitingSubsidyMeasures");
-        String totalDeletedSubsidyMeasures = js.getString("subsidyMeasureUserActionCount.totalDeletedSubsidyMeasures");
+        String totalSubsidyScheme = js.getString("subsidyMeasureUserActionCount.totalSubsidyScheme");
+        String totalActiveScheme = js.getString("subsidyMeasureUserActionCount.totalActiveScheme");
+        String totalInactiveScheme = js.getString("subsidyMeasureUserActionCount.totalInactiveScheme");
         Reusable d = new Reusable();
         ApiUtils apiutilities = new ApiUtils();
         HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName,TDID);
         if (data.isEmpty()) {
             Assert.fail("There is no matching TDID in the datasheet");
         }
-        String beisTotalPublishedSubsidyMeasuresfloat = data.get("BeisTotalPublishedSubsidyMeasures");
-        String beisTotalDraftSubsidyMeasuresfloat = data.get("BeisTotalDraftSubsidyMeasures");
-        String beisTotalSubsidyMeasuresfloat = data.get("BeisTotalSubsidyMeasures");
-        String beisTotalAwaitingSubsidyMeasuresfloat = data.get("BeisTotalAwaitingSubsidyMeasures");
-        String beisTotalDeletedSubsidyMeasuresfloat = data.get("BeisTotalDeletedSubsidyMeasures");
-        String beisTotalPublishedSubsidyMeasuressheet = apiutilities.floattostring(beisTotalPublishedSubsidyMeasuresfloat);
-        String beisTotalDraftSubsidyMeasuressheet = apiutilities.floattostring(beisTotalDraftSubsidyMeasuresfloat);
+        //String beisTotalPublishedSubsidyMeasuresfloat = data.get("BeisTotalPublishedSubsidyMeasures");
+        //String beisTotalDraftSubsidyMeasuresfloat = data.get("BeisTotalDraftSubsidyMeasures");
+        String beisTotalSubsidyMeasuresfloat = data.get("BeisTotalSubsidySchemes");
+        String beisTotalAwaitingSubsidyMeasuresfloat = data.get("BeisTotaltotalActiveSchemes");
+        String beisTotalDeletedSubsidyMeasuresfloat = data.get("BeisTotaltotalInactiveSchemes");
+        //String beisTotalPublishedSubsidyMeasuressheet = apiutilities.floattostring(beisTotalPublishedSubsidyMeasuresfloat);
+        //String beisTotalDraftSubsidyMeasuressheet = apiutilities.floattostring(beisTotalDraftSubsidyMeasuresfloat);
         String beisTotalSubsidyMeasuressheet = apiutilities.floattostring(beisTotalSubsidyMeasuresfloat);
         String beisTotalAwaitingSubsidyMeasuressheet = apiutilities.floattostring(beisTotalAwaitingSubsidyMeasuresfloat);
         String beisTotalDeletedSubsidyMeasuressheet = apiutilities.floattostring(beisTotalDeletedSubsidyMeasuresfloat);
-        assertEquals("Error in Validating Total Published Subsidy Measures Count:",totalPublishedSubsidyMeasures, beisTotalPublishedSubsidyMeasuressheet);
-        assertEquals("Error in Validating Total Draft Subsidy Measures Count:",totalDraftSubsidyMeasures, beisTotalDraftSubsidyMeasuressheet);
-        assertEquals("Error in Validating Total Subsidy Measures Count:",totalSubsidyMeasures, beisTotalSubsidyMeasuressheet);
-        assertEquals("Error in Validating Total Awaiting Subsidy Measures Count:",totalAwaitingSubsidyMeasures, beisTotalAwaitingSubsidyMeasuressheet);
-        assertEquals("Error in Validating Total Deleted Subsidy Measures Count:",totalDeletedSubsidyMeasures, beisTotalDeletedSubsidyMeasuressheet);
+        //assertEquals("Error in Validating Total Published Subsidy Measures Count:",totalPublishedSubsidyMeasures, beisTotalPublishedSubsidyMeasuressheet);
+        //assertEquals("Error in Validating Total Draft Subsidy Measures Count:",totalDraftSubsidyMeasures, beisTotalDraftSubsidyMeasuressheet);
+        assertEquals("Error in Validating Total Subsidy Measures Count:",totalSubsidyScheme, beisTotalSubsidyMeasuressheet);
+        assertEquals("Error in Validating Total Awaiting Subsidy Measures Count:",totalActiveScheme, beisTotalAwaitingSubsidyMeasuressheet);
+        assertEquals("Error in Validating Total Deleted Subsidy Measures Count:",totalInactiveScheme, beisTotalDeletedSubsidyMeasuressheet);
     }
     public void DashboardSubsidySchemeCountvalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
         JsonPath js = new JsonPath(response);
@@ -365,21 +365,21 @@ public class ApiUtils {
         Responsedetails responseDetailsObject = new Responsedetails();
         JsonPath js = new JsonPath(response);
         String totalPublishedAward = js.getString("awardUserActionCount.totalPublishedAward");
-        String totalDraftAward = js.getString("awardUserActionCount.totalDraftAward");
+        String totalRejectedAward = js.getString("awardUserActionCount.totalRejectedAward");
         String totalSubsidyAward = js.getString("awardUserActionCount.totalSubsidyAward");
         String totalAwaitingAward = js.getString("awardUserActionCount.totalAwaitingAward");
-        String totalDeletedAward = js.getString("awardUserActionCount.totalDeletedAward");
+        String totalDeletedAward = js.getString("awardUserActionCount.totalDeleteAward");
         ArrayList<String> tdlist = new ArrayList<String>();
-        tdlist.add("TD_016");
         tdlist.add("TD_001");
         tdlist.add("TD_002");
         tdlist.add("TD_003");
         tdlist.add("TD_004");
+        tdlist.add("TD_020");
         for (int i=0;i<tdlist.size();i++){
             String TDIDvalue = tdlist.get(i);
             int awardCount = responseDetailsObject.fetchAwardCountDetailsFromSearchResultsResponse("SearchResults", TDIDvalue);
             String awardCountValue = String.valueOf(awardCount);
-            if (TDIDvalue.equalsIgnoreCase("TD_016")){
+            if (TDIDvalue.equalsIgnoreCase("TD_020")){
                 assertEquals("Error in Validating Total Subsidy Award Count:",totalSubsidyAward, awardCountValue);
             }
             else if (TDIDvalue.equalsIgnoreCase("TD_001")){
@@ -392,7 +392,7 @@ public class ApiUtils {
                 assertEquals("Error in Validating Total Deleted Award Count:",totalDeletedAward, awardCountValue);
             }
             else if (TDIDvalue.equalsIgnoreCase("TD_004")){
-                assertEquals("Error in Validating Total Draft Award Count:",totalDraftAward, awardCountValue);
+                assertEquals("Error in Validating Total Rejected Award Count:",totalRejectedAward, awardCountValue);
             }
         }
     }
@@ -400,16 +400,17 @@ public class ApiUtils {
         Responsedetails responseDetailsObject = new Responsedetails();
         JsonPath js = new JsonPath(response);
         String totalPublishedAward = js.getString("awardUserActionCount.totalPublishedAward");
-        String totalDraftAward = js.getString("awardUserActionCount.totalDraftAward");
+        String totalRejectedAward = js.getString("awardUserActionCount.totalRejectedAward");
         String totalSubsidyAward = js.getString("awardUserActionCount.totalSubsidyAward");
         String totalAwaitingAward = js.getString("awardUserActionCount.totalAwaitingAward");
-        String totalDeletedAward = js.getString("awardUserActionCount.totalDeletedAward");
+        String totalDeletedAward = js.getString("awardUserActionCount.totalDeleteAward");
         ArrayList<String> tdlist = new ArrayList<String>();
         tdlist.add("TD_007");
+        tdlist.add("TD_016");
         tdlist.add("TD_017");
         tdlist.add("TD_018");
         tdlist.add("TD_019");
-        tdlist.add("TD_020");
+
         for (int i=0;i<tdlist.size();i++){
             String TDIDvalue = tdlist.get(i);
             int awardCount = responseDetailsObject.fetchAwardCountDetailsFromSearchResultsResponse("SearchResults", TDIDvalue);
@@ -417,17 +418,17 @@ public class ApiUtils {
             if (TDIDvalue.equalsIgnoreCase("TD_007")){
                 assertEquals("Error in Validating Total Subsidy Award Count:",totalSubsidyAward, awardCountValue);
             }
-            else if (TDIDvalue.equalsIgnoreCase("TD_017")){
+            else if (TDIDvalue.equalsIgnoreCase("TD_016")){
                 assertEquals("Error in Validating Total Awaiting Award Count:",totalAwaitingAward, awardCountValue);
             }
-            else if (TDIDvalue.equalsIgnoreCase("TD_018")){
+            else if (TDIDvalue.equalsIgnoreCase("TD_017")){
                 assertEquals("Error in Validating Total Published Award Count:",totalPublishedAward, awardCountValue);
             }
-            else if (TDIDvalue.equalsIgnoreCase("TD_019")){
+            else if (TDIDvalue.equalsIgnoreCase("TD_018")){
                 assertEquals("Error in Validating Total Deleted Award Count:",totalDeletedAward, awardCountValue);
             }
-            else if (TDIDvalue.equalsIgnoreCase("TD_020")){
-                assertEquals("Error in Validating Total Draft Award Count:",totalDraftAward, awardCountValue);
+            else if (TDIDvalue.equalsIgnoreCase("TD_019")){
+                assertEquals("Error in Validating Total Rejected Award Count:",totalRejectedAward, awardCountValue);
             }
         }
     }

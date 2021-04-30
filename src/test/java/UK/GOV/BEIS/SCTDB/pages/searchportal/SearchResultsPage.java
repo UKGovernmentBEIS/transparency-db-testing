@@ -210,7 +210,7 @@ public void refineFilter(HashMap<String,String> TestData){
 
             if (ColumnIndex.contentEquals("1")) {
             $("//tr/td[" + ColumnIndex + "]/a[contains(text(),'" + Values + "')]").click();
-            TestData = new Reusable().readExcelDataNew("./src/test/resources/data/sample.xlsx", "AwardDetails", Values);
+            TestData = new Reusable().readExcelDataNew("./src/test/resources/data/SearchUIDatasheet.xlsx", "AwardDetails", Values);
             if (TestData.isEmpty()) {
                 Assert.fail("There is no matching TDID in the datasheet");
             }
@@ -269,7 +269,7 @@ public void refineFilter(HashMap<String,String> TestData){
         else{
 
         $("//tr/td[" + ColumnIndex + "]/a[contains(text(),'" + Values + "')]").click();
-        TestData = new Reusable().readExcelDataNew("./src/test/resources/data/sample.xlsx", "MeasureDetails", Values);
+        TestData = new Reusable().readExcelDataNew("./src/test/resources/data/SearchUIDatasheet.xlsx", "MeasureDetails", Values);
         if (TestData.isEmpty()) {
             Assert.fail("There is no matching TDID in the datasheet");
         }

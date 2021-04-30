@@ -304,9 +304,10 @@ public class Requestdetails {
         }
         return map;
     }
-    public HashMap<String, Object> AddSingleSubsidyPayloadbuilder(String filePath, String SheetName, String TDID) throws IOException, ParseException {
+    public HashMap<String, Object> AddSingleSubsidyPayloadbuilder(HashMap<String, String> data) throws IOException, ParseException {
+    /*public HashMap<String, Object> AddSingleSubsidyPayloadbuilder(String filePath, String SheetName, String TDID) throws IOException, ParseException {
         Reusable d = new Reusable();
-        HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName,TDID);
+        HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName,TDID);*/
         HashMap<String, Object> map = new HashMap<String, Object>();
         if (data.isEmpty()) {
             Assert.fail("There is no matching TDID in the datasheet");
@@ -396,16 +397,17 @@ public class Requestdetails {
         }
 
         //"legalGrantingDate"
-        if ((data.get("LegalGrantingDate").trim().equalsIgnoreCase("_BLANK"))) {
+        String LegalGrantingDate =data.get("LegalGrantingDate");
+        if ((LegalGrantingDate.trim().equalsIgnoreCase("_BLANK"))) {
             map.put("legalGrantingDate", "");
         }
-        else if (TDID.equalsIgnoreCase("TD_066") || (TDID.equalsIgnoreCase("TD_067"))){
-            map.put("legalGrantingDate", data.get("LegalGrantingDate"));
+        //else if (TDID.equalsIgnoreCase("TD_066") || (TDID.equalsIgnoreCase("TD_067"))){
+            else if (LegalGrantingDate.contains(".") || (LegalGrantingDate.contains("AB"))){
+            map.put("legalGrantingDate", LegalGrantingDate);
         }
         else {
             ApiUtils dateformat = new ApiUtils();
-            String date = data.get("LegalGrantingDate");
-            String legalDate = dateformat.dateformataddawardupdated(date);
+            String legalDate = dateformat.dateformataddawardupdated(LegalGrantingDate);
             map.put("legalGrantingDate", legalDate);
         }
 
@@ -451,16 +453,21 @@ public class Requestdetails {
             map.put("subsidyInstrumentOther", data.get("SubsidyInstrumentOther"));
         }
 
+        String statuscodefloat = data.get("StatusCode");
+        if (!(statuscodefloat.trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("statuscode", statuscodefloat);
+        }
+
         return map;
     }
-
-    public HashMap<String, Object> headerbuilder(String filePath, String SheetName, String TDID) {
+    public HashMap<String, Object> headerbuilder(HashMap<String, String> data) {
+    /*public HashMap<String, Object> headerbuilder(String filePath, String SheetName, String TDID) {
         Reusable d = new Reusable();
-        ApiUtils apiutilities = new ApiUtils();
         HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName,TDID);
         if (data.isEmpty()) {
             Assert.fail("There is no matching TDID in the datasheet");
-        }
+        }*/
+        ApiUtils apiutilities = new ApiUtils();
         HashMap<String, Object> map = new HashMap<String, Object>();
         //userName
         if ((data.get("UserName").trim().equalsIgnoreCase("_BLANK"))) {
@@ -507,6 +514,14 @@ public class Requestdetails {
         if (data.isEmpty()) {
             Assert.fail("There is no matching TDID in the datasheet");
         }
+
+        if (!(data.get("StatusCode").trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("StatusCode", data.get("StatusCode"));
+        }
+        if (!(data.get("AwardNumber").trim().equalsIgnoreCase("_BLANK"))) {
+            map.put("AwardNumber", data.get("AwardNumber"));
+        }
+
         //"expected status
         if ((data.get("ExpectedStatus").trim().equalsIgnoreCase("_BLANK"))) {
             map.put("status", "");
@@ -514,8 +529,8 @@ public class Requestdetails {
             map.put("status", data.get("ExpectedStatus"));
         }
 
-        if ((data.get("ExpectedStatus").trim().equalsIgnoreCase("Reject"))) {
-            map.put("reason", data.get("Rejection Reason"));
+        if (data.get("ExpectedStatus").trim().equalsIgnoreCase("Rejected") ||data.get("ExpectedStatus").trim().equalsIgnoreCase("Deleted") ) {
+            map.put("reason", data.get("Reason"));
         }
         return map;
     }
@@ -747,17 +762,18 @@ public class Requestdetails {
 
         return map;
     }
-    public HashMap<String, Object> queryparameterbuilder(String filePath, String SheetName, String TDID) throws IOException, ParseException {
+    public HashMap<String, Object> queryparameterbuilder(HashMap<String, String> data) throws IOException, ParseException {
+    /*public HashMap<String, Object> queryparameterbuilder(String filePath, String SheetName, String TDID) throws IOException, ParseException {
         Reusable d = new Reusable();
+        HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName, TDID);*/
         ApiUtils apiutilities = new ApiUtils();
-        HashMap<String, String> data = d.readExcelDataNew(filePath, SheetName, TDID);
         HashMap<String, Object> map = new HashMap<String, Object>();
         if (data.isEmpty()) {
             Assert.fail("There is no matching TDID in the datasheet");
         }
         //Page
         if ((data.get("Page").trim().equalsIgnoreCase("_BLANK"))) {
-            map.put("page", "");
+            //map.put("page", "");
         } else {
             String pagefloat = data.get("Page");
             String page = apiutilities.floattostring(pagefloat);
@@ -765,7 +781,7 @@ public class Requestdetails {
         }
         //RecordsPerPage
         if ((data.get("RecordsPerPage").trim().equalsIgnoreCase("_BLANK"))) {
-            map.put("recordsPerPage", "");
+            //map.put("recordsPerPage", "");
         } else {
             String recordsPerPagefloat = data.get("RecordsPerPage");
             String recordsPerPage = apiutilities.floattostring(recordsPerPagefloat);
@@ -773,15 +789,26 @@ public class Requestdetails {
         }
         //Status
         if ((data.get("Status").trim().equalsIgnoreCase("_BLANK"))) {
-            map.put("status", "");
+            //map.put("status", "");
         } else {
             map.put("status", data.get("Status"));
         }
         //SearchName
         if ((data.get("SearchName").trim().equalsIgnoreCase("_BLANK"))) {
-            map.put("searchName", "");
+            //map.put("searchName", "");
         } else {
-            map.put("searchName", data.get("SearchName"));
+            String SearchCriteria = data.get("SearchName");
+            if(SearchCriteria.contains(".")){
+                map.put("searchName", (int)Double.parseDouble(SearchCriteria));
+            }
+            else{
+            map.put("searchName", SearchCriteria);}
+        }
+        //StatusCode
+        if ((data.get("StatusCode").trim().equalsIgnoreCase("_BLANK"))) {
+            //map.put("status", "");
+        } else {
+            map.put("statuscode", data.get("StatusCode"));
         }
         return map;
     }

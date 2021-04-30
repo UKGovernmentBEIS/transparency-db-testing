@@ -45,13 +45,13 @@ public class AdvancedSearch_Steps {
     @Given("I have test data {string} from {string}")
     public void iHaveFrom(String TDID, String SheetName) {
         ScenarioData=TDID;
-        TestData = new Reusable().readExcelDataNew("./src/test/resources/data/sample.xlsx",SheetName,TDID);
+        TestData = new Reusable().readExcelDataNew("./src/test/resources/data/SearchUIDatasheet.xlsx",SheetName,TDID);
         if(TestData.isEmpty()){
             Assert.fail("There is no matching TDID in the datasheet");
         }
 
         /*new Thread(() -> {
-            TestData = new Reusable().readExcelDataNew("./src/test/resources/data/sample.xlsx",SheetName,TDID);
+            TestData = new Reusable().readExcelDataNew("./src/test/resources/data/SearchUIDatasheet.xlsx",SheetName,TDID);
             if(TestData.isEmpty()){
                 Assert.fail("There is no matching TDID in the datasheet");
             }

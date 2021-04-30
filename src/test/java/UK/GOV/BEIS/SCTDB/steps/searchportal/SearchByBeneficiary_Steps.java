@@ -33,7 +33,7 @@ public class SearchByBeneficiary_Steps {
     }
     @When("the Public User specifies a Beneficiary name {string} from {string}")
     public void thePublicUserSpecifiesABeneficiaryNameFrom(String TDID, String SheetName) {
-        TestData = new Reusable().readExcelData("./src/test/resources/data/sample.xlsx",SheetName,TDID);
+        TestData = new Reusable().readExcelData("./src/test/resources/data/SearchUIDatasheet.xlsx",SheetName,TDID);
         if(TestData.isEmpty()){
             Assert.fail("There is no matching TDID in the datasheet");
         }

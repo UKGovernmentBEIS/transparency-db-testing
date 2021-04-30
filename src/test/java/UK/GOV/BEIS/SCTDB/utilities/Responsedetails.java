@@ -137,11 +137,7 @@ public class Responsedetails extends ApiUtils {
                 if (validationData.equalsIgnoreCase("Pagination")) {
                         String testdatasheetname = SheetName;
                         String testcaseid = TDID;
-                        int updatedcounttotal;
-                        JsonPath jsonpathobject = new JsonPath(responsestringglobal);
-                        int countpagination = jsonpathobject.getInt("awards.size()");
                         int updatedcount = 0;
-                        int totalcount = 0;
                         int defaultpage = 1;
                         Requestdetails requestdeailsobject = new Requestdetails();
                         HashMap<String, Object> updatedpayload = requestdeailsobject.createPayloadbuilderwithtotalrecordsperpage("./src/test/resources/data/SearchAPIDatasheet.xlsx", testdatasheetname, TDID, defaultpage);
@@ -152,8 +148,7 @@ public class Responsedetails extends ApiUtils {
                         String updatedresponseString = apiresponse.asString();
                         JsonPath updatedjsonpathobject = new JsonPath(updatedresponseString);
                         count = updatedjsonpathobject.getInt("awards.size()");
-                        Integer totalSearchResultspagination = updatedjsonpathobject.getInt("totalSearchResults");
-                        Integer currentPagenumpagination = updatedjsonpathobject.getInt("currentPage");
+
                         Integer totalPagespagination = updatedjsonpathobject.getInt("totalPages");
                         ArrayList<Integer> arraylisttotalcount = new ArrayList<Integer>();
                         for (int currentpage = 2; currentpage <= totalPagespagination; currentpage++) {
@@ -433,7 +428,7 @@ public class Responsedetails extends ApiUtils {
         public void AddSingleSubsidyAwardResponsevalidations(String response, String SheetName, String TDID) throws IOException, ParseException {
                 JsonPath js = new JsonPath(response);
                 String totalErrors = js.getString("totalErrors");
-                String message = js.getString("message");
+                String message = js.getString("message").replaceAll("\\d+", "").trim();
 
                 //fetches column error details in arraylist
                 int count = js.getInt("validationErrorResult.size()");
@@ -487,7 +482,7 @@ public class Responsedetails extends ApiUtils {
                 assertEquals("Error in Validating Columns list:",columnlist, columnerrorlist);
                 assertEquals("Error in Validating Error Messages:",errorMessagelist, errormessageslist);
                 assertEquals("Error in Validating Total errors count:",totalErrors, totalerrorsdatasheet);
-                assertEquals("Error in Validating Message:",message, messagesdatasheet);
+                assertEquals("Error in Validating Message:",message, messagesdatasheet.trim());
         }
         public void DashboardResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
                 ApiUtils apiutilities = new ApiUtils();
@@ -498,7 +493,8 @@ public class Responsedetails extends ApiUtils {
                 }
                 else if ((apiEndpoint.equalsIgnoreCase("gaadmin.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaapprover.endpoint"))||(apiEndpoint.equalsIgnoreCase("gaencoder.endpoint"))){
                         apiutilities.DashboardGrantingAuthorityCountNullvalidations(response);
-                        apiutilities.DashboardSubsidySchemeCountvalidations(response, SheetName, TDID, apiEndpoint);
+                        apiutilities.DashboardBeisSubsidySchemeCountvalidations(response, SheetName, TDID, apiEndpoint);
+                        //apiutilities.DashboardSubsidySchemeCountvalidations(response, SheetName, TDID, apiEndpoint);
                         apiutilities.DashboardSubsidyAwardCountValidations(response, SheetName, TDID, apiEndpoint);
                 }
         }
@@ -513,12 +509,18 @@ public class Responsedetails extends ApiUtils {
                 }
                 //expected status
                 String expectedStatus = data.get("ExpectedStatus");
-                if (expectedStatus.equalsIgnoreCase("Reject")){
-                        expectedReason = data.get("Rejection Reason");
+                if (expectedStatus.equalsIgnoreCase("rejected") || expectedStatus.equalsIgnoreCase("deleted")){
+                        expectedReason = data.get("Reason");
                 }
                 //actual status
-                String awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
-                RequestSpecification requestspec = given().spec(requestSpecifications(awardnumber,"publicsearchbasepath.uri"));
+                //String awardnumber = body.Fetchawardnumber("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+                String awardnumber = data.get("AwardNumber");
+                if(awardnumber.contains(".")){
+                        awardnumber=   awardnumber.substring(0, awardnumber.indexOf("."));
+                }
+                HashMap<String, String> DataFromExcel = new Reusable().readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+                HashMap<String, Object> UPOMap = body.headerbuilder(DataFromExcel);
+                RequestSpecification requestspec = given().spec(requestSpecifications(awardnumber,"publicsearchbasepath.uri")).header("userPrinciple", UPOMap);
                 ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
                 String endpointvalue = getGlobalValue("awards.endpoint");
                 String endpointvalueupdated = endpointvalue + "/{awardnumber}";
@@ -527,7 +529,7 @@ public class Responsedetails extends ApiUtils {
                 String responseString = apiresponse.asString();
                 JsonPath updatedjsonpathobject = new JsonPath(responseString);
                 String actualStatus = updatedjsonpathobject.getString("status");
-                if (expectedStatus.equalsIgnoreCase("Reject")){
+                if (expectedStatus.equalsIgnoreCase("Rejected")||expectedStatus.equalsIgnoreCase("Deleted")){
                         String actualReason = updatedjsonpathobject.getString("rejectReason");
                         assertEquals("Error in Validating Reject reason:",expectedReason, actualReason);
                 }
@@ -543,16 +545,17 @@ public class Responsedetails extends ApiUtils {
                 String beneficiarynames = StringUtils.collectionToDelimitedString(beneficiarylist, "|");
                 //System.out.println(beneficiarynames);
                 ApiUtils writetoexcelobject = new ApiUtils();
-                writetoexcelobject.writeBeneficiaryNameToExcel("./src/test/resources/data/sample.xlsx",SheetName,TDID,"Expected Recipient",beneficiarynames);
+                writetoexcelobject.writeBeneficiaryNameToExcel("./src/test/resources/data/SearchUIDatasheet.xlsx",SheetName,TDID,"Expected Recipient",beneficiarynames);
         }
-        public void searchResultsResponsevalidations(String response, String SheetName, String TDID, String apiEndpoint) throws IOException, ParseException {
-                ApiUtils apiutilities = new ApiUtils();
-                Requestdetails body = new Requestdetails();
+        //public void searchResultsResponsevalidations(String response, HashMap<String, String> data) throws IOException, ParseException {
+
+        public void searchResultsResponsevalidations(String response, String SheetName, String TDID) throws IOException, ParseException {
                 Reusable d = new Reusable();
                 HashMap<String, String> data = d.readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
                 if (data.isEmpty()) {
                         Assert.fail("There is no matching TDID in the datasheet");
                 }
+                Requestdetails body = new Requestdetails();
                 String statusSheet = null;
                 String validationTypeSheet = null;
                 String searchNameSheet = null;
@@ -572,6 +575,11 @@ public class Responsedetails extends ApiUtils {
                         searchNameSheet = "";
                 } else {
                         searchNameSheet =  data.get("SearchName");
+
+                        if(searchNameSheet.contains(".")){
+                                searchNameSheet=   searchNameSheet.substring(0, searchNameSheet.indexOf("."));
+                        }
+
                 }
                 //actual details
                 JsonPath jsonpathobject = new JsonPath(response);
@@ -599,6 +607,12 @@ public class Responsedetails extends ApiUtils {
                 for(int l=0;l<count;l++) {
                         scNumberlist.add(jsonpathobject.getString("awards[" + l + "].scNumber"));
                 }
+
+                //fetches AwardNumber details in arraylist
+                ArrayList<String> AwardNumber = new ArrayList<String>();
+                for(int l=0;l<count;l++) {
+                        AwardNumber.add(jsonpathobject.getString("awards[" + l + "].awardNumber"));
+                }
                 //Comparison between expected & actual results
                 if (!(statusSheet.equalsIgnoreCase(""))) {
                         for (int m = 0; m < count; m++) {
@@ -619,36 +633,42 @@ public class Responsedetails extends ApiUtils {
                                         assertEquals("Error in Validating GA Name:",searchNameSheet, gaNameactual);
                                 }
                         }
-                        if (validationTypeSheet.equalsIgnoreCase("SubsidyControlNumber")) {
+                        if (validationTypeSheet.equalsIgnoreCase("AwardNumber")) {
                                 for (int p = 0; p < count; p++) {
-                                        String scNumberactual = scNumberlist.get(p);
-                                        assertEquals("Error in Validating Subsidy Control Number:",searchNameSheet, scNumberactual);
+                                        String AwardNumberactual = AwardNumber.get(p);
+                                        assertEquals("Error in Validating Subsidy Control Number:",searchNameSheet, AwardNumberactual);
                                 }
                         }
                 }
                 if (validationTypeSheet.equalsIgnoreCase("Pagination")) {
-                        String testdatasheetname = SheetName;
+                        int updatedcount = 0;
+                        /*String testdatasheetname = SheetName;
                         String testcaseid = TDID;
                         int updatedcounttotal;
                         int countpagination = jsonpathobject.getInt("awards.size()");
-                        int updatedcount = 0;
+
                         int totalcount = 0;
                         int defaultpage = 1;
                         Requestdetails requestdeailsobject = new Requestdetails();
                         HashMap<String, Object> map = requestdeailsobject.queryparameterbuilderpagination("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", testdatasheetname, TDID, defaultpage);
-                        RequestSpecification requestspec = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map);
+                        HashMap<String, String> DataFromExcel = new Reusable().readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+                        HashMap<String, Object> upoMap = body.headerbuilder(DataFromExcel);
+                        RequestSpecification requestspec = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map).header("userPrinciple",upoMap);
                         ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
                         Response apiresponse = requestspec.when().get(getGlobalValue("accessmanagementsearchResults.endpoint")).
                                 then().spec(requestspecone).extract().response();
-                        String responseString = apiresponse.asString();
-                        JsonPath newjsonpathobject = new JsonPath(responseString);
+                        String responseString = apiresponse.asString();*/
+                        JsonPath newjsonpathobject = new JsonPath(response);
                         count = newjsonpathobject.getInt("awards.size()");
-                        Integer totalPagespagination = newjsonpathobject.getInt("totalPages");
+
+                        int totalPagespagination = newjsonpathobject.getInt("totalPages");
                         ArrayList<Integer> arraylisttotalcount = new ArrayList<Integer>();
                         for (int currentpage = 2; currentpage <= totalPagespagination; currentpage++) {
                                 Requestdetails requestdeailsobjectupdated = new Requestdetails();
-                                HashMap<String, Object> updatedqueryparameters = requestdeailsobjectupdated.queryparameterbuilderpagination("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", testdatasheetname, TDID, currentpage);
-                                RequestSpecification requestspecupdated = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(updatedqueryparameters);
+                                HashMap<String, Object> updatedqueryparameters = requestdeailsobjectupdated.queryparameterbuilderpagination("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID, currentpage);
+                                HashMap<String, String> DataFromExcel = new Reusable().readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+                                HashMap<String, Object> upoMap = body.headerbuilder(DataFromExcel);
+                                RequestSpecification requestspecupdated = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(updatedqueryparameters).header("userPrinciple",upoMap);;
                                 ResponseSpecification requestspeconeupdated = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
                                 Response apiresponseupdated = requestspecupdated.when().get(getGlobalValue("accessmanagementsearchResults.endpoint")).
                                         then().spec(requestspeconeupdated).extract().response();
@@ -658,11 +678,11 @@ public class Responsedetails extends ApiUtils {
                                 arraylisttotalcount.add(updatedcount);
                         }
                         int sum = 0;
-                        for(int i=0;i<arraylisttotalcount.size();i++){
-                                sum+=   arraylisttotalcount.get(i);
+                        for (Integer integer : arraylisttotalcount) {
+                                sum += integer;
                         }
                         int totalcountvalues = sum + count;
-                        Assert.assertSame("Error in Validating total count in pagination:",totalcountvalues,totalSearchResults);
+                        Assert.assertEquals("Error in Validating total count in pagination:", totalcountvalues,(int) totalSearchResults);
                 }
         }
         public int fetchAwardCountDetailsFromSearchResultsResponse(String SheetName, String TDID) throws IOException, ParseException {
@@ -670,8 +690,12 @@ public class Responsedetails extends ApiUtils {
                 Reusable d = new Reusable();
                 ApiUtils apiutilities = new ApiUtils();
                 Requestdetails body = new Requestdetails();
-                HashMap<String, Object> map = body.queryparameterbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
-                RequestSpecification requestspec = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map);
+                //HashMap<String, Object> map = body.queryparameterbuilder("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx", SheetName, TDID);
+                HashMap<String, String> DataFromExcel = new Reusable().readExcelDataNew("./src/test/resources/data/AccessManagementAPIDatasheet.xlsx",SheetName,TDID);
+                HashMap<String, Object> map= body.queryparameterbuilder(DataFromExcel);
+                map.remove("statuscode");
+                HashMap<String, Object> UPOMap= body.headerbuilder(DataFromExcel);
+                RequestSpecification requestspec = given().spec(requestSpecification("accessmanagementbasepath.uri")).queryParams(map).header("userPrinciple",UPOMap);
                 ResponseSpecification requestspecone = new ResponseSpecBuilder().expectContentType(ContentType.JSON).build();
                 Response apiresponse = requestspec.when().get(getGlobalValue("accessmanagementsearchResults.endpoint")).
                         then().spec(requestspecone).extract().response();
